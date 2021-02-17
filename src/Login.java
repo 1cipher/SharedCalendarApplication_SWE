@@ -10,7 +10,7 @@ public class Login extends JFrame {
 
     public Login(){
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(368, 362);
+        setSize(368, 200);
         setTitle("Login");
 
         Container cp = getContentPane();
@@ -34,17 +34,36 @@ public class Login extends JFrame {
         textUser.setSize(120,20);
         cp.add(textUser);
 
-
         JTextField textPassword = new JTextField();
         textPassword.setLocation(200,30);
         textPassword.setSize(120,20);
         cp.add(textPassword);
 
+        JButton register = new JButton();
+        register.setText("Register");
+        register.setLocation(200,60);
+        register.setSize(120,30);
+        cp.add(register);
+        register.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Register reg = new Register();
+                reg.show();
+            }
+        });
+
+        JLabel accessDenied = new JLabel();
+        accessDenied.setText("");
+        accessDenied.setForeground(Color.red);
+        accessDenied.setLocation(123,90);
+        accessDenied.setSize(200,30);
+        cp.add(accessDenied);
+
+
         JButton log = new JButton();
         log.setText("Login");
-        log.setLocation(50,60);
+        log.setLocation(20,60);
         log.setSize(120,30);
-        log.setVisible(true);
         cp.add(log);
         log.addActionListener(new ActionListener() {
             @Override
@@ -54,13 +73,16 @@ public class Login extends JFrame {
                 String correctUser = "Alessio";
                 String correctPassword = "Bonacchi";
                 if(correctUser.compareTo(insertedUser)==0){
-                    log.setText("positive");
                     MainWindow mw = new MainWindow();
                     mw.show();
                     Main.log.setVisible(false);
+                    //TODO: Check data on database
                 }
-                else
-                    log.setText("Negative");
+                else{
+                    accessDenied.setText("Access Denied!");
+                }
+
+
             }
         });
     }
