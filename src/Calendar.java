@@ -1,9 +1,11 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Calendar {
     User user;
     ArrayList<Event> newBuffer;
     Database db;
+    int id;
     boolean permission;
 
     public Calendar(User user, Database db) {
@@ -12,9 +14,10 @@ public class Calendar {
         this.db = db;
     }
 
-    public void addtoCalendar(Event e){
-
+    public void addtoCalendar(Event e) throws SQLException {
         newBuffer.add(e);
+        db.addToDB(this, e);
+
 
     }
 
@@ -22,5 +25,9 @@ public class Calendar {
 
         newBuffer.remove(newBuffer.indexOf(e));
 
+    }
+
+    public int getId() {
+        return id;
     }
 }

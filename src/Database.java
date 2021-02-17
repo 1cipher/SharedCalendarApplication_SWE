@@ -6,6 +6,7 @@ import java.sql.Statement;
 
 public class Database {
     private Connection c = null;
+    Statement stmt = null;
 
     public Database() {
     }
@@ -20,4 +21,17 @@ public class Database {
     private void dropConnection() throws  Exception{
         c.close();
     }
+
+    public void addToDB(Calendar calendar, Event e) throws SQLException {
+        stmt = c.createStatement();
+
+        String sql = "INSERT INTO CALENDAREVENTS(CALENDAR,EVENT)"+
+                "VALUES("+calendar.getId()+","+e.getId()+");";
+        stmt.executeUpdate(sql);
+
+        sql = "INSERT INTO EVENTS(ID,NAME,DATE,LOCATION,COLOR,DESCRIZIONE)"+
+                "VALUES("+e.getId()+","+e.getName()+","+e.getDate()+","+e.getLocation()+","+e.getColor()+","+e.getDescription()+");";
+    }
 }
+
+
