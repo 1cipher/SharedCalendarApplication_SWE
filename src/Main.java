@@ -20,6 +20,12 @@ public class Main {
                      log.setVisible(true);
 
                      Database db = new Database();
+                     db.createConnection();
+                     Statement stmt = db.c.createStatement();
+
+                     String sql = "INSERT INTO CALENDAREVENTS(CALENDAR,EVENT)"+
+                             "VALUES("+"'sciaobelo'"+","+"'belo'"+");";
+                     stmt.executeUpdate(sql);
 
                      LoginController lc = new LoginController(log,db,reg,mw);
                  }catch (Exception e){

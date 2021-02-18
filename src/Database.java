@@ -13,7 +13,7 @@ public class Database {
     public void createConnection() throws Exception{
         Class.forName("org.postgresql.Driver");
         c = DriverManager
-                .getConnection("jdbc:postgresql://localhost:5432/CalendarApplication",
+                .getConnection("jdbc:postgresql://localhost:5432/marco",
                         "postgres", "admin");
 
 }
