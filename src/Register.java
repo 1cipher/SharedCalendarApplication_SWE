@@ -15,7 +15,7 @@ public class Register extends JFrame {
     public Register()  {
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         setSize(368, 200);
-        setTitle("Login");
+        setTitle("Register");
 
         Container cp = getContentPane();
 
