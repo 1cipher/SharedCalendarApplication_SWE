@@ -20,7 +20,7 @@ public class Main {
                      log.setVisible(true);
 
                      Database db = new Database();
-
+                     db.createConnection();
                      LoginController lc = new LoginController(log,db,reg,mw);
                  }catch (Exception e){
                      e.printStackTrace();

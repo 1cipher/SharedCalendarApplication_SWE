@@ -15,6 +15,7 @@ public class Database {
         c = DriverManager
                 .getConnection("jdbc:postgresql://localhost:5432/CalendarApplication",
                         "postgres", "admin");
+        c.setAutoCommit(false);
 
 }
     private void dropConnection() throws  Exception{
@@ -52,7 +53,7 @@ public class Database {
     public void registerNewUser(String username,String password) throws SQLException {  //TODO: LO STATEMENT NON AGGIORNA IL DB
 
         String sql = "INSERT INTO login(uid,password)" +
-                "VALUES(?,?)";
+                "VALUES('?','?')";
 
         pstmt = c.prepareStatement(sql);
         pstmt.setString(1,username);
