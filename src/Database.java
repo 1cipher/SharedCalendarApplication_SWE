@@ -13,9 +13,10 @@ public class Database {
     public void createConnection() throws Exception{
         Class.forName("org.postgresql.Driver");
         c = DriverManager
-                .getConnection("jdbc:postgresql://localhost:5432/marco",
+                .getConnection("jdbc:postgresql://localhost:5432/CalendarApplication",
                         "postgres", "admin");
-        c.setAutoCommit(false);
+
+
 
 }
     private void dropConnection() throws  Exception{
@@ -33,7 +34,6 @@ public class Database {
 
         sql = "INSERT INTO EVENTS(ID,NAME,DATE,LOCATION,COLOR,DESCRIZIONE)"+
                 "VALUES("+e.getId()+","+e.getName()+","+e.getDate()+","+e.getLocation()+","+e.getColor()+","+e.getDescription()+");";
-
     }
 
     public Boolean checkUserPresence(String acquiredUser,String acquiredPassword) throws SQLException { //TODO: LO STATEMENT NON AGGIORNA IL DB
@@ -52,15 +52,12 @@ public class Database {
 
     public void registerNewUser(String username,String password) throws SQLException {  //TODO: LO STATEMENT NON AGGIORNA IL DB
 
-        String sql = "INSERT INTO login(uid,password)" +
-                "VALUES('?','?')";
+        stmt = c.createStatement();
+        String sql = "INSERT INTO LOGIN(UID,PASSWORD)" +
+                "VALUES('"+username+"','"+password+"');";
 
-        pstmt = c.prepareStatement(sql);
-        pstmt.setString(1,username);
-        pstmt.setString(2,password);
-        pstmt.executeUpdate();
+        stmt.executeUpdate(sql);
         c.commit();
-
 
 
 
