@@ -30,6 +30,8 @@ public class CalendarWindow extends JFrame {
         cp.setLayout(new BorderLayout());
         cp.add(calendar,BorderLayout.CENTER);
 
+
+
         changeSupport = new PropertyChangeSupport(this);
 
         calendar.addMouseListener(new MouseListener() {
