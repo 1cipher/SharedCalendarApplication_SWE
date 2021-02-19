@@ -96,4 +96,5 @@ public class Login extends JFrame {
 
         register.addActionListener(registerListener);
     }
+
 }

@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -55,10 +56,7 @@ public class LoginController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            regView = new Register();
             regView.setVisible(true);
-
-
 
         }
     }
@@ -67,19 +65,36 @@ public class LoginController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            try {
             String newUser = regView.getUsername();
             String newPassword = regView.getPassword();
 
-            try {
+            if (newUser.length()==0 || newPassword.length() == 0) {
+                regView.multifunctionalLabel.setForeground(Color.red);
+                regView.multifunctionalLabel.setText("Null values are not valid!");
+            }
+
+            else if (model.isUsernamePresent(newUser)) {
+                regView.multifunctionalLabel.setForeground(Color.red);
+                regView.multifunctionalLabel.setText("Username already present!");
+            }
+
+            else{
                 model.registerNewUser(newUser,newPassword);
+                regView.multifunctionalLabel.setForeground(Color.green);
+                regView.multifunctionalLabel.setText("Congrats,you've been registered!");
+            }
+
+
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                regView.multifunctionalLabel.setForeground(Color.red);
+                regView.multifunctionalLabel.setText("Username already present!");
             }
 
 
         }
     }
+
 
 }
 

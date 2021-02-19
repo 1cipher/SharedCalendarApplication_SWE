@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Register extends JFrame {
@@ -10,7 +9,8 @@ public class Register extends JFrame {
     JTextField textUser;
     JTextField textPassword;
     JButton reg;
-    JLabel alreadyRegisteredLabel;
+    JLabel multifunctionalLabel;
+    ActionListener regListener;
 
     public Register()  {
         setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -21,12 +21,13 @@ public class Register extends JFrame {
 
         cp.setLayout(null);
 
-        alreadyRegisteredLabel = new JLabel();
-        alreadyRegisteredLabel.setLocation(123,90);
-        alreadyRegisteredLabel.setSize(120,30);
-        alreadyRegisteredLabel.setText("This User is already registered");
-        alreadyRegisteredLabel.setForeground(Color.red);
-        alreadyRegisteredLabel.setVisible(false);
+        multifunctionalLabel = new JLabel();
+        multifunctionalLabel.setLocation(93,90);
+        multifunctionalLabel.setSize(190,30);
+        multifunctionalLabel.setText("");
+        multifunctionalLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        multifunctionalLabel.setForeground(Color.red);
+        cp.add(multifunctionalLabel);
 
         usernameLabel = new JLabel();
         usernameLabel.setLocation(10,10);
@@ -73,4 +74,10 @@ public class Register extends JFrame {
 
         reg.addActionListener(RegViewListener);
     }
+
+    public ActionListener getRegListener() {
+
+        return regListener;
+    }
+
 }

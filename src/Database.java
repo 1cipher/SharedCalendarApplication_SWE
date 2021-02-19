@@ -36,31 +36,39 @@ public class Database {
                 "VALUES("+e.getId()+","+e.getName()+","+e.getDate()+","+e.getLocation()+","+e.getColor()+","+e.getDescription()+");";
     }
 
-    public Boolean checkUserPresence(String acquiredUser,String acquiredPassword) throws SQLException { //TODO: LO STATEMENT NON AGGIORNA IL DB
+    public boolean checkUserPresence(String acquiredUser,String acquiredPassword) throws SQLException {
 
-        String sql = "SELECT UID" +
+        String sql = "SELECT UID " +
                 "FROM LOGIN " +
-                "WHERE UID = ? AND PASS = ?";
+                "WHERE UID = '"+acquiredUser+"' AND PASSWORD ='"+acquiredPassword+"'";
 
-        pstmt = c.prepareStatement(sql);
-        pstmt.setString(1,acquiredUser);
-        pstmt.setString(2,acquiredPassword);
-        Boolean result = pstmt.execute();
+        stmt = c.createStatement();
+        ResultSet result = stmt.executeQuery(sql);
+        boolean check = result.next();
 
-        return result;
+        return check;
     }
 
-    public void registerNewUser(String username,String password) throws SQLException {  //TODO: LO STATEMENT NON AGGIORNA IL DB
+    public void registerNewUser(String username,String password) throws SQLException {
 
         stmt = c.createStatement();
         String sql = "INSERT INTO LOGIN(UID,PASSWORD)" +
                 "VALUES('"+username+"','"+password+"');";
 
         stmt.executeUpdate(sql);
-        c.commit();
 
+    }
 
+    public boolean isUsernamePresent(String username) throws SQLException {
 
+        String sql = "SELECT * " +
+                "FROM LOGIN " +
+                "WHERE UID = '"+username+"'";
+
+        stmt = c.createStatement();
+        ResultSet resultSet = stmt.executeQuery(sql);
+
+        return resultSet.next();
     }
 }
 
