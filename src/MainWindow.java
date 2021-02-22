@@ -20,17 +20,39 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
     JButton addEvent;
     JButton logout;
     JTextField searchBox;
+    JMenuBar menuBar;
+    JMenu menu;
+    JMenuItem day;
+    JMenuItem week;
+    JMenuItem month;
+
 
 
 
     public MainWindow() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(368, 362);
+        setExtendedState(MAXIMIZED_BOTH);
         setTitle("Calendar");
 
         Container cp = getContentPane();
         cp.setLayout(null);
         cp.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+
+        menuBar = new JMenuBar();
+        menu = new JMenu("Change View");
+        day = new JMenuItem("Day");
+        week = new JMenuItem("Week");
+        month = new JMenuItem("Month");
+        menu.addSeparator();
+        menu.add(day);
+        menu.add(week);
+        menu.add(month);
+        menuBar.setLocation(550,10);
+        menuBar.setSize(100,20);
+        menuBar.add(menu);
+
+
 
         Calendar calendar = new Calendar();
         calendar.beginInit();
@@ -61,46 +83,8 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
         cp.add(addEvent);
         cp.add(searchBox);
         cp.add(search);
-        /*
-        textField.setValue(new Date());
-        textField.setPreferredSize(new Dimension(130, 30));
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridy = 0;
-        c.gridx = 0;
+        cp.add(menuBar);
 
-        cp.add(textField,c);
-
-        JButton calButton = new JButton("ciao");
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 1;
-        c.gridy = 0;
-        cp.add(calButton,c);
-
-        cp.add(cal);
-
-        CalendarWindow calendarwindow = new CalendarWindow();
-        calendarwindow.setUndecorated(true);
-        calendarwindow.addPropertyChangeListener(this);
-        Calendar calendar = new Calendar();
-        c.fill = GridBagConstraints.CENTER;
-        c.gridy = 1;
-        cp.add(calendar,c);
-
-
-
-
-
-        calButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                calendarwindow.setLocation(textField.getLocationOnScreen().x,
-                        (textField.getLocationOnScreen().y + textField.getHeight()));
-
-                calendarwindow.setVisible(true);
-
-
-            }
-        });*/
 
 
     }
@@ -115,5 +99,35 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
 
             textField.setValue(selDate);
         }
+    }
+
+    public void addSearchListener(ActionListener searchListener){
+
+        this.search.addActionListener(searchListener);
+    }
+
+    public void addChangeViewListener(ActionListener changeViewListener){
+
+        this.changeVisualizationMode.addActionListener(changeViewListener);
+    }
+
+    public void addAddEventListener(ActionListener addEventListener){
+
+        this.addEvent.addActionListener(addEventListener);
+    }
+
+    public void addDayListener(ActionListener dayListener){
+
+        this.day.addActionListener(dayListener);
+    }
+
+    public void addWeekListener(ActionListener weekListener){
+
+        this.week.addActionListener(weekListener);
+    }
+
+    public void addMonthListener(ActionListener monthListener){
+
+        this.day.addActionListener(monthListener);
     }
 }
