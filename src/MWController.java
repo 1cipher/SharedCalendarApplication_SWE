@@ -1,24 +1,21 @@
 import com.mindfusion.scheduling.CalendarView;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MWController {
 
     MainWindow mwView;
-    CalendarWindow cwView;
     Database model;
 
-    public MWController(MainWindow mw, CalendarWindow cw, Database db){
+    public MWController(MainWindow mw, Database db){
 
         this.mwView = mw;
-        this.cwView = cw;
         this.model = db;
 
+        this.mwView.addChangeViewListener(new changeViewListener());
         this.mwView.addAddEventListener(new addEventListener());
-        this.mwView.addDayListener(new dayListener());
-        this.mwView.addWeekListener(new weekListener());
-        this.mwView.addMonthListener(new monthListener());
         this.mwView.addSearchListener(new searchListener());
 
 
@@ -29,35 +26,8 @@ public class MWController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-        }
-    }
-
-    class  dayListener implements  ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            mwView.calendar.setCurrentView(CalendarView.Timetable);
-
-        }
-    }
-
-    class  weekListener implements  ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            mwView.calendar.setCurrentView(CalendarView.WeekRange);
-
-        }
-    }
-
-    class  monthListener implements  ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            mwView.calendar.setCurrentView(CalendarView.MonthRange);
+            CalendarWindow cw = new CalendarWindow();
+            cw.setVisible(true);
 
         }
     }
@@ -66,6 +36,25 @@ public class MWController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    class changeViewListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String selection = (String)((JComboBox<String>)e.getSource()).getSelectedItem();
+
+            if(selection.equals("day"))
+                mwView.calendar.setCurrentView(CalendarView.Timetable);
+            else if(selection.equals("week"))
+                mwView.calendar.setCurrentView(CalendarView.WeekRange);
+            else if(selection.equals("month"))
+                mwView.calendar.setCurrentView(CalendarView.MonthRange);
+
+
 
         }
     }

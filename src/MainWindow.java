@@ -15,16 +15,14 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
 
     JFormattedTextField textField = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
     Calendar calendar;
-    JButton changeVisualizationMode;
     JButton search;
     JButton addEvent;
     JButton logout;
     JTextField searchBox;
-    JMenuBar menuBar;
-    JMenu menu;
-    JMenuItem day;
-    JMenuItem week;
-    JMenuItem month;
+    JComboBox<String> menu;
+
+    ActionListener ch;
+
 
 
 
@@ -39,22 +37,16 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
         cp.setLayout(null);
         cp.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
-        menuBar = new JMenuBar();
-        menu = new JMenu("Change View");
-        day = new JMenuItem("Day");
-        week = new JMenuItem("Week");
-        month = new JMenuItem("Month");
-        menu.addSeparator();
-        menu.add(day);
-        menu.add(week);
-        menu.add(month);
-        menuBar.setLocation(550,10);
-        menuBar.setSize(100,20);
-        menuBar.add(menu);
+        menu = new JComboBox<>();
+        menu.addItem("day");
+        menu.addItem("week");
+        menu.addItem("month");
+        menu.setLocation(550,10);
+        menu.setSize(100,20);
 
 
 
-        Calendar calendar = new Calendar();
+        calendar = new Calendar();
         calendar.beginInit();
         calendar.setCurrentView(CalendarView.Timetable);
         calendar.setTheme(ThemeType.Light);
@@ -83,9 +75,7 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
         cp.add(addEvent);
         cp.add(searchBox);
         cp.add(search);
-        cp.add(menuBar);
-
-
+        cp.add(menu);
 
     }
 
@@ -106,28 +96,14 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
         this.search.addActionListener(searchListener);
     }
 
-    public void addChangeViewListener(ActionListener changeViewListener){
-
-        this.changeVisualizationMode.addActionListener(changeViewListener);
-    }
 
     public void addAddEventListener(ActionListener addEventListener){
 
         this.addEvent.addActionListener(addEventListener);
     }
 
-    public void addDayListener(ActionListener dayListener){
+   public void addChangeViewListener(ActionListener changeViewListener){
 
-        this.day.addActionListener(dayListener);
-    }
-
-    public void addWeekListener(ActionListener weekListener){
-
-        this.week.addActionListener(weekListener);
-    }
-
-    public void addMonthListener(ActionListener monthListener){
-
-        this.day.addActionListener(monthListener);
+        this.menu.addActionListener(changeViewListener);
     }
 }

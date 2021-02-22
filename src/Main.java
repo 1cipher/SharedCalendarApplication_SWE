@@ -1,14 +1,11 @@
 
 import javax.swing.*;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class Main {
      static Login log;
      static Register reg;
      static MainWindow mw;
-     public static void main(String args[]) throws SQLException, IOException {
+     public static void main(String args[]) {
          SwingUtilities.invokeLater(new Runnable() {
              @Override
              public void run() {
@@ -23,6 +20,8 @@ public class Main {
                      db.createConnection();
 
                      LoginController lc = new LoginController(log,db,reg,mw);
+                     MWController mwc = new MWController(mw,db);
+
                  }catch (Exception e){
                      e.printStackTrace();
                  }

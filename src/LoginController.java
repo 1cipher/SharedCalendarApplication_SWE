@@ -2,7 +2,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.concurrent.ScheduledExecutorService;
 
 public class LoginController {
 
@@ -35,13 +34,13 @@ public class LoginController {
                 Boolean check = model.checkUserPresence(acquiredUser,acquiredPassword);
                 if(check){
 
-                    mainView = new MainWindow();
                     mainView.setVisible(true);
                     logView.setVisible(false);
                     regView.setVisible(false);
                 }
                 else
                     logView.showDeniedAccess();
+
             } catch (SQLException ex) {
 
                 logView.showDeniedAccess();
@@ -65,7 +64,7 @@ public class LoginController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
+
             String newUser = regView.getUsername();
             String newPassword = regView.getPassword();
 
@@ -74,7 +73,7 @@ public class LoginController {
                 regView.multifunctionalLabel.setText("Null values are not valid!");
             }
 
-            else if (model.isUsernamePresent(newUser)) {
+            else if (model.isExistingUsername(newUser)) {
                 regView.multifunctionalLabel.setForeground(Color.red);
                 regView.multifunctionalLabel.setText("Username already present!");
             }
@@ -83,12 +82,6 @@ public class LoginController {
                 model.registerNewUser(newUser,newPassword);
                 regView.multifunctionalLabel.setForeground(Color.green);
                 regView.multifunctionalLabel.setText("Congrats,you've been registered!");
-            }
-
-
-            } catch (SQLException ex) {
-                regView.multifunctionalLabel.setForeground(Color.red);
-                regView.multifunctionalLabel.setText("Username already present!");
             }
 
 

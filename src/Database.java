@@ -4,21 +4,28 @@ import java.sql.*;
 public class Database {
     public Connection c = null;
     Statement stmt = null;
-    PreparedStatement pstmt = null;
 
     public Database() {
 
     }
 
-    public void createConnection() throws Exception{
-        Class.forName("org.postgresql.Driver");
-        c = DriverManager
-                .getConnection("jdbc:postgresql://localhost:5432/CalendarApplication",
-                        "postgres", "admin");
+    public void createConnection() {
+
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            c = DriverManager
+                    .getConnection("jdbc:postgresql://localhost:5432/CalendarApplication",
+                            "postgres", "admin");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
-
-}
+    }
     private void dropConnection() throws  Exception{
 
         c.close();
@@ -49,27 +56,54 @@ public class Database {
         return check;
     }
 
-    public void registerNewUser(String username,String password) throws SQLException {
+    public void registerNewUser(String username,String password) {
 
-        stmt = c.createStatement();
+        try {
+            stmt = c.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         String sql = "INSERT INTO LOGIN(UID,PASSWORD)" +
                 "VALUES('"+username+"','"+password+"');";
 
-        stmt.executeUpdate(sql);
+        try {
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    public boolean isUsernamePresent(String username) throws SQLException {
+    public boolean isExistingUsername(String username) {
 
         String sql = "SELECT * " +
                 "FROM LOGIN " +
-                "WHERE UID = '"+username+"'";
+                "WHERE UID = '" + username + "'";
 
-        stmt = c.createStatement();
-        ResultSet resultSet = stmt.executeQuery(sql);
+        try {
+            stmt = c.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        ResultSet resultSet = null;
+        try {
+            resultSet = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        return resultSet.next();
+        boolean check = false;
+        try {
+            check = resultSet.next();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return check;
+
     }
+
 }
 
 

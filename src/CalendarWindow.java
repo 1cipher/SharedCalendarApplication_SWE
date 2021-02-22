@@ -1,4 +1,4 @@
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import com.mindfusion.common.DateTime;
 import com.mindfusion.scheduling.Calendar;
@@ -13,7 +13,9 @@ import java.beans.PropertyChangeSupport;
 
 public class CalendarWindow extends JFrame {
 
-    Calendar calendar = new Calendar();
+    Calendar calendar;
+    JTextField date;
+    JLabel dateLabel;
 
     java.util.Calendar selectedDate = java.util.Calendar.getInstance();
 
@@ -22,14 +24,27 @@ public class CalendarWindow extends JFrame {
     public CalendarWindow(){
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        setSize(235,200);
-
-        calendar.setTheme(ThemeType.Light);
+        setSize(1000,500);
 
         Container cp = getContentPane();
-        cp.setLayout(new BorderLayout());
-        cp.add(calendar,BorderLayout.CENTER);
+        cp.setLayout(null);
 
+        calendar = new Calendar();
+        calendar.setLocation(0,0);
+        calendar.setSize(400,200);
+        calendar.setTheme(ThemeType.Light);
+
+        dateLabel = new JLabel("Date: ");
+        dateLabel.setLocation(420,80);
+        dateLabel.setSize(50,20);
+
+        date = new JTextField();
+        date.setLocation(480,80);
+        date.setSize(200,20);
+
+        cp.add(calendar);
+        cp.add(dateLabel);
+        cp.add(date);
 
 
         changeSupport = new PropertyChangeSupport(this);
@@ -47,7 +62,6 @@ public class CalendarWindow extends JFrame {
                     cal.set(pointedDate.getYear(),pointedDate.getMonth()-1,pointedDate.getDay());
 
                     setSelectedDate(cal);
-                    dispose();
                 }
             }
 
@@ -84,7 +98,7 @@ public class CalendarWindow extends JFrame {
         java.util.Calendar oldDate = (java.util.Calendar)selectedDate.clone();
         selectedDate = newDate;
 
-        changeSupport.firePropertyChange("selecteDate",oldDate,selectedDate);
+        date.setText(selectedDate.toString());
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener){
