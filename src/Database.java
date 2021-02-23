@@ -20,7 +20,7 @@ public class Database {
         try {
             c = DriverManager
                     .getConnection("jdbc:postgresql://localhost:5432/CalendarApplication",
-                            "postgres", "admin");
+                            "postgres", "accendino99");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -112,9 +112,11 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         String sql = "INSERT INTO EVENTS(ID,NAME,DATE,LOCATION,COLOR,DESCRIPTION)" +
-                "VALUES('"+uid+"','"+name+"',"+date+",'"+location+"','"+colour+"','"+descr+"');"; //TODO: PROBABILMENTE C'è INCOERENZA TRA IL TIPO DATE E QUELLO SU POSTGRESQL
+                "VALUES('"+name+date+"','"+name+"',(to_date('"+date+"', 'YYYY-MM-DD')),'"+location+"',0,'"+descr+"');";
+                //uid troppo lungo, l'ho rimpiazzato con un'altro valore
+                //date sarà un problema poi riprenderlo dal database in formato Java
+                //il colore non è una stringa ma un intero (ora ho messo semplicemente "0")
 
         try {
             stmt.executeUpdate(sql);
