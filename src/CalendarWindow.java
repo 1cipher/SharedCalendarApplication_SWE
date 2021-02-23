@@ -5,6 +5,7 @@ import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.ThemeType;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
@@ -16,15 +17,23 @@ public class CalendarWindow extends JFrame {
     Calendar calendar;
     JTextField date;
     JLabel dateLabel;
+    JLabel nameLabel;
+    JTextField name;
+    JLabel locationLabel;
+    JTextField location;
+    JComboBox<String> color;
+    JLabel colorLabel;
+    JLabel descrLabel;
+    JTextArea descr;
+    JButton createEvent;
 
     java.util.Calendar selectedDate = java.util.Calendar.getInstance();
 
-    protected PropertyChangeSupport changeSupport;
 
     public CalendarWindow(){
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        setSize(1000,500);
+        setSize(850,300);
 
         Container cp = getContentPane();
         cp.setLayout(null);
@@ -35,19 +44,70 @@ public class CalendarWindow extends JFrame {
         calendar.setTheme(ThemeType.Light);
 
         dateLabel = new JLabel("Date: ");
-        dateLabel.setLocation(420,80);
+        dateLabel.setLocation(410,80);
         dateLabel.setSize(50,20);
 
         date = new JTextField();
-        date.setLocation(480,80);
-        date.setSize(200,20);
+        date.setLocation(500,80);
+        date.setSize(300,20);
+
+        nameLabel = new JLabel("Name: ");
+        nameLabel.setLocation(410,50);
+        nameLabel.setSize(50,20);
+
+        name = new JTextField();
+        name.setLocation(500,50);
+        name.setSize(300,20);
+
+        locationLabel = new JLabel("Location: ");
+        locationLabel.setLocation(410,110);
+        locationLabel.setSize(50,20);
+
+        location = new JTextField();
+        location.setLocation(500,110);
+        location.setSize(300,20);
+
+        descrLabel = new JLabel("Description: ");
+        descrLabel.setLocation(410,140);
+        descrLabel.setSize(60,20);
+
+        descr = new JTextArea();
+        descr.setLocation(500,140);
+        descr.setSize(300,50);
+
+        colorLabel = new JLabel("Colour: ");
+        colorLabel.setLocation(410,200);
+        colorLabel.setSize(50,20);
+
+        color = new JComboBox<String>();
+        color.setLocation(500,200);
+        color.setSize(100,20);
+        color.addItem("Black");
+        color.addItem("Red");
+        color.addItem("Green");
+        color.addItem("Blue");
+
+        createEvent = new JButton("Create Event");
+        createEvent.setLocation(700,200);
+        createEvent.setSize(150,20);
+
+
 
         cp.add(calendar);
         cp.add(dateLabel);
         cp.add(date);
+        cp.add(name);
+        cp.add(nameLabel);
+        cp.add(locationLabel);
+        cp.add(location);
+        cp.add(descr);
+        cp.add(descrLabel);
+        cp.add(colorLabel);
+        cp.add(color);
+        cp.add(createEvent);
 
 
-        changeSupport = new PropertyChangeSupport(this);
+
 
         calendar.addMouseListener(new MouseListener() {
             @Override
@@ -88,22 +148,23 @@ public class CalendarWindow extends JFrame {
 
     }
 
-    public java.util.Calendar getSelectedDate() {
-
-        return selectedDate;
-    }
 
     public void setSelectedDate(java.util.Calendar newDate){
 
-        java.util.Calendar oldDate = (java.util.Calendar)selectedDate.clone();
         selectedDate = newDate;
 
         date.setText(selectedDate.toString());
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener){
 
-        changeSupport.addPropertyChangeListener(listener);
+    public void addCreateEventListener(ActionListener createEventListener){
+
+        this.createEvent.addActionListener(createEventListener);
+    }
+
+    public void addCalendarPressListener(MouseListener calendarPressedListener){
+
+        this.calendar.addMouseListener(calendarPressedListener);
     }
 
 

@@ -4,14 +4,11 @@ import com.mindfusion.scheduling.ThemeType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
-import java.util.Date;
 
-public class MainWindow extends JFrame implements PropertyChangeListener {
+
+public class MainWindow extends JFrame {
 
     JFormattedTextField textField = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
     Calendar calendar;
@@ -43,6 +40,10 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
         menu.addItem("month");
         menu.setLocation(550,10);
         menu.setSize(100,20);
+
+        logout = new JButton("Logout");
+        logout.setLocation(800,10);
+        logout.setSize(100,20);
 
 
 
@@ -76,20 +77,10 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
         cp.add(searchBox);
         cp.add(search);
         cp.add(menu);
+        cp.add(logout);
 
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent event) {
-
-        if (event.getPropertyName().equals("selectedDate")) {
-
-            java.util.Calendar cal = (java.util.Calendar) event.getNewValue();
-            Date selDate = cal.getTime();
-
-            textField.setValue(selDate);
-        }
-    }
 
     public void addSearchListener(ActionListener searchListener){
 
@@ -105,5 +96,10 @@ public class MainWindow extends JFrame implements PropertyChangeListener {
    public void addChangeViewListener(ActionListener changeViewListener){
 
         this.menu.addActionListener(changeViewListener);
+    }
+
+    public void addLogoutListener(ActionListener logoutListener){
+
+        this.logout.addActionListener(logoutListener);
     }
 }
