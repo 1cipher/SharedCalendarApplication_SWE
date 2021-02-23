@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.text.DateFormat;
 
 public class CalendarWindow extends JFrame {
 
@@ -27,11 +28,9 @@ public class CalendarWindow extends JFrame {
     JTextArea descr;
     JButton createEvent;
 
-    java.util.Calendar selectedDate = java.util.Calendar.getInstance();
-
 
     public CalendarWindow(){
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
 
         setSize(850,300);
 
@@ -109,51 +108,14 @@ public class CalendarWindow extends JFrame {
 
 
 
-        calendar.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if(e.getClickCount() == 2){
-
-                    calendar.getSelection().reset();
-
-                    DateTime pointedDate = calendar.getDateAt(e.getX(),e.getY());
-
-                    java.util.Calendar cal = java.util.Calendar.getInstance();
-                    cal.set(pointedDate.getYear(),pointedDate.getMonth()-1,pointedDate.getDay());
-
-                    setSelectedDate(cal);
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-
     }
 
 
-    public void setSelectedDate(java.util.Calendar newDate){
+    public void setSelectedDate(java.sql.Date newDate){
 
-        selectedDate = newDate;
+        java.sql.Date selectedDate = newDate;
 
-        date.setText(selectedDate.toString());
+        date.setText((selectedDate.toString()));
     }
 
 

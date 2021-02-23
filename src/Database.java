@@ -4,6 +4,7 @@ import java.sql.*;
 public class Database {
     public Connection c = null;
     Statement stmt = null;
+    PreparedStatement pstmt = null;
 
     public Database() {
 
@@ -101,6 +102,25 @@ public class Database {
         }
 
         return check;
+
+    }
+
+    public void addEventinEvents(String uid,String name,String location,String descr,String colour,java.sql.Date date) {
+
+        try {
+            stmt = c.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String sql = "INSERT INTO EVENTS(ID,NAME,DATE,LOCATION,COLOR,DESCRIPTION)" +
+                "VALUES('"+uid+"','"+name+"',"+date+",'"+location+"','"+colour+"','"+descr+"');"; //TODO: PROBABILMENTE C'è INCOERENZA TRA IL TIPO DATE E QUELLO SU POSTGRESQL
+
+        try {
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 

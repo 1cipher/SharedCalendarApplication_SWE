@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MWController {
 
@@ -34,8 +37,7 @@ public class MWController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            CalendarWindow cw = new CalendarWindow();
-            cw.setVisible(true);
+            cwView.setVisible(true);
 
         }
     }
@@ -71,9 +73,17 @@ public class MWController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            String uid = java.util.UUID.randomUUID().toString();
             String name = cwView.name.getText();
             String location = cwView.location.getText();
             String descr = cwView.descr.getText();
+            java.sql.Date date = java.sql.Date.valueOf(cwView.date.getText());
+            String colour = (String) cwView.color.getSelectedItem();
+
+            model.addEventinEvents(uid,name,location,descr,colour,date);
+
+
+
 
         }
     }
@@ -89,10 +99,13 @@ public class MWController {
 
                 DateTime pointedDate = cwView.calendar.getDateAt(e.getX(), e.getY());
 
-                java.util.Calendar cal = java.util.Calendar.getInstance();
+                Calendar cal = Calendar.getInstance();
                 cal.set(pointedDate.getYear(), pointedDate.getMonth() - 1, pointedDate.getDay());
+                Date utilDate = cal.getTime();
+                java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
-                cwView.setSelectedDate(cal);
+                cwView.setSelectedDate(sqlDate);
+
             }
 
         }
