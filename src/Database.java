@@ -65,7 +65,12 @@ public class Database {
             e.printStackTrace();
         }
         String sql = "INSERT INTO LOGIN(UID,PASSWORD)" +
-                "VALUES('"+username+"','"+password+"');";
+                "VALUES('"+username+"','"+password+"');" +
+                "INSERT INTO CALENDAR(ID,NAME,OWNER)" +
+                "VALUES('"+"CID1"+"','"+username+"_default"+"','"+username+"');" +
+                "INSERT INTO PARTICIPATION(UID,CALENDARID,TYPE)" +
+                "VALUES('"+username+"','"+"CID1"+"',0)";
+
 
         try {
             stmt.executeUpdate(sql);
@@ -73,6 +78,31 @@ public class Database {
             e.printStackTrace();
         }
 
+    }
+
+    public CalendarCollection getAllCalendars(User user){
+
+        CalendarCollection calendars = new CalendarCollection();
+        ResultSet rs;
+
+        try {
+            stmt = c.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        String sql = "SELECT CALENDARID FROM PARTICIPATION WHERE UID='"+user.getUsername()+"';";
+        //TODO: caricare gli eventi dal calendario (con una join? Quanti? Pagine?)
+        try {
+            rs = stmt.executeQuery(sql);
+            while (rs.next()){
+                Calendar calendar = new Calendar(user, rs.getString("CALENDARID"));
+                calendars.addCalendarToCollection(calendar);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return calendars;
     }
 
     public boolean isExistingUsername(String username) {

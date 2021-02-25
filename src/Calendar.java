@@ -4,21 +4,16 @@ import java.util.ArrayList;
 public class Calendar {
     User user;
     ArrayList<Event> newBuffer;
-    Database db;
-    int id;
+    String id;
     boolean permission;
 
-    public Calendar(User user, Database db) {
+    public Calendar(User user, String cid) {
         this.user = user;
         this.newBuffer = new ArrayList<Event>();
-        this.db = db;
     }
 
     public void addtoCalendar(Event e) throws SQLException {
         newBuffer.add(e);
-        db.addToDB(this, e);
-
-
     }
 
     public void removefromCalendar(Event e){
@@ -27,7 +22,7 @@ public class Calendar {
 
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 }

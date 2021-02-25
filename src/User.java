@@ -1,10 +1,15 @@
 
 public class User {
-    private int dettagliaccesso;
+
+    public String getUsername() {
+        return username;
+    }
+
+    String username;
     CalendarCollection collection;
 
-    public User(){
-
+    public User(String username){
+        this.username = username;
     }
 
     public void setCollection(CalendarCollection cc){
