@@ -16,7 +16,6 @@ public class MWController {
     CalendarWindow cwView;
     Database model;
 
-
     public MWController(MainWindow mw, CalendarWindow cw, Database db) {
 
         this.mwView = mw;

@@ -37,6 +37,8 @@ public class LoginController {
                     mainView.setVisible(true);
                     logView.setVisible(false);
                     regView.setVisible(false);
+                    User user = new User(acquiredUser);
+                    model.setCurrentUser(user);
                 }
                 else
                     logView.showDeniedAccess();

@@ -1,18 +1,29 @@
+import java.util.Date;
 
 public class Event {
 
     enum Color {RED,BLUE,BLACK}
-    private int id;
+
+    public String getId() {
+        return id;
+    }
+
+    private String id;
     private String Name;
-    private String Date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    private Date date;
     private String Location;
     private String Color;
     private String Description;
 
-    public Event(int id, String name, String date, String location) {
+    public Event(String id, String name, Date date, String location) {
         this.id = id;
         Name = name;
-        Date = date;
+        this.date = date;
         Location = location;
 
     }
@@ -21,16 +32,8 @@ public class Event {
 
     }
 
-    public int getId() {
-        return id;
-    }
-
     public String getName() {
         return Name;
-    }
-
-    public String getDate() {
-        return Date;
     }
 
     public String getLocation() {

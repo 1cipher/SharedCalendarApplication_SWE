@@ -2,6 +2,7 @@
 import java.sql.*;
 
 public class Database {
+    User currentUser;
     public Connection c = null;
     Statement stmt = null;
     PreparedStatement pstmt = null;
@@ -57,6 +58,10 @@ public class Database {
         return check;
     }
 
+    public void setCurrentUser(User user){
+        this.currentUser = user;
+    }
+
     public void registerNewUser(String username,String password) {
 
         try {
@@ -80,7 +85,7 @@ public class Database {
 
     }
 
-    public CalendarCollection getAllCalendars(User user){
+    public CalendarCollection getCurrentUserCalendars(){
 
         CalendarCollection calendars = new CalendarCollection();
         ResultSet rs;
@@ -90,19 +95,42 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        String sql = "SELECT CALENDARID FROM PARTICIPATION WHERE UID='"+user.getUsername()+"';";
-        //TODO: caricare gli eventi dal calendario (con una join? Quanti? Pagine?)
+        String sql = "SELECT CALENDARID FROM PARTICIPATION WHERE UID='"+currentUser.getUsername()+"';";
         try {
             rs = stmt.executeQuery(sql);
             while (rs.next()){
-                Calendar calendar = new Calendar(user, rs.getString("CALENDARID"));
+                Calendar calendar = new Calendar(currentUser, rs.getString("CALENDARID"));
                 calendars.addCalendarToCollection(calendar);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        };
+
+        try {
+            stmt = c.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        sql = "SELECT CALENDARID,EVENT,ID,NAME,DATE,LOCATION FROM PARTICIPATION,CALENDAREVENTS " +
+                "WHERE UID='"+currentUser.getUsername()+
+                "' AND CALENDAR=CALENDARID" +
+                "AND EVENT=ID;";
+        try {
+            rs = stmt.executeQuery(sql);
+            while (rs.next()){
+                Date date = new Date(2021,5,5);
+                String calendar_id = rs.getString("CALENDARID");
+                Calendar calendar = calendars.getCalendar(calendar_id);
+                Event event = new Event(rs.getString("ID"), rs.getString("NAME"), date, rs.getString("LOCATION"));
+                calendar.addtoCalendar(event);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return calendars;
+        //TODO: si può fare tutto in un colpo?
+
     }
 
     public boolean isExistingUsername(String username) {
