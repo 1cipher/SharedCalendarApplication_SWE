@@ -21,7 +21,7 @@ public class Database {
         try {
             c = DriverManager
                     .getConnection("jdbc:postgresql://localhost:5432/CalendarApplication",
-                            "postgres", "accendino99");
+                            "postgres", "admin");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -163,26 +163,64 @@ public class Database {
 
     }
 
-    public void addEventinEvents(String uid,String name,String location,String descr,String colour,java.sql.Date date) {
+    public void addEventinEvents(Event e) {
 
         try {
             stmt = c.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
         }
         String sql = "INSERT INTO EVENTS(ID,NAME,DATE,LOCATION,COLOR,DESCRIPTION)" +
-                "VALUES('"+name+date+"','"+name+"',(to_date('"+date+"', 'YYYY-MM-DD')),'"+location+"',0,'"+descr+"');";
+                "VALUES('"+e.getName()+e.getDate()+"','"+e.getName()+"',(to_date('"+e.getDate()+"', 'YYYY-MM-DD')),'"+e.getLocation()+"',0,'"+e.getDescription()+"');";
                 //uid troppo lungo, l'ho rimpiazzato con un'altro valore
                 //date sarà un problema poi riprenderlo dal database in formato Java
                 //il colore non è una stringa ma un intero (ora ho messo semplicemente "0")
 
         try {
             stmt.executeUpdate(sql);
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        }
+
+    }
+
+    public void addToCalendar(String id,String name, String owner){
+
+        try {
+            stmt = c.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+        String sql = "INSERT INTO CALENDAR(ID,NAME,OWNER)" +
+                "VALUES('"+id+"','"+name+"','"+owner+"');";
+
+        try {
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
+    public void addToCalendarEvents(String calendar, String event){
+
+        try {
+            stmt = c.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String sql = "INSERT INTO CALENDAREVENTS(CALENDAR,EVENT)" +
+                "VALUES('"+calendar+"','"+event+"');";
+
+        try {
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
 
 }
 

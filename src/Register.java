@@ -75,9 +75,6 @@ public class Register extends JFrame {
         reg.addActionListener(RegViewListener);
     }
 
-    public ActionListener getRegListener() {
 
-        return regListener;
-    }
 
 }

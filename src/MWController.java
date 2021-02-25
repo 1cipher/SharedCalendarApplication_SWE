@@ -1,14 +1,16 @@
 import com.mindfusion.common.DateTime;
-import com.mindfusion.scheduling.CalendarView;
+import com.mindfusion.scheduling.*;
+import com.mindfusion.scheduling.model.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.EnumSet;
 
 public class MWController {
 
@@ -27,7 +29,7 @@ public class MWController {
         this.mwView.addSearchListener(new searchListener());
         this.cwView.addCreateEventListener(new createEventListener());
         this.cwView.addCalendarPressListener(new calendarPressedListener());
-
+        this.mwView.addMainCalendarListener(new mainCalendarAdapter());
 
     }
 
@@ -58,13 +60,16 @@ public class MWController {
 
             if (selection.equals("day"))
                 mwView.calendar.setCurrentView(CalendarView.Timetable);
-            else if (selection.equals("week"))
+            else if (selection.equals("week")){
                 mwView.calendar.setCurrentView(CalendarView.WeekRange);
+                mwView.calendar.getWeekRangeSettings().setHeaderStyle(EnumSet.of(WeekRangeHeaderStyle.Title));
+            }
             else if (selection.equals("month"))
                 mwView.calendar.setCurrentView(CalendarView.MonthRange);
 
 
         }
+
     }
 
     class createEventListener implements ActionListener {
@@ -76,10 +81,35 @@ public class MWController {
             String name = cwView.name.getText();
             String location = cwView.location.getText();
             String descr = cwView.descr.getText();
-            java.sql.Date date = java.sql.Date.valueOf(cwView.date.getText());
-            String colour = (String) cwView.color.getSelectedItem();
 
-            model.addEventinEvents(uid,name,location,descr,colour,date);
+            DateTime startDate = new DateTime(2021,2,25,9,1,1);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
+            Date date1 = new Date(1,1,1,1,1,1);     //TODO: IN QUESTA MODALITA DI CREAZIONE START ED ENDDATE SONO UGUALI
+            DateTime endDate = new DateTime(2021,2,25,11,1,1); //TODO:COLLEZIONARE GLI ORARI DAI RISPETTIVI TEXTFIELD
+            String colour = (String) cwView.color.getSelectedItem();
+            if(!name.isEmpty() && !uid.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
+                cwView.isEventCreated.setVisible(true);
+                cwView.isEventCreated.setText("Event created");
+                cwView.isEventCreated.setForeground(Color.green);
+            }
+            else{
+                cwView.isEventCreated.setVisible(true);
+                cwView.isEventCreated.setForeground(Color.red);
+                cwView.isEventCreated.setText("Missing datas");
+            }
+
+            Event event = new Event(uid,name,date1,location);
+            //model.addEventinEvents(event);
+            Item appointment = new Appointment();
+            appointment.setStartTime(startDate);
+            appointment.setEndTime(endDate);
+            mwView.calendar.getSchedule().getItems().add(appointment);
+            mwView.calendar.repaint();
+
+
+
+
+
+
 
 
 
@@ -88,6 +118,8 @@ public class MWController {
     }
 
     class calendarPressedListener implements MouseListener {
+
+
 
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -103,7 +135,8 @@ public class MWController {
                 Date utilDate = cal.getTime();
                 java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
-                cwView.setSelectedDate(sqlDate);
+                cwView.setSelectedStartDate(sqlDate);
+
 
             }
 
@@ -112,10 +145,38 @@ public class MWController {
         @Override
         public void mousePressed(MouseEvent e) {
 
+            cwView.calendar.getSelection().reset();
+
+            DateTime pointedDate = cwView.calendar.getDateAt(e.getX(), e.getY());
+
+            Calendar cal = Calendar.getInstance();
+            cal.set(pointedDate.getYear(), pointedDate.getMonth() - 1, pointedDate.getDay());
+            Date utilDate = cal.getTime();
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+            cwView.setSelectedStartDate(sqlDate);
+
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
+
+            cwView.calendar.getSelection().reset();
+
+            DateTime pointedDate = cwView.calendar.getDateAt(e.getX(), e.getY());
+
+            Calendar cal = Calendar.getInstance();
+            cal.set(pointedDate.getYear(), pointedDate.getMonth() - 1, pointedDate.getDay());
+            Date utilDate = cal.getTime();
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+            if(cwView.startDate.getText().compareTo(sqlDate.toString())>0) {
+                java.sql.Date d = java.sql.Date.valueOf(cwView.startDate.getText());
+                cwView.setSelectedEndDate(d);
+                cwView.setSelectedStartDate(sqlDate);
+            }
+            else
+                cwView.setSelectedEndDate(sqlDate);
 
         }
 
@@ -130,12 +191,17 @@ public class MWController {
         }
     }
 
-    class logoutListener implements ActionListener{
+    class mainCalendarAdapter extends CalendarAdapter{
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
+        public void itemClick(ItemMouseEvent e){
 
-            //TODO: PATTERN PER CHIUDERE LA MAINWINDOW E RIAPRIRE LA LOGIN
+            if(mwView.deleteSelector.isSelected()){
+                mwView.calendar.getSelection().reset();
+                mwView.calendar.getSchedule().getItems().remove(e.getItem());
+            }
         }
     }
+
+
 }
+

@@ -1,23 +1,25 @@
 import javax.swing.*;
 
-import com.mindfusion.common.DateTime;
 import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.ThemeType;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import java.text.DateFormat;
 
 public class CalendarWindow extends JFrame {
 
     Calendar calendar;
-    JTextField date;
-    JLabel dateLabel;
+    JTextField startDate;
+    JTextField startHour;
+    JTextField startMin;
+    JTextField endDate;
+    JTextField endHour;
+    JTextField endMin;
+    JLabel separator1;
+    JLabel separator2;
+    JLabel startDateLabel;
+    JLabel endDateLabel;
     JLabel nameLabel;
     JTextField name;
     JLabel locationLabel;
@@ -27,6 +29,7 @@ public class CalendarWindow extends JFrame {
     JLabel descrLabel;
     JTextArea descr;
     JButton createEvent;
+    JLabel isEventCreated;
 
 
     public CalendarWindow(){
@@ -42,20 +45,52 @@ public class CalendarWindow extends JFrame {
         calendar.setSize(400,200);
         calendar.setTheme(ThemeType.Light);
 
-        dateLabel = new JLabel("Date: ");
-        dateLabel.setLocation(410,80);
-        dateLabel.setSize(50,20);
+        startDateLabel = new JLabel("Start Date: ");
+        startDateLabel.setLocation(410,40);
+        startDateLabel.setSize(50,20);
 
-        date = new JTextField();
-        date.setLocation(500,80);
-        date.setSize(300,20);
+        startDate = new JTextField();
+        startDate.setLocation(500,40);
+        startDate.setSize(100,20);
+
+        startHour = new JTextField();
+        startHour.setLocation(610,40);
+        startHour.setSize(50,20);
+
+        separator1 = new JLabel(":");
+        separator1.setLocation(665,40);
+        separator1.setSize(10,20);
+
+        startMin = new JTextField();
+        startMin.setLocation(675,40);
+        startMin.setSize(50,20);
+
+        endDateLabel = new JLabel("End Date: ");
+        endDateLabel.setLocation(410,70);
+        endDateLabel.setSize(50,20);
+
+        endDate = new JTextField();
+        endDate.setLocation(500,70);
+        endDate.setSize(100,20);
+
+        endHour = new JTextField();
+        endHour.setLocation(610,70);
+        endHour.setSize(50,20);
+
+        separator2 = new JLabel(":");
+        separator2.setLocation(665,70);
+        separator2.setSize(10,20);
+
+        endMin = new JTextField();
+        endMin.setLocation(675,70);
+        endMin.setSize(50,20);
 
         nameLabel = new JLabel("Name: ");
-        nameLabel.setLocation(410,50);
+        nameLabel.setLocation(410,10);
         nameLabel.setSize(50,20);
 
         name = new JTextField();
-        name.setLocation(500,50);
+        name.setLocation(500,10);
         name.setSize(300,20);
 
         locationLabel = new JLabel("Location: ");
@@ -90,11 +125,16 @@ public class CalendarWindow extends JFrame {
         createEvent.setLocation(700,200);
         createEvent.setSize(150,20);
 
+        isEventCreated = new JLabel("");
+        isEventCreated.setLocation(700,230);
+        isEventCreated.setSize(150,20);
+        isEventCreated.setVisible(false);
+
 
 
         cp.add(calendar);
-        cp.add(dateLabel);
-        cp.add(date);
+        cp.add(startDateLabel);
+        cp.add(startDate);
         cp.add(name);
         cp.add(nameLabel);
         cp.add(locationLabel);
@@ -104,6 +144,15 @@ public class CalendarWindow extends JFrame {
         cp.add(colorLabel);
         cp.add(color);
         cp.add(createEvent);
+        cp.add(isEventCreated);
+        cp.add(startHour);
+        cp.add(startMin);
+        cp.add(separator1);
+        cp.add(endDate);
+        cp.add(endDateLabel);
+        cp.add(endMin);
+        cp.add(endHour);
+        cp.add(separator2);
 
 
 
@@ -111,11 +160,18 @@ public class CalendarWindow extends JFrame {
     }
 
 
-    public void setSelectedDate(java.sql.Date newDate){
+    public void setSelectedStartDate(java.sql.Date newDate){
 
         java.sql.Date selectedDate = newDate;
 
-        date.setText((selectedDate.toString()));
+        startDate.setText((selectedDate.toString()));
+    }
+
+    public void setSelectedEndDate(java.sql.Date newDate){
+
+        java.sql.Date selectedDate = newDate;
+
+        endDate.setText((selectedDate.toString()));
     }
 
 

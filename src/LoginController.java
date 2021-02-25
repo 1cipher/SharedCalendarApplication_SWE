@@ -20,7 +20,7 @@ public class LoginController {
 
         this.logView.addRegisterListener(new RegisterListener());
 
-        this.regView.addListener(new RegViewListener());
+        //this.regView.addListener(new RegViewListener());
     }
 
     class LoginListener implements ActionListener{
@@ -57,7 +57,10 @@ public class LoginController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            //regView.setVisible(true);
+            regView = new Register();                     //TODO: LO SWITCH TRA VISTE DOVREBBE ESSERE GESTITO COSì,SENZA VISTE GLOBALI
             regView.setVisible(true);
+            regView.addListener(new RegViewListener());
 
         }
     }

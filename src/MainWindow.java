@@ -1,10 +1,14 @@
+import com.mindfusion.scheduling.*;
 import com.mindfusion.scheduling.Calendar;
-import com.mindfusion.scheduling.CalendarView;
-import com.mindfusion.scheduling.ThemeType;
+import com.mindfusion.scheduling.model.Appointment;
+import com.mindfusion.scheduling.model.Item;
+import com.mindfusion.scheduling.standardforms.AppointmentForm;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.MouseListener;
 import java.text.DateFormat;
 
 
@@ -17,6 +21,7 @@ public class MainWindow extends JFrame {
     JButton logout;
     JTextField searchBox;
     JComboBox<String> menu;
+    JCheckBox deleteSelector;
 
     ActionListener ch;
 
@@ -38,38 +43,43 @@ public class MainWindow extends JFrame {
         menu.addItem("day");
         menu.addItem("week");
         menu.addItem("month");
-        menu.setLocation(550,10);
-        menu.setSize(100,20);
+        menu.setLocation(550, 10);
+        menu.setSize(100, 20);
 
         logout = new JButton("Logout");
-        logout.setLocation(800,10);
-        logout.setSize(100,20);
-
+        logout.setLocation(800, 10);
+        logout.setSize(100, 20);
 
 
         calendar = new Calendar();
         calendar.beginInit();
         calendar.setCurrentView(CalendarView.Timetable);
         calendar.setTheme(ThemeType.Light);
-        calendar.setLocation(0,40);
-        calendar.setSize(1000,1000);
+        calendar.setLocation(0, 40);
+        calendar.setSize(1000, 1000);
         calendar.setVisible(true);
         calendar.endInit();
 
         addEvent = new JButton();
         addEvent.setText("Create Event");
-        addEvent.setLocation(0,10);
-        addEvent.setSize(200,20);
+        addEvent.setLocation(0, 10);
+        addEvent.setSize(200, 20);
 
 
         searchBox = new JTextField();
-        searchBox.setLocation(210,10);
-        searchBox.setSize(300,20);
+        searchBox.setLocation(210, 10);
+        searchBox.setSize(300, 20);
 
         search = new JButton(new ImageIcon("C:\\search.png"));
-        search.setLocation(520,10);
-        search.setSize(20,20);
+        search.setLocation(520, 10);
+        search.setSize(20, 20);
 
+        calendar.setEnableDragCreate(true);
+
+        deleteSelector = new JCheckBox();
+        deleteSelector.setText("Delete");
+        deleteSelector.setLocation(670, 10);
+        deleteSelector.setSize(150, 20);
 
 
         cp.add(calendar);
@@ -78,9 +88,10 @@ public class MainWindow extends JFrame {
         cp.add(search);
         cp.add(menu);
         cp.add(logout);
+        cp.add(deleteSelector);
+
 
     }
-
 
     public void addSearchListener(ActionListener searchListener){
 
@@ -102,4 +113,11 @@ public class MainWindow extends JFrame {
 
         this.logout.addActionListener(logoutListener);
     }
+
+    public void addMainCalendarListener(CalendarAdapter mainCalendarAdapter ){
+
+        calendar.addCalendarListener(mainCalendarAdapter);
+    }
+
+
 }
