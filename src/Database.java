@@ -1,4 +1,6 @@
 
+import com.mindfusion.common.DateTime;
+
 import java.sql.*;
 
 public class Database {
@@ -21,7 +23,7 @@ public class Database {
         try {
             c = DriverManager
                     .getConnection("jdbc:postgresql://localhost:5432/CalendarApplication",
-                            "postgres", "admin");
+                            "postgres", "accendino99");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -31,18 +33,6 @@ public class Database {
     private void dropConnection() throws  Exception{
 
         c.close();
-    }
-
-    public void addToDB(Calendar calendar, Event e) throws SQLException {
-
-        stmt = c.createStatement();
-
-        String sql = "INSERT INTO CALENDAREVENTS(CALENDAR,EVENT)"+
-                "VALUES("+calendar.getId()+","+e.getId()+");";
-        stmt.executeUpdate(sql);
-
-        sql = "INSERT INTO EVENTS(ID,NAME,DATE,LOCATION,COLOR,DESCRIZIONE)"+
-                "VALUES("+e.getId()+","+e.getName()+","+e.getDate()+","+e.getLocation()+","+e.getColor()+","+e.getDescription()+");";
     }
 
     public boolean checkUserPresence(String acquiredUser,String acquiredPassword) throws SQLException {
@@ -121,7 +111,7 @@ public class Database {
                 Date date = new Date(2021,5,5);
                 String calendar_id = rs.getString("CALENDARID");
                 Calendar calendar = calendars.getCalendar(calendar_id);
-                Event event = new Event(rs.getString("ID"), rs.getString("NAME"), date, rs.getString("LOCATION"));
+                Event event = new Event(rs.getString("ID"), rs.getString("NAME"), new DateTime(rs.getTimestamp("START")),new DateTime(rs.getTimestamp("END")), rs.getString("LOCATION"));
                 calendar.addtoCalendar(event);
             }
         } catch (SQLException e) {
@@ -170,12 +160,14 @@ public class Database {
         } catch (SQLException exc) {
             exc.printStackTrace();
         }
-        String sql = "INSERT INTO EVENTS(ID,NAME,DATE,LOCATION,COLOR,DESCRIPTION)" +
-                "VALUES('"+e.getName()+e.getDate()+"','"+e.getName()+"',(to_date('"+e.getDate()+"', 'YYYY-MM-DD')),'"+e.getLocation()+"',0,'"+e.getDescription()+"');";
+        Timestamp ts=new Timestamp(e.getStartDate().getMillisecond());
+        Timestamp te=new Timestamp(e.getEndDate().getMillisecond());
+        String sql = "INSERT INTO EVENTS(ID,NAME,START,END,LOCATION,COLOR,DESCRIPTION)" +
+                "VALUES('"+e.getName()+"_ID','"+e.getName()+"','"+ts+"','"+te+"','"+e.getLocation()+"',0,'"+e.getDescription()+"');";
                 //uid troppo lungo, l'ho rimpiazzato con un'altro valore
                 //date sarà un problema poi riprenderlo dal database in formato Java
                 //il colore non è una stringa ma un intero (ora ho messo semplicemente "0")
-
+        System.out.println(sql);
         try {
             stmt.executeUpdate(sql);
         } catch (SQLException exc) {

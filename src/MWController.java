@@ -104,9 +104,7 @@ public class MWController {
             String descr = cwView.descr.getText();
 
             DateTime startDate = new DateTime(2021,2,25,9,1,1);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
-            Date date1 = new Date(1,1,1,1,1,1);     //TODO: IN QUESTA MODALITA DI CREAZIONE START ED ENDDATE SONO UGUALI
             DateTime endDate = new DateTime(2021,2,25,11,1,1); //TODO:COLLEZIONARE GLI ORARI DAI RISPETTIVI TEXTFIELD
-            String colour = (String) cwView.color.getSelectedItem();
             if(!name.isEmpty() && !uid.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
                 cwView.isEventCreated.setVisible(true);
                 cwView.isEventCreated.setText("Event created");
@@ -118,8 +116,8 @@ public class MWController {
                 cwView.isEventCreated.setText("Missing datas");
             }
 
-            Event event = new Event(uid,name,date1,location);
-            //model.addEventinEvents(event);
+            Event event = new Event(uid,name,startDate,endDate,location);
+            model.addEventinEvents(event);
             Item appointment = new Appointment();
             appointment.setStartTime(startDate);
             appointment.setEndTime(endDate);
