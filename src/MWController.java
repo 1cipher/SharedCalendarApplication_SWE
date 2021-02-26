@@ -48,6 +48,27 @@ public class MWController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            String nameToSearch = mwView.searchBox.getText();
+            ItemList itemList = mwView.calendar.getSchedule().getItems();
+            System.out.println(mwView.calendar.getSchedule().getItems().size());
+            boolean check = false;
+            int i = 0;
+            while(!check && i<itemList.size()){
+                String comp = itemList.get(i).getHeaderText();
+                if(nameToSearch.compareTo(comp)==0)
+                    check = true;
+                else
+                    i++;
+            }
+            if (check){
+                DateTime dt = itemList.get(i).getStartTime();
+                mwView.calendar.setDate(dt);
+            }
+            else{
+                mwView.searchBox.setText("Not Found");
+            }
+
+
         }
     }
 
@@ -104,13 +125,6 @@ public class MWController {
             appointment.setEndTime(endDate);
             mwView.calendar.getSchedule().getItems().add(appointment);
             mwView.calendar.repaint();
-
-
-
-
-
-
-
 
 
 

@@ -10,7 +10,6 @@ public class Register extends JFrame {
     JTextField textPassword;
     JButton reg;
     JLabel multifunctionalLabel;
-    ActionListener regListener;
 
     public Register()  {
         setDefaultCloseOperation(HIDE_ON_CLOSE);
