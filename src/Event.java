@@ -1,6 +1,10 @@
+import com.mindfusion.common.DateTime;
+
 import java.util.Date;
 
 public class Event {
+
+
 
     enum Color {RED,BLUE,BLACK}
 
@@ -11,19 +15,18 @@ public class Event {
     private String id;
     private String Name;
 
-    public Date getDate() {
-        return date;
-    }
 
-    private Date date;
+    private DateTime start;
+    private DateTime end;
     private String Location;
     private String Color;
     private String Description;
 
-    public Event(String id, String name, Date date, String location) {
+    public Event(String id, String name, DateTime start, DateTime end, String location) {
         this.id = id;
         Name = name;
-        this.date = date;
+        this.start = start;
+        this.end = end;
         Location = location;
 
     }
@@ -47,4 +50,13 @@ public class Event {
     public String getDescription() {
         return Description;
     }
+
+    public DateTime getStartDate() {
+        return start;
+    }
+
+    public DateTime getEndDate(){
+        return end;
+    }
+
 }
