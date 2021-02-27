@@ -130,6 +130,12 @@ public class CalendarWindow extends JFrame {
         isEventCreated.setSize(150,20);
         isEventCreated.setVisible(false);
 
+        startHour.setText("10");
+        startMin.setText("00");
+        endHour.setText("11");
+        endMin.setText("30");
+        name.setText("jesoo");
+        location.setText("casina");
 
 
         cp.add(calendar);

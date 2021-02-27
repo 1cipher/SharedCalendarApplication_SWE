@@ -8,9 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.GregorianCalendar;
 
 public class MWController {
 
@@ -98,13 +101,35 @@ public class MWController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            String uid = java.util.UUID.randomUUID().toString();
+            String uid = java.util.UUID.randomUUID().toString().substring(0,19);
             String name = cwView.name.getText();
             String location = cwView.location.getText();
             String descr = cwView.descr.getText();
+            String startdate = cwView.startDate.getText();
+            int starthour = Integer.parseInt(cwView.startHour.getText());
+            int startmin = Integer.parseInt(cwView.startMin.getText());
+            String enddate = cwView.endDate.getText();
+            int endhour = Integer.parseInt(cwView.endHour.getText());
+            int endmin = Integer.parseInt(cwView.endMin.getText());
+            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1 = new Date();
+            Date date2 = new Date();
+            try {
+                date1 = f.parse(startdate);
+                date2 = f.parse(enddate);
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
 
-            DateTime startDate = new DateTime(2021,2,25,9,1,1);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
-            DateTime endDate = new DateTime(2021,2,25,11,1,1); //TODO:COLLEZIONARE GLI ORARI DAI RISPETTIVI TEXTFIELD
+            Calendar calendar1 = new GregorianCalendar();
+            calendar1.setTime(date1);
+            Calendar calendar2 = new GregorianCalendar();
+            calendar2.setTime(date2);
+
+
+
+            DateTime startDate = new DateTime(calendar1.get(Calendar.YEAR)-1900,calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH)-1,starthour,startmin,0);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
+            DateTime endDate = new DateTime(calendar2.get(Calendar.YEAR)-1900,calendar2.get(Calendar.MONTH)+1,calendar2.get(Calendar.DAY_OF_MONTH)-1,endhour,endmin,0); //TODO:COLLEZIONARE GLI ORARI DAI RISPETTIVI TEXTFIELD
             if(!name.isEmpty() && !uid.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
                 cwView.isEventCreated.setVisible(true);
                 cwView.isEventCreated.setText("Event created");

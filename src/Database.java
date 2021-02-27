@@ -1,6 +1,6 @@
 
 import com.mindfusion.common.DateTime;
-import
+
 
 import java.sql.*;
 
@@ -163,12 +163,10 @@ public class Database {
         }
         DateTime start = e.getStartDate();
         DateTime end = e.getEndDate();
-        int y = start.getYear();
-        int x = start.getMonth();
-        Timestamp ts=new Timestamp(start.getYear()-1900,start.getMonth()-1,start.getDay(),start.getHour(),start.getMinute(),0,0);
-        Timestamp te=new Timestamp(end.getYear()-1900,end.getMonth()-1,end.getDay(),end.getHour(),end.getMinute(),0,0);
+        Timestamp ts=new Timestamp(start.getYear(),start.getMonth()-1,start.getDay()+1,start.getHour(),start.getMinute(),0,0);
+        Timestamp te=new Timestamp(end.getYear(),end.getMonth()-1,end.getDay()+1,end.getHour(),end.getMinute(),0,0);
         String sql = "INSERT INTO EVENTS(ID,NAME,START_DATE,END_DATE,LOCATION,COLOR,DESCRIPTION)" +
-                "VALUES('"+e.getName()+"_ID','"+e.getName()+"','"+ts+"','"+te+"','"+e.getLocation()+"',0,'"+e.getDescription()+"');";
+                "VALUES('"+e.getId()+",'"+e.getName()+"','"+ts+"','"+te+"','"+e.getLocation()+"',0,'"+e.getDescription()+"');";
                 //uid troppo lungo, l'ho rimpiazzato con un'altro valore
                 //date sarà un problema poi riprenderlo dal database in formato Java
                 //il colore non è una stringa ma un intero (ora ho messo semplicemente "0")
