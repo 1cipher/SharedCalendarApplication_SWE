@@ -1,3 +1,4 @@
+import com.mindfusion.common.DateTime;
 import com.mindfusion.scheduling.*;
 import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.model.Appointment;
@@ -10,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseListener;
 import java.text.DateFormat;
+import java.util.ArrayList;
 
 
 public class MainWindow extends JFrame {
@@ -22,11 +24,6 @@ public class MainWindow extends JFrame {
     JTextField searchBox;
     JComboBox<String> menu;
     JCheckBox deleteSelector;
-
-    ActionListener ch;
-
-
-
 
 
     public MainWindow() {
@@ -91,6 +88,20 @@ public class MainWindow extends JFrame {
         cp.add(deleteSelector);
 
 
+    }
+
+    public void loadView(CalendarCollection calendars){
+        ArrayList<Event> events = calendars.getEvents();
+        for (Event event:
+             events) {
+            Item appointment = new Appointment();
+            DateTime start = event.getStartDate();
+            DateTime end = event.getEndDate();
+            appointment.setStartTime(new DateTime(start.getYear(), start.getMonth(), start.getDay(), start.getHour(), start.getMinute(), 0));
+            appointment.setEndTime(new DateTime(end.getYear(), end.getMonth(),end.getDay(),end.getHour(),end.getMinute(),0));
+            this.calendar.getSchedule().getItems().add(appointment);
+        }
+        //TODO: c'è uguale in MWcontroller
     }
 
     public void addSearchListener(ActionListener searchListener){

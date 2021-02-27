@@ -103,21 +103,21 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        /*sql = "SELECT CALENDARID,EVENT,ID,NAME,DATE,LOCATION FROM PARTICIPATION,CALENDAREVENTS " +
+        sql = "SELECT CALENDARID,EVENT,ID,NAME,START_DATE,END_DATE,LOCATION FROM PARTICIPATION,CALENDAREVENTS,EVENTS " +
                 "WHERE UID='"+currentUser.getUsername()+
-                "' AND CALENDAR=CALENDARID" +
+                "' AND CALENDAR=CALENDARID " +
                 "AND EVENT=ID;";
         try {
             rs = stmt.executeQuery(sql);
             while (rs.next()){
                 String calendar_id = rs.getString("CALENDARID");
                 Calendar calendar = calendars.getCalendar(calendar_id);
-                Event event = new Event(rs.getString("ID"), rs.getString("NAME"), new DateTime(rs.getTimestamp("START")),new DateTime(rs.getTimestamp("END")), rs.getString("LOCATION"));
+                Event event = new Event(rs.getString("ID"), rs.getString("NAME"), new DateTime(rs.getTimestamp("START_DATE")),new DateTime(rs.getTimestamp("END_DATE")), rs.getString("LOCATION"));
                 calendar.addtoCalendar(event);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        }
 
         return calendars;
         //TODO: si può fare tutto in un colpo?

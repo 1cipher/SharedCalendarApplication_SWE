@@ -12,6 +12,15 @@ public class CalendarCollection {
         return ids;
     }
 
+    public ArrayList<Event> getEvents(){
+        ArrayList<Event> events = new ArrayList<>();
+        for (Calendar calendar:
+             collection) {
+            events.addAll(calendar.getEvents());
+        }
+        return events;
+    }
+
     public Calendar getCalendar(String id){
         for (Calendar calendar:collection
              ) {

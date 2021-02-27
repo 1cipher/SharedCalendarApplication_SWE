@@ -44,7 +44,7 @@ public class LoginController {
                     regView.setVisible(false);
                     User user = new User(acquiredUser);
                     model.setCurrentUser(user);
-
+                    mainView.loadView(model.getCurrentUserCalendars());
                 }
                 else
                     logView.showDeniedAccess();
