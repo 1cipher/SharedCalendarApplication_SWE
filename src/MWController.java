@@ -44,6 +44,7 @@ public class MWController {
         public void actionPerformed(ActionEvent e) {
 
             cwView.setVisible(true);
+            cwView.populateCalendars(model.getCurrentUserCalendars());
 
         }
     }
