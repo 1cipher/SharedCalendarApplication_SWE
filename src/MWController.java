@@ -131,8 +131,8 @@ public class MWController {
             Calendar calendar2 = new GregorianCalendar();
             calendar2.setTime(date2);
 
-            DateTime startDate = new DateTime(calendar1.get(Calendar.YEAR)-1900,calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH)-1,10,10,0);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
-            DateTime endDate = new DateTime(calendar2.get(Calendar.YEAR)-1900,calendar2.get(Calendar.MONTH)+1,calendar2.get(Calendar.DAY_OF_MONTH)-1,11,11,0); //TODO:COLLEZIONARE GLI ORARI DAI RISPETTIVI TEXTFIELD
+            DateTime startDate = new DateTime(calendar1.get(Calendar.YEAR)-1900,calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH)-1,Integer.parseInt(startHour.substring(1,2)),Integer.parseInt(startHour.substring(4,5)),0);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
+            DateTime endDate = new DateTime(calendar2.get(Calendar.YEAR)-1900,calendar2.get(Calendar.MONTH)+1,calendar2.get(Calendar.DAY_OF_MONTH)-1,Integer.parseInt(endHour.substring(1,2)),Integer.parseInt(endHour.substring(4,5)),0); //TODO:COLLEZIONARE GLI ORARI DAI RISPETTIVI TEXTFIELD
             if(!name.isEmpty() && !uid.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
                 cwView.isEventCreated.setVisible(true);
                 cwView.isEventCreated.setText("Event created");
@@ -147,8 +147,8 @@ public class MWController {
             Event event = new Event(uid,name,startDate,endDate,location);
             model.addEventinEvents(event,cwView.getCurrentCalendar());
             Item appointment = new Appointment();
-            appointment.setStartTime(new DateTime(calendar1.get(Calendar.YEAR),calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH),11,00,00));
-            appointment.setEndTime(new DateTime(calendar2.get(Calendar.YEAR),calendar2.get(Calendar.MONTH)+1,calendar2.get(Calendar.DAY_OF_MONTH),12,0,00));
+            appointment.setStartTime(new DateTime(calendar1.get(Calendar.YEAR),calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH),Integer.parseInt(startHour.substring(1,2)),Integer.parseInt(startHour.substring(4,5)),00));
+            appointment.setEndTime(new DateTime(calendar2.get(Calendar.YEAR),calendar2.get(Calendar.MONTH)+1,calendar2.get(Calendar.DAY_OF_MONTH),Integer.parseInt(endHour.substring(1,2)),Integer.parseInt(endHour.substring(4,5)),00));
             mwView.calendar.getSchedule().getItems().add(appointment);
 
 
