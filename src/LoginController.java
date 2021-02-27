@@ -5,6 +5,10 @@ import java.sql.SQLException;
 
 public class LoginController {
 
+    public void setLogView(Login logView) {
+        this.logView = logView;
+    }
+
     Login logView;
     Register regView;
     MainWindow mainView;

@@ -33,6 +33,7 @@ public class MWController {
         this.cwView.addCreateEventListener(new createEventListener());
         this.cwView.addCalendarPressListener(new calendarPressedListener());
         this.mwView.addMainCalendarListener(new mainCalendarAdapter());
+        this.mwView.addLogoutListener(new logoutListener());
 
     }
 
@@ -236,6 +237,17 @@ public class MWController {
                 mwView.calendar.getSelection().reset();
                 mwView.calendar.getSchedule().getItems().remove(e.getItem());
             }
+        }
+    }
+
+    class logoutListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            mwView.setVisible(false);
+            Main.log.setVisible(true);
+
         }
     }
 

@@ -166,10 +166,8 @@ public class Database {
         Timestamp ts=new Timestamp(start.getYear(),start.getMonth()-1,start.getDay()+1,start.getHour(),start.getMinute(),0,0);
         Timestamp te=new Timestamp(end.getYear(),end.getMonth()-1,end.getDay()+1,end.getHour(),end.getMinute(),0,0);
         String sql = "INSERT INTO EVENTS(ID,NAME,START_DATE,END_DATE,LOCATION,COLOR,DESCRIPTION)" +
-                "VALUES('"+e.getId()+",'"+e.getName()+"','"+ts+"','"+te+"','"+e.getLocation()+"',0,'"+e.getDescription()+"');";
-                //uid troppo lungo, l'ho rimpiazzato con un'altro valore
-                //date sarà un problema poi riprenderlo dal database in formato Java
-                //il colore non è una stringa ma un intero (ora ho messo semplicemente "0")
+                "VALUES('"+e.getId()+"','"+e.getName()+"','"+ts+"','"+te+"','"+e.getLocation()+"',0,'"+e.getDescription()+"');";
+
         System.out.println(sql);
         try {
             stmt.executeUpdate(sql);
