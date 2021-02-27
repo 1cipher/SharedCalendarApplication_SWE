@@ -3,6 +3,15 @@ import java.util.ArrayList;
 public class CalendarCollection {
     ArrayList<Calendar> collection;
 
+    public ArrayList<String> getIds(){
+        ArrayList<String> ids=new ArrayList<>();
+        for (Calendar calendar :
+             collection) {
+            ids.add(calendar.getId());
+        }
+        return ids;
+    }
+
     public Calendar getCalendar(String id){
         for (Calendar calendar:collection
              ) {

@@ -10,6 +10,7 @@ public class Calendar {
     public Calendar(User user, String cid) {
         this.user = user;
         this.newBuffer = new ArrayList<Event>();
+        this.id = cid;
     }
 
     public void addtoCalendar(Event e) throws SQLException {

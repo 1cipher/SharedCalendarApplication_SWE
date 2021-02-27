@@ -6,6 +6,7 @@ import com.mindfusion.scheduling.ThemeType;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 public class CalendarWindow extends JFrame {
 
@@ -25,6 +26,7 @@ public class CalendarWindow extends JFrame {
     JLabel locationLabel;
     JTextField location;
     JComboBox<String> color;
+    JComboBox<String> calendar_id;
     JLabel colorLabel;
     JLabel descrLabel;
     JTextArea descr;
@@ -93,6 +95,11 @@ public class CalendarWindow extends JFrame {
         name.setLocation(500,10);
         name.setSize(300,20);
 
+        calendar_id = new JComboBox<>();
+        calendar_id.setLocation(500,0);
+        calendar_id.setSize(300,20);
+        calendar_id.addItem("None");
+
         locationLabel = new JLabel("Location: ");
         locationLabel.setLocation(410,110);
         locationLabel.setSize(50,20);
@@ -159,12 +166,21 @@ public class CalendarWindow extends JFrame {
         cp.add(endMin);
         cp.add(endHour);
         cp.add(separator2);
+        cp.add(calendar_id);
 
 
 
 
     }
 
+
+    public void populateCalendars(CalendarCollection list){
+        ArrayList<String> idlist = list.getIds();
+        for (String id:idlist
+             ) {
+            calendar_id.addItem(id);
+        }
+    }
 
     public void setSelectedStartDate(java.sql.Date newDate){
 
