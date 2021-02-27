@@ -160,9 +160,13 @@ public class Database {
         } catch (SQLException exc) {
             exc.printStackTrace();
         }
-        Timestamp ts=new Timestamp(e.getStartDate().getMillisecond());
-        Timestamp te=new Timestamp(e.getEndDate().getMillisecond());
-        String sql = "INSERT INTO EVENTS(ID,NAME,START,END,LOCATION,COLOR,DESCRIPTION)" +
+        DateTime start = e.getStartDate();
+        DateTime end = e.getEndDate();
+        int y = start.getYear();
+        int x = start.getMonth();
+        Timestamp ts=new Timestamp(start.getYear()-1900,start.getMonth()-1,start.getDay(),start.getHour(),start.getMinute(),0,0);
+        Timestamp te=new Timestamp(end.getYear()-1900,end.getMonth()-1,end.getDay(),end.getHour(),end.getMinute(),0,0);
+        String sql = "INSERT INTO EVENTS(ID,NAME,START_DATE,END_DATE,LOCATION,COLOR,DESCRIPTION)" +
                 "VALUES('"+e.getName()+"_ID','"+e.getName()+"','"+ts+"','"+te+"','"+e.getLocation()+"',0,'"+e.getDescription()+"');";
                 //uid troppo lungo, l'ho rimpiazzato con un'altro valore
                 //date sarà un problema poi riprenderlo dal database in formato Java
