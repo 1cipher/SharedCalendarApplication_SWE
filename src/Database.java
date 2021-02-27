@@ -1,5 +1,6 @@
 
 import com.mindfusion.common.DateTime;
+import
 
 import java.sql.*;
 
@@ -23,7 +24,7 @@ public class Database {
         try {
             c = DriverManager
                     .getConnection("jdbc:postgresql://localhost:5432/CalendarApplication",
-                            "postgres", "accendino99");
+                            "postgres", Private.password);
         } catch (SQLException e) {
             e.printStackTrace();
         }
