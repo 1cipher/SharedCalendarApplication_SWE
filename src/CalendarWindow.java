@@ -6,18 +6,15 @@ import com.mindfusion.scheduling.ThemeType;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class CalendarWindow extends JFrame {
 
-    Calendar calendar;
+    Calendar cal;
     JTextField startDate;
-    JTextField startHour;
-    JTextField startMin;
     JTextField endDate;
-    JTextField endHour;
-    JTextField endMin;
-    JLabel separator1;
-    JLabel separator2;
     JLabel startDateLabel;
     JLabel endDateLabel;
     JLabel nameLabel;
@@ -30,6 +27,8 @@ public class CalendarWindow extends JFrame {
     JTextArea descr;
     JButton createEvent;
     JLabel isEventCreated;
+    JComboBox<String> startHour;
+    JComboBox<String> endHour;
 
 
     public CalendarWindow(){
@@ -40,10 +39,10 @@ public class CalendarWindow extends JFrame {
         Container cp = getContentPane();
         cp.setLayout(null);
 
-        calendar = new Calendar();
-        calendar.setLocation(0,0);
-        calendar.setSize(400,200);
-        calendar.setTheme(ThemeType.Light);
+        cal = new Calendar();
+        cal.setLocation(0,0);
+        cal.setSize(400,200);
+        cal.setTheme(ThemeType.Light);
 
         startDateLabel = new JLabel("Start Date: ");
         startDateLabel.setLocation(410,40);
@@ -53,17 +52,15 @@ public class CalendarWindow extends JFrame {
         startDate.setLocation(500,40);
         startDate.setSize(100,20);
 
-        startHour = new JTextField();
+
+
+        startHour = new JComboBox<>(createModel());
         startHour.setLocation(610,40);
-        startHour.setSize(50,20);
+        startHour.setSize(100,20);
 
-        separator1 = new JLabel(":");
-        separator1.setLocation(665,40);
-        separator1.setSize(10,20);
-
-        startMin = new JTextField();
-        startMin.setLocation(675,40);
-        startMin.setSize(50,20);
+        endHour = new JComboBox<>(createModel());
+        endHour.setLocation(610,70);
+        endHour.setSize(100,20);
 
         endDateLabel = new JLabel("End Date: ");
         endDateLabel.setLocation(410,70);
@@ -73,17 +70,6 @@ public class CalendarWindow extends JFrame {
         endDate.setLocation(500,70);
         endDate.setSize(100,20);
 
-        endHour = new JTextField();
-        endHour.setLocation(610,70);
-        endHour.setSize(50,20);
-
-        separator2 = new JLabel(":");
-        separator2.setLocation(665,70);
-        separator2.setSize(10,20);
-
-        endMin = new JTextField();
-        endMin.setLocation(675,70);
-        endMin.setSize(50,20);
 
         nameLabel = new JLabel("Name: ");
         nameLabel.setLocation(410,10);
@@ -130,15 +116,8 @@ public class CalendarWindow extends JFrame {
         isEventCreated.setSize(150,20);
         isEventCreated.setVisible(false);
 
-        startHour.setText("10");
-        startMin.setText("00");
-        endHour.setText("11");
-        endMin.setText("30");
-        name.setText("jesoo");
-        location.setText("casina");
 
-
-        cp.add(calendar);
+        cp.add(cal);
         cp.add(startDateLabel);
         cp.add(startDate);
         cp.add(name);
@@ -151,18 +130,34 @@ public class CalendarWindow extends JFrame {
         cp.add(color);
         cp.add(createEvent);
         cp.add(isEventCreated);
-        cp.add(startHour);
-        cp.add(startMin);
-        cp.add(separator1);
         cp.add(endDate);
         cp.add(endDateLabel);
-        cp.add(endMin);
+        cp.add(startHour);
         cp.add(endHour);
-        cp.add(separator2);
 
 
 
 
+
+    }
+
+    public DefaultComboBoxModel<String> createModel(){
+
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        calendar.set(java.util.Calendar.MINUTE, 0);
+
+        java.util.Calendar end = java.util.Calendar.getInstance();
+        end.set(java.util.Calendar.HOUR_OF_DAY, 23);
+        end.set(java.util.Calendar.MINUTE, 59);
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        do {
+            DateFormat format = new SimpleDateFormat("HH:mm");
+            model.addElement(format.format(calendar.getTime()));
+            calendar.add(java.util.Calendar.MINUTE, 15);
+        } while (calendar.getTime().before(end.getTime()));
+
+        return model;
     }
 
 
@@ -188,7 +183,7 @@ public class CalendarWindow extends JFrame {
 
     public void addCalendarPressListener(MouseListener calendarPressedListener){
 
-        this.calendar.addMouseListener(calendarPressedListener);
+        this.cal.addMouseListener(calendarPressedListener);
     }
 
 
