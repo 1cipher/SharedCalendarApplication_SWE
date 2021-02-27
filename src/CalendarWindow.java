@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 public class CalendarWindow extends JFrame {
 
@@ -141,10 +141,6 @@ public class CalendarWindow extends JFrame {
         cp.add(startHour);
         cp.add(endHour);
         cp.add(calendar_id);
-
-
-
-
 
     }
 

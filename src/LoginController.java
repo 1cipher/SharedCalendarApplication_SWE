@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,6 +44,7 @@ public class LoginController {
                     regView.setVisible(false);
                     User user = new User(acquiredUser);
                     model.setCurrentUser(user);
+
                 }
                 else
                     logView.showDeniedAccess();
