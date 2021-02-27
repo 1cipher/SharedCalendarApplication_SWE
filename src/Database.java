@@ -154,7 +154,7 @@ public class Database {
 
     }
 
-    public void addEventinEvents(Event e) {
+    public void addEventinEvents(Event e, String calendar_id) {
 
         try {
             stmt = c.createStatement();
@@ -167,13 +167,26 @@ public class Database {
         Timestamp te=new Timestamp(end.getYear(),end.getMonth()-1,end.getDay()+1,end.getHour(),end.getMinute(),0,0);
         String sql = "INSERT INTO EVENTS(ID,NAME,START_DATE,END_DATE,LOCATION,COLOR,DESCRIPTION)" +
                 "VALUES('"+e.getId()+"','"+e.getName()+"','"+ts+"','"+te+"','"+e.getLocation()+"',0,'"+e.getDescription()+"');";
-
         System.out.println(sql);
         try {
             stmt.executeUpdate(sql);
         } catch (SQLException exc) {
             exc.printStackTrace();
         }
+        try {
+            stmt = c.createStatement();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        }
+        sql = "INSERT INTO CALENDAREVENTS(CALENDAR,EVENT)" +
+                "VALUES('"+calendar_id+"','"+e.getId()+"');";
+        System.out.println(sql);
+        try {
+            stmt.executeUpdate(sql);
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        }
+
 
     }
 

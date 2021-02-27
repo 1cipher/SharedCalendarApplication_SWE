@@ -145,14 +145,11 @@ public class MWController {
             }
 
             Event event = new Event(uid,name,startDate,endDate,location);
-            model.addEventinEvents(event);
+            model.addEventinEvents(event,cwView.getCurrentCalendar());
             Item appointment = new Appointment();
-            appointment.setStartTime(startDate);
-            appointment.setEndTime(endDate);
+            appointment.setStartTime(new DateTime(calendar1.get(Calendar.YEAR),calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH),11,00,00));
+            appointment.setEndTime(new DateTime(calendar2.get(Calendar.YEAR),calendar2.get(Calendar.MONTH)+1,calendar2.get(Calendar.DAY_OF_MONTH),12,0,00));
             mwView.calendar.getSchedule().getItems().add(appointment);
-            mwView.calendar.repaint();
-
-
 
 
         }

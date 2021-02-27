@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Date;
 
 public class CalendarWindow extends JFrame {
 
@@ -58,6 +58,7 @@ public class CalendarWindow extends JFrame {
         startDate = new JTextField();
         startDate.setLocation(500,40);
         startDate.setSize(100,20);
+
 
 
         startHour = new JComboBox<>(createModel());
@@ -195,6 +196,10 @@ public class CalendarWindow extends JFrame {
         ) {
             calendar_id.addItem(id);
         }
+    }
+
+    public String getCurrentCalendar(){
+        return (String) calendar_id.getSelectedItem();
     }
 
 
