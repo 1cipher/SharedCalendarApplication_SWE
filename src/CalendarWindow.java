@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class CalendarWindow extends JFrame {
@@ -29,6 +30,7 @@ public class CalendarWindow extends JFrame {
     JLabel isEventCreated;
     JComboBox<String> startHour;
     JComboBox<String> endHour;
+    JComboBox<String> calendar_id;
 
 
     public CalendarWindow(){
@@ -44,6 +46,11 @@ public class CalendarWindow extends JFrame {
         cal.setSize(400,200);
         cal.setTheme(ThemeType.Light);
 
+        calendar_id = new JComboBox<>();
+        calendar_id.setLocation(500,0);
+        calendar_id.setSize(300,20);
+        calendar_id.addItem("None");
+
         startDateLabel = new JLabel("Start Date: ");
         startDateLabel.setLocation(410,40);
         startDateLabel.setSize(50,20);
@@ -51,7 +58,6 @@ public class CalendarWindow extends JFrame {
         startDate = new JTextField();
         startDate.setLocation(500,40);
         startDate.setSize(100,20);
-
 
 
         startHour = new JComboBox<>(createModel());
@@ -134,6 +140,7 @@ public class CalendarWindow extends JFrame {
         cp.add(endDateLabel);
         cp.add(startHour);
         cp.add(endHour);
+        cp.add(calendar_id);
 
 
 
@@ -184,6 +191,14 @@ public class CalendarWindow extends JFrame {
     public void addCalendarPressListener(MouseListener calendarPressedListener){
 
         this.cal.addMouseListener(calendarPressedListener);
+    }
+
+    public void populateCalendars(CalendarCollection list){
+        ArrayList<String> idlist = list.getIds();
+        for (String id:idlist
+        ) {
+            calendar_id.addItem(id);
+        }
     }
 
 
