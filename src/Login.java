@@ -12,7 +12,6 @@ public class Login extends JFrame {
     JTextField textUser;
     JTextField textPassword;
     JButton register;
-    JLabel accessDenied;
     JButton log;
 
     public Login(){
@@ -52,16 +51,6 @@ public class Login extends JFrame {
         register.setSize(120,30);
         cp.add(register);
 
-
-        accessDenied = new JLabel();
-        accessDenied.setText("Access Denied");
-        accessDenied.setForeground(Color.red);
-        accessDenied.setLocation(123,90);
-        accessDenied.setSize(200,30);
-        accessDenied.setVisible(false);
-        cp.add(accessDenied);
-
-
         log = new JButton();
         log.setText("Login");
         log.setLocation(20,60);
@@ -80,10 +69,6 @@ public class Login extends JFrame {
         return textPassword.getText();
     }
 
-    public void showDeniedAccess(){
-
-        accessDenied.setVisible(true);
-    }
 
     void addLoginListener(ActionListener loginListener){
 

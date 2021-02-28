@@ -14,6 +14,7 @@ public class LoginController {
     Register regView;
     MainWindow mainView;
     Database model;
+    Dialog dialog = null;
 
     public LoginController(Login lview, Database model, Register rview, MainWindow mview) {
         this.logView = lview;
@@ -45,13 +46,30 @@ public class LoginController {
                     User user = new User(acquiredUser);
                     model.setCurrentUser(user);
                     mainView.loadView(model.getCurrentUserCalendars());
+                    dialog = new Dialog.Builder().setDialogTitle("LoginSuccessful!")
+                            .setColor(Color.green)
+                            .setLabel("You are logged in!")
+                            .build();
+                    dialog.setVisible(true);
+
+
+
                 }
-                else
-                    logView.showDeniedAccess();
+                else{
+                    dialog = new Dialog.Builder().setDialogTitle("Access denied")
+                            .setLabel("Your username or password is wrong")
+                            .setColor(Color.red)
+                            .build();
+                    dialog.setVisible(true);
+                }
+
 
             } catch (SQLException ex) {
-
-                logView.showDeniedAccess();
+                dialog = new Dialog.Builder().setDialogTitle("Access denied")
+                        .setLabel("Your username or password is wrong")
+                        .setColor(Color.red)
+                        .build();
+                dialog.setVisible(true);
             }
 
 
@@ -80,24 +98,38 @@ public class LoginController {
             String newPassword = regView.getPassword();
 
             if (newUser.length()==0 || newPassword.length() == 0) {
-                regView.multifunctionalLabel.setForeground(Color.red);
-                regView.multifunctionalLabel.setText("Null values are not valid!");
+
+                dialog = new Dialog.Builder().setDialogTitle("Register Problem")
+                        .setLabel("Username or password fields are empty")
+                        .setColor(Color.red)
+                        .build();
+                dialog.setVisible(true);
             }
 
             else if (model.isExistingUsername(newUser)) {
-                regView.multifunctionalLabel.setForeground(Color.red);
-                regView.multifunctionalLabel.setText("Username already present!");
+
+                dialog = new Dialog.Builder().setDialogTitle("Register Problem")
+                        .setLabel("Username already present")
+                        .setColor(Color.red)
+                        .build();
+                dialog.setVisible(true);
             }
 
             else{
+
                 model.registerNewUser(newUser,newPassword);
-                regView.multifunctionalLabel.setForeground(Color.green);
-                regView.multifunctionalLabel.setText("Congrats,you've been registered!");
+                dialog = new Dialog.Builder().setDialogTitle("Successfull sign up!")
+                        .setLabel("You are being registered on our system!")
+                        .setColor(Color.green)
+                        .build();
+                dialog.setVisible(true);
             }
 
 
         }
     }
+
+
 
 
 }

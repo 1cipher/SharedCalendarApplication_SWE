@@ -3,13 +3,10 @@ import com.mindfusion.scheduling.*;
 import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.model.Appointment;
 import com.mindfusion.scheduling.model.Item;
-import com.mindfusion.scheduling.standardforms.AppointmentForm;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.util.ArrayList;
 
@@ -24,6 +21,7 @@ public class MainWindow extends JFrame {
     JTextField searchBox;
     JComboBox<String> menu;
     JCheckBox deleteSelector;
+
 
 
     public MainWindow() {
