@@ -14,6 +14,10 @@ public class Database {
 
     }
 
+    public User getCurrentUser(){
+        return currentUser;
+    }
+
     public void createConnection() {
 
         try {
@@ -216,6 +220,26 @@ public class Database {
         }
     }
 
+    public void CreateCalendar(Calendar calendar){
+        try {
+            stmt = c.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        String sql = "INSERT INTO CALENDAR(ID,NAME,OWNER)" +
+                "VALUES('"+calendar.getId()+"','"+calendar.getName()+"','"+currentUser.getUsername()+"');" +
+                "INSERT INTO PARTICIPATION(UID,CALENDARID,TYPE)" +
+                "VALUES('"+currentUser.getUsername()+"','"+calendar.getId()+"',0)";
+
+        try {
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
+
+
 
 

@@ -14,6 +14,10 @@ public class Calendar {
         this.name = name;
     }
 
+    public String getName(){
+        return name;
+    }
+
     public void addtoCalendar(Event e) throws SQLException {
         newBuffer.add(e);
     }

@@ -13,7 +13,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Calendar;
 
 public class MWController {
 
@@ -162,13 +161,13 @@ public class MWController {
                 ex.printStackTrace();
             }
 
-            Calendar calendar1 = new GregorianCalendar();
+            java.util.Calendar calendar1 = new GregorianCalendar();
             calendar1.setTime(date1);
-            Calendar calendar2 = new GregorianCalendar();
+            java.util.Calendar calendar2 = new GregorianCalendar();
             calendar2.setTime(date2);
 
-            DateTime startDate = new DateTime(calendar1.get(Calendar.YEAR)-1900,calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH),Integer.parseInt(startHour.substring(0,2)),Integer.parseInt(startHour.substring(3,5)),0);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
-            DateTime endDate = new DateTime(calendar2.get(Calendar.YEAR)-1900,calendar2.get(Calendar.MONTH)+1,calendar2.get(Calendar.DAY_OF_MONTH),Integer.parseInt(endHour.substring(0,2)),Integer.parseInt(endHour.substring(3,5)),0); //TODO:COLLEZIONARE GLI ORARI DAI RISPETTIVI TEXTFIELD
+            DateTime startDate = new DateTime(calendar1.get(java.util.Calendar.YEAR)-1900,calendar1.get(java.util.Calendar.MONTH)+1,calendar1.get(java.util.Calendar.DAY_OF_MONTH),Integer.parseInt(startHour.substring(0,2)),Integer.parseInt(startHour.substring(3,5)),0);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
+            DateTime endDate = new DateTime(calendar2.get(java.util.Calendar.YEAR)-1900,calendar2.get(java.util.Calendar.MONTH)+1,calendar2.get(java.util.Calendar.DAY_OF_MONTH),Integer.parseInt(endHour.substring(0,2)),Integer.parseInt(endHour.substring(3,5)),0); //TODO:COLLEZIONARE GLI ORARI DAI RISPETTIVI TEXTFIELD
             if(!name.isEmpty() && !uid.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
                 dialog = new Dialog.Builder().setColor(Color.green).setLabel("Event Created!").setDialogTitle("Event").build();
                 dialog.setVisible(true);
@@ -183,8 +182,8 @@ public class MWController {
             Event event = new Event(uid,name,startDate,endDate,location);
             model.addEventinEvents(event,cwView.getCurrentCalendar().getId());
             Item appointment = new Appointment();
-            appointment.setStartTime(new DateTime(calendar1.get(Calendar.YEAR),calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH),Integer.parseInt(startHour.substring(0,2)),Integer.parseInt(startHour.substring(3,5)),00));
-            appointment.setEndTime(new DateTime(calendar2.get(Calendar.YEAR),calendar2.get(Calendar.MONTH)+1,calendar2.get(Calendar.DAY_OF_MONTH),Integer.parseInt(endHour.substring(0,2)),Integer.parseInt(endHour.substring(3,5)),00));
+            appointment.setStartTime(new DateTime(calendar1.get(java.util.Calendar.YEAR),calendar1.get(java.util.Calendar.MONTH)+1,calendar1.get(java.util.Calendar.DAY_OF_MONTH),Integer.parseInt(startHour.substring(0,2)),Integer.parseInt(startHour.substring(3,5)),00));
+            appointment.setEndTime(new DateTime(calendar2.get(java.util.Calendar.YEAR),calendar2.get(java.util.Calendar.MONTH)+1,calendar2.get(java.util.Calendar.DAY_OF_MONTH),Integer.parseInt(endHour.substring(0,2)),Integer.parseInt(endHour.substring(3,5)),00));
             appointment.setHeaderText(name);
             mwView.calendar.getSchedule().getItems().add(appointment); //TODO: LOADVIEW?
             cwView.setVisible(false);
@@ -205,7 +204,7 @@ public class MWController {
 
                 DateTime pointedDate = cwView.cal.getDateAt(e.getX(), e.getY());
 
-                Calendar cal = Calendar.getInstance();
+                java.util.Calendar cal = java.util.Calendar.getInstance();
                 cal.set(pointedDate.getYear(), pointedDate.getMonth() - 1, pointedDate.getDay());
                 Date utilDate = cal.getTime();
                 java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -224,7 +223,7 @@ public class MWController {
 
             DateTime pointedDate = cwView.cal.getDateAt(e.getX(), e.getY());
 
-            Calendar cal = Calendar.getInstance();
+            java.util.Calendar cal = java.util.Calendar.getInstance();
             cal.set(pointedDate.getYear(), pointedDate.getMonth() - 1, pointedDate.getDay());
             Date utilDate = cal.getTime();
             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -240,7 +239,7 @@ public class MWController {
 
             DateTime pointedDate = cwView.cal.getDateAt(e.getX(), e.getY());
 
-            Calendar cal = Calendar.getInstance();
+            java.util.Calendar cal = java.util.Calendar.getInstance();
             cal.set(pointedDate.getYear(), pointedDate.getMonth() - 1, pointedDate.getDay());
             Date utilDate = cal.getTime();
             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -431,10 +430,13 @@ public class MWController {
 
     class createCalendarListener implements ActionListener{
 
-
         @Override
         public void actionPerformed(ActionEvent e) {
-            //TODO: CODICE PER LA CREAZIONE DEL CALENDARIO
+            String cid = java.util.UUID.randomUUID().toString().substring(0,19);
+            CreateCalendarWindow cw = (CreateCalendarWindow)e.getSource();
+            Calendar newCalendar=new Calendar(model.getCurrentUser(),cid, cw.getName());
+            model.CreateCalendar(newCalendar);
+            model.getCurrentUserCalendars().addCalendarToCollection(newCalendar);
         }
     }
 

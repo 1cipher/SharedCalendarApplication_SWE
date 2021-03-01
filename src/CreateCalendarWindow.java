@@ -31,6 +31,10 @@ public class CreateCalendarWindow extends JFrame {
         createCalendar.setSize(100,20);
     }
 
+    public String getName(){
+        return calendarText.getText();
+    }
+
     public void addCreateCalendarListener(ActionListener createCalendarListener){
 
         this.createCalendar.addActionListener(createCalendarListener);
