@@ -18,7 +18,7 @@ public class Main {
                      Database db = new Database();
                      db.createConnection();
 
-                     MWController mwc = new MWController(mw,cw,log,reg,db);
+                     MWController mwc = new MWController(log,db);
 
                  }catch (Exception e){
                      e.printStackTrace();

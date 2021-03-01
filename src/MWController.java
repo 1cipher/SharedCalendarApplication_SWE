@@ -23,30 +23,23 @@ public class MWController {
     Dialog dialog;
     Login logView;
     Register regView;
+    EventDisplayWindow eventView;
+    CreateCalendarWindow createCalendarWindow;
 
 
-    public MWController(MainWindow mw, CalendarWindow cw, Login lview, Register rview, Database db) {
+    public MWController(Login lview, Database db) {
 
-        this.mwView = mw;
-        this.cwView = cw;
         this.model = db;
-
-        this.mwView.addChangeViewListener(new changeViewListener());
-        this.mwView.addAddEventListener(new addEventListener());
-        this.mwView.addSearchListener(new searchListener());
-        this.cwView.addCreateEventListener(new createEventListener());
-        this.cwView.addCalendarPressListener(new calendarPressedListener());
-        this.mwView.addMainCalendarListener(new mainCalendarAdapter());
-        this.mwView.addLogoutListener(new logoutListener());
-
         this.logView = lview;
-        this.regView = rview;
-
         this.logView.addLoginListener(new LoginListener());
         this.logView.addRegisterListener(new RegisterListener());
 
-        this.regView.addListener(new RegViewListener());
 
+    }
+
+    public void attachCreateCalendarWindow(){
+
+        this.createCalendarWindow.addCreateCalendarListener(new createCalendarListener());
     }
 
     public void attachMainWindow(){
@@ -192,6 +185,7 @@ public class MWController {
             Item appointment = new Appointment();
             appointment.setStartTime(new DateTime(calendar1.get(Calendar.YEAR),calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH),Integer.parseInt(startHour.substring(0,2)),Integer.parseInt(startHour.substring(3,5)),00));
             appointment.setEndTime(new DateTime(calendar2.get(Calendar.YEAR),calendar2.get(Calendar.MONTH)+1,calendar2.get(Calendar.DAY_OF_MONTH),Integer.parseInt(endHour.substring(0,2)),Integer.parseInt(endHour.substring(3,5)),00));
+            appointment.setHeaderText(name);
             mwView.calendar.getSchedule().getItems().add(appointment); //TODO: LOADVIEW?
             cwView.setVisible(false);
             cwView.dispose();
@@ -276,10 +270,11 @@ public class MWController {
 
         public void itemClick(ItemMouseEvent e){
 
-            if(mwView.deleteSelector.isSelected()){
-                mwView.calendar.getSelection().reset();
-                mwView.calendar.getSchedule().getItems().remove(e.getItem());
-            }
+            eventView = new EventDisplayWindow();
+            eventView.setVisible(true);
+            //mwView.calendar.getSelection().reset();
+            //mwView.calendar.getSchedule().getItems().remove(e.getItem());
+
         }
     }
 
@@ -322,10 +317,14 @@ public class MWController {
                     mwView = new MainWindow();
                     mwView.setVisible(true);
                     attachMainWindow();
+                    if(regView != null){
+
+                        regView.setVisible(false);
+                        regView.dispose();
+                    }
                     logView.setVisible(false);
-                    regView.setVisible(false);
                     logView.dispose();
-                    regView.dispose();
+
                     User user = new User(acquiredUser);
                     model.setCurrentUser(user);
                     loadView(model.getCurrentUserCalendars());
@@ -368,6 +367,7 @@ public class MWController {
                 DateTime end = event.getEndDate();
                 appointment.setStartTime(new DateTime(start.getYear(), start.getMonth(), start.getDay(), start.getHour(), start.getMinute(), 0));
                 appointment.setEndTime(new DateTime(end.getYear(), end.getMonth(),end.getDay(),end.getHour(),end.getMinute(),0));
+                appointment.setHeaderText(event.getName());
                 mwView.calendar.getSchedule().getItems().add(appointment);
             }
         }
@@ -426,6 +426,15 @@ public class MWController {
             }
 
 
+        }
+    }
+
+    class createCalendarListener implements ActionListener{
+
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //TODO: CODICE PER LA CREAZIONE DEL CALENDARIO
         }
     }
 
