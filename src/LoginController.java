@@ -124,7 +124,7 @@ public class LoginController {
 
                 model.registerNewUser(newUser,newPassword);
                 dialog = new Dialog.Builder().setDialogTitle("Successfull sign up!")
-                        .setLabel("You are being registered on our system!")
+                        .setLabel("You have been registered on our system!")
                         .setColor(Color.green)
                         .build();
                 dialog.setVisible(true);

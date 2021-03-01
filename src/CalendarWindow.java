@@ -27,7 +27,6 @@ public class CalendarWindow extends JFrame {
     JLabel descrLabel;
     JTextArea descr;
     JButton createEvent;
-    JLabel isEventCreated;
     JComboBox<String> startHour;
     JComboBox<String> endHour;
     JComboBox<String> calendar_id;
@@ -118,12 +117,6 @@ public class CalendarWindow extends JFrame {
         createEvent.setLocation(700,200);
         createEvent.setSize(150,20);
 
-        isEventCreated = new JLabel("");
-        isEventCreated.setLocation(700,230);
-        isEventCreated.setSize(150,20);
-        isEventCreated.setVisible(false);
-
-
         cp.add(cal);
         cp.add(startDateLabel);
         cp.add(startDate);
@@ -136,7 +129,6 @@ public class CalendarWindow extends JFrame {
         cp.add(colorLabel);
         cp.add(color);
         cp.add(createEvent);
-        cp.add(isEventCreated);
         cp.add(endDate);
         cp.add(endDateLabel);
         cp.add(startHour);

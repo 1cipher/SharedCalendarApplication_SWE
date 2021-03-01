@@ -21,6 +21,7 @@ public class MWController {
     MainWindow mwView;
     CalendarWindow cwView;
     Database model;
+    Dialog dialog;
 
 
     public MWController(MainWindow mw, CalendarWindow cw, Database db) {
@@ -72,7 +73,12 @@ public class MWController {
                 mwView.calendar.setDate(dt);
             }
             else{
-                mwView.searchBox.setText("Not Found");
+                dialog = new Dialog.Builder().setDialogTitle("Register Problem")
+                        .setLabel("Username already present")
+                        .setColor(Color.red)
+                        .build();
+                dialog.setVisible(true);
+                dialog.addDialogListener(new dialogListener());
             }
 
 
@@ -125,8 +131,6 @@ public class MWController {
                 ex.printStackTrace();
             }
 
-            //TODO: AGGIUSTARE FORMAT DELL'ORA
-
             Calendar calendar1 = new GregorianCalendar();
             calendar1.setTime(date1);
             Calendar calendar2 = new GregorianCalendar();
@@ -135,14 +139,14 @@ public class MWController {
             DateTime startDate = new DateTime(calendar1.get(Calendar.YEAR)-1900,calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH)-1,Integer.parseInt(startHour.substring(0,2)),Integer.parseInt(startHour.substring(3,5)),0);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
             DateTime endDate = new DateTime(calendar2.get(Calendar.YEAR)-1900,calendar2.get(Calendar.MONTH)+1,calendar2.get(Calendar.DAY_OF_MONTH)-1,Integer.parseInt(endHour.substring(0,2)),Integer.parseInt(endHour.substring(3,5)),0); //TODO:COLLEZIONARE GLI ORARI DAI RISPETTIVI TEXTFIELD
             if(!name.isEmpty() && !uid.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
-                cwView.isEventCreated.setVisible(true);
-                cwView.isEventCreated.setText("Event created");
-                cwView.isEventCreated.setForeground(Color.green);
+                dialog = new Dialog.Builder().setColor(Color.green).setLabel("Event Created!").setDialogTitle("Event").build();
+                dialog.setVisible(true);
+                dialog.addDialogListener(new dialogListener());
             }
             else{
-                cwView.isEventCreated.setVisible(true);
-                cwView.isEventCreated.setForeground(Color.red);
-                cwView.isEventCreated.setText("Missing datas");
+                dialog = new Dialog.Builder().setColor(Color.red).setLabel("Check null values").setDialogTitle("Event").build();
+                dialog.setVisible(true);
+                dialog.addDialogListener(new dialogListener());
             }
 
             Event event = new Event(uid,name,startDate,endDate,location);
@@ -150,7 +154,7 @@ public class MWController {
             Item appointment = new Appointment();
             appointment.setStartTime(new DateTime(calendar1.get(Calendar.YEAR),calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH),Integer.parseInt(startHour.substring(0,2)),Integer.parseInt(startHour.substring(3,5)),00));
             appointment.setEndTime(new DateTime(calendar2.get(Calendar.YEAR),calendar2.get(Calendar.MONTH)+1,calendar2.get(Calendar.DAY_OF_MONTH),Integer.parseInt(endHour.substring(0,2)),Integer.parseInt(endHour.substring(3,5)),00));
-            mwView.calendar.getSchedule().getItems().add(appointment);
+            mwView.calendar.getSchedule().getItems().add(appointment); //TODO: LOADVIEW?
 
 
         }
@@ -247,6 +251,16 @@ public class MWController {
             mwView.setVisible(false);
             Main.log.setVisible(true);
 
+        }
+    }
+
+    class dialogListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            dialog.setVisible(false);
+            dialog.dispose();
         }
     }
 
