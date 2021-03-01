@@ -19,6 +19,7 @@ public class CalendarWindow extends JFrame {
     JLabel startDateLabel;
     JLabel endDateLabel;
     JLabel nameLabel;
+    JLabel calendarLabel;
     JTextField name;
     JLabel locationLabel;
     JTextField location;
@@ -46,8 +47,8 @@ public class CalendarWindow extends JFrame {
         cal.setTheme(ThemeType.Light);
 
         calendar_id = new JComboBox<>();
-        calendar_id.setLocation(500,0);
-        calendar_id.setSize(300,20);
+        calendar_id.setLocation(500,230);
+        calendar_id.setSize(150,20);
         calendar_id.addItem("None");
 
         startDateLabel = new JLabel("Start Date: ");
@@ -105,6 +106,10 @@ public class CalendarWindow extends JFrame {
         colorLabel.setLocation(410,200);
         colorLabel.setSize(50,20);
 
+        calendarLabel = new JLabel("Calendar: ");
+        calendarLabel.setLocation(410,230);
+        calendarLabel.setSize(50,20);
+
         color = new JComboBox<String>();
         color.setLocation(500,200);
         color.setSize(100,20);
@@ -134,6 +139,7 @@ public class CalendarWindow extends JFrame {
         cp.add(startHour);
         cp.add(endHour);
         cp.add(calendar_id);
+        cp.add(calendarLabel);
 
     }
 

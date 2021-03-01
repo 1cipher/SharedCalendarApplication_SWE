@@ -136,8 +136,8 @@ public class MWController {
             Calendar calendar2 = new GregorianCalendar();
             calendar2.setTime(date2);
 
-            DateTime startDate = new DateTime(calendar1.get(Calendar.YEAR)-1900,calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH)-1,Integer.parseInt(startHour.substring(0,2)),Integer.parseInt(startHour.substring(3,5)),0);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
-            DateTime endDate = new DateTime(calendar2.get(Calendar.YEAR)-1900,calendar2.get(Calendar.MONTH)+1,calendar2.get(Calendar.DAY_OF_MONTH)-1,Integer.parseInt(endHour.substring(0,2)),Integer.parseInt(endHour.substring(3,5)),0); //TODO:COLLEZIONARE GLI ORARI DAI RISPETTIVI TEXTFIELD
+            DateTime startDate = new DateTime(calendar1.get(Calendar.YEAR)-1900,calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH),Integer.parseInt(startHour.substring(0,2)),Integer.parseInt(startHour.substring(3,5)),0);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
+            DateTime endDate = new DateTime(calendar2.get(Calendar.YEAR)-1900,calendar2.get(Calendar.MONTH)+1,calendar2.get(Calendar.DAY_OF_MONTH),Integer.parseInt(endHour.substring(0,2)),Integer.parseInt(endHour.substring(3,5)),0); //TODO:COLLEZIONARE GLI ORARI DAI RISPETTIVI TEXTFIELD
             if(!name.isEmpty() && !uid.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
                 dialog = new Dialog.Builder().setColor(Color.green).setLabel("Event Created!").setDialogTitle("Event").build();
                 dialog.setVisible(true);
