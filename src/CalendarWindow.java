@@ -85,6 +85,7 @@ public class CalendarWindow extends JFrame {
         name = new JTextField();
         name.setLocation(500,10);
         name.setSize(300,20);
+        name.setText("Merenda nonna");
 
         locationLabel = new JLabel("Location: ");
         locationLabel.setLocation(410,110);
@@ -93,6 +94,7 @@ public class CalendarWindow extends JFrame {
         location = new JTextField();
         location.setLocation(500,110);
         location.setSize(300,20);
+        location.setText("Casa nonna");
 
         descrLabel = new JLabel("Description: ");
         descrLabel.setLocation(410,140);
@@ -101,6 +103,7 @@ public class CalendarWindow extends JFrame {
         descr = new JTextArea();
         descr.setLocation(500,140);
         descr.setSize(300,50);
+        descr.setText("Sarà deliziosa!");
 
         colorLabel = new JLabel("Colour: ");
         colorLabel.setLocation(410,200);
