@@ -48,6 +48,7 @@ public class CalendarWindow extends JFrame {
         calendar_id = new JComboBox<>();
         calendar_id.setLocation(500,230);
         calendar_id.setSize(150,20);
+        calendar_id.setRenderer(new CustomRenderer());
 
         startDateLabel = new JLabel("Start Date: ");
         startDateLabel.setLocation(410,40);
@@ -56,8 +57,6 @@ public class CalendarWindow extends JFrame {
         startDate = new JTextField();
         startDate.setLocation(500,40);
         startDate.setSize(100,20);
-
-
 
         startHour = new JComboBox<>(createModel());
         startHour.setLocation(610,40);
@@ -190,8 +189,6 @@ public class CalendarWindow extends JFrame {
     }
 
     public void populateCalendars(CalendarCollection list){
-        //TODO: non va proprio benissimo
-        calendar_id.removeAllItems();
         ArrayList<Calendar> calendars_list = list.getCalendars();
         for (Calendar calendar:
         calendars_list) {
