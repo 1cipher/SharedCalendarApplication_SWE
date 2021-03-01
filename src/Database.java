@@ -189,43 +189,32 @@ public class Database {
 
     }
 
-    public void addToCalendar(String id,String name, String owner){
-
+    public void deleteEvent(Event e){
         try {
             stmt = c.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
         }
-
-        String sql = "INSERT INTO CALENDAR(ID,NAME,OWNER)" +
-                "VALUES('"+id+"','"+name+"','"+owner+"');";
-
+        String sql = "DELETE FROM EVENTS WHERE ID='"+e.getId()+"';";
+        System.out.println(sql);
         try {
             stmt.executeUpdate(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
         }
-    }
-
-    public void addToCalendarEvents(String calendar, String event){
-
         try {
             stmt = c.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
         }
-
-        String sql = "INSERT INTO CALENDAREVENTS(CALENDAR,EVENT)" +
-                "VALUES('"+calendar+"','"+event+"');";
-
+        sql = "DELETE FROM CALENDAREVENTS WHERE EVENT='"+e.getId()+"';";
+        System.out.println(sql);
         try {
             stmt.executeUpdate(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
         }
     }
-
-    
 
 }
 
