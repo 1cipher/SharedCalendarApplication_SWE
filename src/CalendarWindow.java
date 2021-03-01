@@ -1,6 +1,5 @@
 import javax.swing.*;
 
-import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.ThemeType;
 
 import java.awt.*;
@@ -13,7 +12,7 @@ import java.util.Date;
 
 public class CalendarWindow extends JFrame {
 
-    Calendar cal;
+    com.mindfusion.scheduling.Calendar cal;
     JTextField startDate;
     JTextField endDate;
     JLabel startDateLabel;
@@ -30,7 +29,7 @@ public class CalendarWindow extends JFrame {
     JButton createEvent;
     JComboBox<String> startHour;
     JComboBox<String> endHour;
-    JComboBox<String> calendar_id;
+    JComboBox<Calendar> calendar_id;
 
 
     public CalendarWindow(){
@@ -41,7 +40,7 @@ public class CalendarWindow extends JFrame {
         Container cp = getContentPane();
         cp.setLayout(null);
 
-        cal = new Calendar();
+        cal = new com.mindfusion.scheduling.Calendar();
         cal.setLocation(0,0);
         cal.setSize(400,200);
         cal.setTheme(ThemeType.Light);
@@ -49,7 +48,6 @@ public class CalendarWindow extends JFrame {
         calendar_id = new JComboBox<>();
         calendar_id.setLocation(500,230);
         calendar_id.setSize(150,20);
-        calendar_id.addItem("None");
 
         startDateLabel = new JLabel("Start Date: ");
         startDateLabel.setLocation(410,40);
@@ -192,15 +190,17 @@ public class CalendarWindow extends JFrame {
     }
 
     public void populateCalendars(CalendarCollection list){
-        ArrayList<String> idlist = list.getIds();
-        for (String id:idlist
-        ) {
-            calendar_id.addItem(id);
+        //TODO: non va proprio benissimo
+        calendar_id.removeAllItems();
+        ArrayList<Calendar> calendars_list = list.getCalendars();
+        for (Calendar calendar:
+        calendars_list) {
+            calendar_id.addItem(calendar);
         }
     }
 
-    public String getCurrentCalendar(){
-        return (String) calendar_id.getSelectedItem();
+    public Calendar getCurrentCalendar(){
+        return (Calendar) calendar_id.getSelectedItem();
     }
 
 

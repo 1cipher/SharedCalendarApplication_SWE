@@ -87,20 +87,6 @@ public class MainWindow extends JFrame {
 
     }
 
-    public void loadView(CalendarCollection calendars){
-        ArrayList<Event> events = calendars.getEvents();
-        for (Event event:
-             events) {
-            Item appointment = new Appointment();
-            DateTime start = event.getStartDate();
-            DateTime end = event.getEndDate();
-            appointment.setStartTime(new DateTime(start.getYear(), start.getMonth(), start.getDay(), start.getHour(), start.getMinute(), 0));
-            appointment.setEndTime(new DateTime(end.getYear(), end.getMonth(),end.getDay(),end.getHour(),end.getMinute(),0));
-            this.calendar.getSchedule().getItems().add(appointment);
-        }
-        //TODO: c'è uguale in MWcontroller
-    }
-
     public void addSearchListener(ActionListener searchListener){
 
         this.search.addActionListener(searchListener);

@@ -12,6 +12,10 @@ public class CalendarCollection {
         return ids;
     }
 
+    public ArrayList<Calendar> getCalendars() {
+        return collection;
+    }
+
     public ArrayList<Event> getEvents(){
         ArrayList<Event> events = new ArrayList<>();
         for (Calendar calendar:

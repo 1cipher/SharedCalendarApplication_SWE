@@ -86,12 +86,11 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        String sql = "SELECT CALENDARID FROM PARTICIPATION WHERE UID='"+currentUser.getUsername()+"';";
+        String sql = "SELECT CALENDARID,NAME FROM PARTICIPATION,CALENDAR WHERE UID='"+currentUser.getUsername()+"' AND ID=CALENDARID;";
         try {
             rs = stmt.executeQuery(sql);
             while (rs.next()){
-                String id = rs.getString("CALENDARID");
-                Calendar calendar = new Calendar(currentUser, rs.getString("CALENDARID"));
+                Calendar calendar = new Calendar(currentUser, rs.getString("CALENDARID"),rs.getString("NAME"));
                 calendars.addCalendarToCollection(calendar);
             }
         } catch (SQLException e) {
@@ -163,8 +162,8 @@ public class Database {
         }
         DateTime start = e.getStartDate();
         DateTime end = e.getEndDate();
-        Timestamp ts=new Timestamp(start.getYear(),start.getMonth()-1,start.getDay()+1,start.getHour(),start.getMinute(),0,0);
-        Timestamp te=new Timestamp(end.getYear(),end.getMonth()-1,end.getDay()+1,end.getHour(),end.getMinute(),0,0);
+        Timestamp ts=new Timestamp(start.getYear(),start.getMonth()-1,start.getDay(),start.getHour(),start.getMinute(),0,0);
+        Timestamp te=new Timestamp(end.getYear(),end.getMonth()-1,end.getDay(),end.getHour(),end.getMinute(),0,0);
         String sql = "INSERT INTO EVENTS(ID,NAME,START_DATE,END_DATE,LOCATION,COLOR,DESCRIPTION)" +
                 "VALUES('"+e.getId()+"','"+e.getName()+"','"+ts+"','"+te+"','"+e.getLocation()+"',0,'"+e.getDescription()+"');";
         System.out.println(sql);

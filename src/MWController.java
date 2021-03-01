@@ -8,13 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.GregorianCalendar;
 
 public class MWController {
 
@@ -22,9 +21,11 @@ public class MWController {
     CalendarWindow cwView;
     Database model;
     Dialog dialog;
+    Login logView;
+    Register regView;
 
 
-    public MWController(MainWindow mw, CalendarWindow cw, Database db) {
+    public MWController(MainWindow mw, CalendarWindow cw, Login lview, Register rview, Database db) {
 
         this.mwView = mw;
         this.cwView = cw;
@@ -37,6 +38,14 @@ public class MWController {
         this.cwView.addCalendarPressListener(new calendarPressedListener());
         this.mwView.addMainCalendarListener(new mainCalendarAdapter());
         this.mwView.addLogoutListener(new logoutListener());
+
+        this.logView = lview;
+        this.regView = rview;
+
+        this.logView.addLoginListener(new LoginListener());
+        this.logView.addRegisterListener(new RegisterListener());
+
+        //this.regView.addListener(new RegViewListener());
 
     }
 
@@ -150,7 +159,7 @@ public class MWController {
             }
 
             Event event = new Event(uid,name,startDate,endDate,location);
-            model.addEventinEvents(event,cwView.getCurrentCalendar());
+            model.addEventinEvents(event,cwView.getCurrentCalendar().getId());
             Item appointment = new Appointment();
             appointment.setStartTime(new DateTime(calendar1.get(Calendar.YEAR),calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH),Integer.parseInt(startHour.substring(0,2)),Integer.parseInt(startHour.substring(3,5)),00));
             appointment.setEndTime(new DateTime(calendar2.get(Calendar.YEAR),calendar2.get(Calendar.MONTH)+1,calendar2.get(Calendar.DAY_OF_MONTH),Integer.parseInt(endHour.substring(0,2)),Integer.parseInt(endHour.substring(3,5)),00));
@@ -264,6 +273,123 @@ public class MWController {
         }
     }
 
+    class LoginListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String acquiredUser = logView.getUsername();
+            String acquiredPassword = logView.getPassword();
+            try {
+                Boolean check = model.checkUserPresence(acquiredUser,acquiredPassword);
+                if(check){
+
+                    mwView.setVisible(true);
+                    logView.setVisible(false);
+                    regView.setVisible(false);
+                    User user = new User(acquiredUser);
+                    model.setCurrentUser(user);
+                    loadView(model.getCurrentUserCalendars());
+                    dialog = new Dialog.Builder().setDialogTitle("LoginSuccessful!")
+                            .setColor(Color.green)
+                            .setLabel("You are logged in!")
+                            .build();
+                    dialog.setVisible(true);
+                    dialog.addDialogListener(new dialogListener());
+
+                }
+                else{
+                    dialog = new Dialog.Builder().setDialogTitle("Access denied")
+                            .setLabel("Your username or password is wrong")
+                            .setColor(Color.red)
+                            .build();
+                    dialog.setVisible(true);
+                    dialog.addDialogListener(new dialogListener());
+                }
+
+
+            } catch (SQLException ex) {
+                dialog = new Dialog.Builder().setDialogTitle("Access denied")
+                        .setLabel("Your username or password is wrong")
+                        .setColor(Color.red)
+                        .build();
+                dialog.setVisible(true);
+                dialog.addDialogListener(new dialogListener());
+            }
+
+
+        }
+
+        public void loadView(CalendarCollection calendars){
+            ArrayList<Event> events = calendars.getEvents();
+            for (Event event:
+                    events) {
+                Item appointment = new Appointment();
+                DateTime start = event.getStartDate();
+                DateTime end = event.getEndDate();
+                appointment.setStartTime(new DateTime(start.getYear(), start.getMonth(), start.getDay(), start.getHour(), start.getMinute(), 0));
+                appointment.setEndTime(new DateTime(end.getYear(), end.getMonth(),end.getDay(),end.getHour(),end.getMinute(),0));
+                mwView.calendar.getSchedule().getItems().add(appointment);
+            }
+        }
+    }
+
+    class RegisterListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            //regView.setVisible(true);
+            regView = new Register();                     //TODO: LO SWITCH TRA VISTE DOVREBBE ESSERE GESTITO COSì,SENZA VISTE GLOBALI
+            regView.setVisible(true);
+            regView.addListener(new RegViewListener());
+
+        }
+    }
+
+    class RegViewListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String newUser = regView.getUsername();
+            String newPassword = regView.getPassword();
+
+            if (newUser.length()==0 || newPassword.length() == 0) {
+
+                dialog = new Dialog.Builder().setDialogTitle("Register Problem")
+                        .setLabel("Username or password fields are empty")
+                        .setColor(Color.red)
+                        .build();
+                dialog.setVisible(true);
+                dialog.addDialogListener(new dialogListener());
+            }
+
+            else if (model.isExistingUsername(newUser)) {
+
+                dialog = new Dialog.Builder().setDialogTitle("Register Problem")
+                        .setLabel("Username already present")
+                        .setColor(Color.red)
+                        .build();
+                dialog.setVisible(true);
+                dialog.addDialogListener(new dialogListener());
+            }
+
+            else{
+
+                model.registerNewUser(newUser,newPassword);
+                dialog = new Dialog.Builder().setDialogTitle("Successfull sign up!")
+                        .setLabel("You have been registered on our system!")
+                        .setColor(Color.green)
+                        .build();
+                dialog.setVisible(true);
+                dialog.addDialogListener(new dialogListener());
+            }
+
+
+        }
+    }
 
 }
+
 

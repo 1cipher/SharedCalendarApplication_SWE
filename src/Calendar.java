@@ -5,12 +5,13 @@ public class Calendar {
     User user;
     ArrayList<Event> newBuffer;
     String id;
-    boolean permission;
+    String name;
 
-    public Calendar(User user, String cid) {
+    public Calendar(User user, String cid, String name) {
         this.user = user;
         this.newBuffer = new ArrayList<Event>();
         this.id = cid;
+        this.name = name;
     }
 
     public void addtoCalendar(Event e) throws SQLException {
