@@ -2,19 +2,16 @@
 import javax.swing.*;
 
 public class Main {
-     static Login log;
-     static Register reg;
-     static MainWindow mw;
-     static CalendarWindow cw;
+
      public static void main(String args[]) {
          SwingUtilities.invokeLater(new Runnable() {
              @Override
              public void run() {
                  try {
-                     log = new Login();
-                     reg = new Register();
-                     mw = new MainWindow();
-                     cw = new CalendarWindow();
+                     Login log = new Login();
+                     Register reg = new Register();
+                     MainWindow mw = new MainWindow();
+                     CalendarWindow cw = new CalendarWindow();
 
                      log.setVisible(true);
 

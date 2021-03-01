@@ -45,8 +45,36 @@ public class MWController {
         this.logView.addLoginListener(new LoginListener());
         this.logView.addRegisterListener(new RegisterListener());
 
-        //this.regView.addListener(new RegViewListener());
+        this.regView.addListener(new RegViewListener());
 
+    }
+
+    public void attachMainWindow(){
+
+        this.mwView.addChangeViewListener(new changeViewListener());
+        this.mwView.addAddEventListener(new addEventListener());
+        this.mwView.addSearchListener(new searchListener());
+        this.mwView.addMainCalendarListener(new mainCalendarAdapter());
+        this.mwView.addLogoutListener(new logoutListener());
+
+    }
+
+    public void attachCalendarWindow(){
+
+        this.cwView.addCreateEventListener(new createEventListener());
+        this.cwView.addCalendarPressListener(new calendarPressedListener());
+
+    }
+
+    public void attachLoginWindow(){
+
+        this.logView.addLoginListener(new LoginListener());
+        this.logView.addRegisterListener(new RegisterListener());
+    }
+
+    public void attachRegisterWindow(){
+
+        this.regView.addListener(new RegViewListener());
     }
 
     class addEventListener implements ActionListener {
@@ -54,8 +82,10 @@ public class MWController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            cwView = new CalendarWindow();
             cwView.setVisible(true);
             cwView.populateCalendars(model.getCurrentUserCalendars());
+            attachCalendarWindow();
 
         }
     }
@@ -128,7 +158,6 @@ public class MWController {
             String enddate = cwView.endDate.getText();
 
             DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-            DateFormat hourFormatter = new SimpleDateFormat("HH:mm");
             String startHour = (String) cwView.startHour.getSelectedItem();
             String endHour = (String) cwView.endHour.getSelectedItem();
             Date date1 = new Date();
@@ -164,6 +193,8 @@ public class MWController {
             appointment.setStartTime(new DateTime(calendar1.get(Calendar.YEAR),calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH),Integer.parseInt(startHour.substring(0,2)),Integer.parseInt(startHour.substring(3,5)),00));
             appointment.setEndTime(new DateTime(calendar2.get(Calendar.YEAR),calendar2.get(Calendar.MONTH)+1,calendar2.get(Calendar.DAY_OF_MONTH),Integer.parseInt(endHour.substring(0,2)),Integer.parseInt(endHour.substring(3,5)),00));
             mwView.calendar.getSchedule().getItems().add(appointment); //TODO: LOADVIEW?
+            cwView.setVisible(false);
+            cwView.dispose();
 
 
         }
@@ -258,7 +289,10 @@ public class MWController {
         public void actionPerformed(ActionEvent e) {
 
             mwView.setVisible(false);
-            Main.log.setVisible(true);
+            mwView.dispose();
+            logView = new Login();
+            logView.setVisible(true);
+            attachLoginWindow();
 
         }
     }
@@ -270,6 +304,7 @@ public class MWController {
 
             dialog.setVisible(false);
             dialog.dispose();
+
         }
     }
 
@@ -284,9 +319,13 @@ public class MWController {
                 Boolean check = model.checkUserPresence(acquiredUser,acquiredPassword);
                 if(check){
 
+                    mwView = new MainWindow();
                     mwView.setVisible(true);
+                    attachMainWindow();
                     logView.setVisible(false);
                     regView.setVisible(false);
+                    logView.dispose();
+                    regView.dispose();
                     User user = new User(acquiredUser);
                     model.setCurrentUser(user);
                     loadView(model.getCurrentUserCalendars());
@@ -342,7 +381,7 @@ public class MWController {
             //regView.setVisible(true);
             regView = new Register();                     //TODO: LO SWITCH TRA VISTE DOVREBBE ESSERE GESTITO COSì,SENZA VISTE GLOBALI
             regView.setVisible(true);
-            regView.addListener(new RegViewListener());
+            attachRegisterWindow();
 
         }
     }

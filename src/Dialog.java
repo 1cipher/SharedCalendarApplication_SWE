@@ -25,8 +25,6 @@ public class Dialog extends JFrame {
         JLabel label;
         Color color;
         String title;
-        Container container;
-
 
         public Builder(){
 
