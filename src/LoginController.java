@@ -51,6 +51,7 @@ public class LoginController {
                             .setLabel("You are logged in!")
                             .build();
                     dialog.setVisible(true);
+                    dialog.addDialogListener(new dialogListener());
 
 
 
@@ -61,6 +62,7 @@ public class LoginController {
                             .setColor(Color.red)
                             .build();
                     dialog.setVisible(true);
+                    dialog.addDialogListener(new dialogListener());
                 }
 
 
@@ -70,6 +72,7 @@ public class LoginController {
                         .setColor(Color.red)
                         .build();
                 dialog.setVisible(true);
+                dialog.addDialogListener(new dialogListener());
             }
 
 
@@ -104,6 +107,7 @@ public class LoginController {
                         .setColor(Color.red)
                         .build();
                 dialog.setVisible(true);
+                dialog.addDialogListener(new dialogListener());
             }
 
             else if (model.isExistingUsername(newUser)) {
@@ -113,6 +117,7 @@ public class LoginController {
                         .setColor(Color.red)
                         .build();
                 dialog.setVisible(true);
+                dialog.addDialogListener(new dialogListener());
             }
 
             else{
@@ -123,9 +128,19 @@ public class LoginController {
                         .setColor(Color.green)
                         .build();
                 dialog.setVisible(true);
+                dialog.addDialogListener(new dialogListener());
             }
 
 
+        }
+    }
+
+    class dialogListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            dialog.setVisible(false);
+            dialog.dispose();
         }
     }
 

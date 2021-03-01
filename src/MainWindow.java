@@ -19,7 +19,8 @@ public class MainWindow extends JFrame {
     JButton addEvent;
     JButton logout;
     JTextField searchBox;
-    JComboBox<String> menu;
+    JComboBox<String> viewMenu;
+    JComboBox<String> calendarMenu;
     JCheckBox deleteSelector;
 
 
@@ -34,12 +35,12 @@ public class MainWindow extends JFrame {
         cp.setLayout(null);
         cp.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
-        menu = new JComboBox<>();
-        menu.addItem("day");
-        menu.addItem("week");
-        menu.addItem("month");
-        menu.setLocation(550, 10);
-        menu.setSize(100, 20);
+        viewMenu = new JComboBox<>();
+        viewMenu.addItem("day");
+        viewMenu.addItem("week");
+        viewMenu.addItem("month");
+        viewMenu.setLocation(550, 10);
+        viewMenu.setSize(100, 20);
 
         logout = new JButton("Logout");
         logout.setLocation(800, 10);
@@ -76,15 +77,13 @@ public class MainWindow extends JFrame {
         deleteSelector.setLocation(670, 10);
         deleteSelector.setSize(150, 20);
 
-
         cp.add(calendar);
         cp.add(addEvent);
         cp.add(searchBox);
         cp.add(search);
-        cp.add(menu);
+        cp.add(viewMenu);
         cp.add(logout);
         cp.add(deleteSelector);
-
 
     }
 
@@ -115,7 +114,7 @@ public class MainWindow extends JFrame {
 
    public void addChangeViewListener(ActionListener changeViewListener){
 
-        this.menu.addActionListener(changeViewListener);
+        this.viewMenu.addActionListener(changeViewListener);
     }
 
     public void addLogoutListener(ActionListener logoutListener){

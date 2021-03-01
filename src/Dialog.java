@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class Dialog extends JFrame {
 
@@ -11,6 +12,11 @@ public class Dialog extends JFrame {
 
         cp = getContentPane();
         cp.setLayout(null);
+    }
+
+    public void addDialogListener(ActionListener dialogListener){
+
+        this.button.addActionListener(dialogListener);
     }
 
     public static class Builder extends JFrame{
