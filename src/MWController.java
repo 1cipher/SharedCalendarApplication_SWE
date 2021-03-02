@@ -269,9 +269,15 @@ public class MWController {
 
         public void itemClick(ItemMouseEvent e){
 
-            eventView = new EventDisplayWindow();
+            eventView = new EventDisplayWindow.Builder()
+                    .setName("")
+                    .setStartDate("")
+                    .setEndDate("")
+                    .setLocation("")
+                    .setDescription("")
+                    .build();
             eventView.setVisible(true);
-            //mwView.calendar.getSelection().reset();
+            Selection a = mwView.calendar.getSelection();
             //mwView.calendar.getSchedule().getItems().remove(e.getItem());
 
         }
