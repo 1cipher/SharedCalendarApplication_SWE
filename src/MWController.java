@@ -13,6 +13,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 
 public class MWController {
 
@@ -185,6 +186,7 @@ public class MWController {
             appointment.setStartTime(new DateTime(calendar1.get(java.util.Calendar.YEAR),calendar1.get(java.util.Calendar.MONTH)+1,calendar1.get(java.util.Calendar.DAY_OF_MONTH),Integer.parseInt(startHour.substring(0,2)),Integer.parseInt(startHour.substring(3,5)),00));
             appointment.setEndTime(new DateTime(calendar2.get(java.util.Calendar.YEAR),calendar2.get(java.util.Calendar.MONTH)+1,calendar2.get(java.util.Calendar.DAY_OF_MONTH),Integer.parseInt(endHour.substring(0,2)),Integer.parseInt(endHour.substring(3,5)),00));
             appointment.setHeaderText(name);
+            appointment.setId(uid);
             mwView.calendar.getSchedule().getItems().add(appointment); //TODO: LOADVIEW?
             cwView.setVisible(false);
             cwView.dispose();
@@ -269,6 +271,8 @@ public class MWController {
 
         public void itemClick(ItemMouseEvent e){
 
+            List<DateTime> a = mwView.calendar.getSelection().getDayRanges();
+            Appointment a = mwView.calendar.getSchedule().get;
             eventView = new EventDisplayWindow.Builder()
                     .setName("")
                     .setStartDate("")
@@ -277,7 +281,6 @@ public class MWController {
                     .setDescription("")
                     .build();
             eventView.setVisible(true);
-            Selection a = mwView.calendar.getSelection();
             //mwView.calendar.getSchedule().getItems().remove(e.getItem());
 
         }
@@ -316,7 +319,7 @@ public class MWController {
             String acquiredUser = logView.getUsername();
             String acquiredPassword = logView.getPassword();
             try {
-                Boolean check = model.checkUserPresence(acquiredUser,acquiredPassword);
+                boolean check = model.checkUserPresence(acquiredUser,acquiredPassword);
                 if(check){
 
                     mwView = new MainWindow();
@@ -337,8 +340,6 @@ public class MWController {
                             .setColor(Color.green)
                             .setLabel("You are logged in!")
                             .build();
-                    dialog.setVisible(true);
-                    dialog.addDialogListener(new dialogListener());
 
                 }
                 else{
@@ -346,9 +347,9 @@ public class MWController {
                             .setLabel("Your username or password is wrong")
                             .setColor(Color.red)
                             .build();
-                    dialog.setVisible(true);
-                    dialog.addDialogListener(new dialogListener());
                 }
+                dialog.setVisible(true);
+                dialog.addDialogListener(new dialogListener());
 
 
             } catch (SQLException ex) {
