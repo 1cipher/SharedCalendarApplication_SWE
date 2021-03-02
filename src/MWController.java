@@ -273,7 +273,9 @@ public class MWController {
 
         public void itemClick(ItemMouseEvent e){
 
-
+            Appointment a =  (Appointment) e.getItem();
+            String s;
+            s = a.getId();
 
             eventView = new EventDisplayWindow.Builder()
                     .setName("")
@@ -376,6 +378,7 @@ public class MWController {
                 appointment.setStartTime(new DateTime(start.getYear(), start.getMonth(), start.getDay(), start.getHour(), start.getMinute(), 0));
                 appointment.setEndTime(new DateTime(end.getYear(), end.getMonth(),end.getDay(),end.getHour(),end.getMinute(),0));
                 appointment.setHeaderText(event.getName());
+                appointment.setId(event.getId());
                 mwView.calendar.getSchedule().getItems().add(appointment);
             }
         }
