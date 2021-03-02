@@ -49,6 +49,8 @@ public class MWController {
         this.mwView.addSearchListener(new searchListener());
         this.mwView.addMainCalendarListener(new mainCalendarAdapter());
         this.mwView.addLogoutListener(new logoutListener());
+        this.mwView.addCreateCalendarButtonListener(new createCalendarButtonListener());
+
 
     }
 
@@ -271,8 +273,8 @@ public class MWController {
 
         public void itemClick(ItemMouseEvent e){
 
-            List<DateTime> a = mwView.calendar.getSelection().getDayRanges();
-            Appointment a = mwView.calendar.getSchedule().get;
+
+
             eventView = new EventDisplayWindow.Builder()
                     .setName("")
                     .setStartDate("")
@@ -440,10 +442,32 @@ public class MWController {
         @Override
         public void actionPerformed(ActionEvent e) {
             String cid = java.util.UUID.randomUUID().toString().substring(0,19);
-            CreateCalendarWindow cw = (CreateCalendarWindow)e.getSource();
-            Calendar newCalendar=new Calendar(model.getCurrentUser(),cid, cw.getName());
-            model.CreateCalendar(newCalendar);
-            model.getCurrentUserCalendars().addCalendarToCollection(newCalendar);
+            if(!createCalendarWindow.getName().isEmpty()){
+                Calendar newCalendar=new Calendar(model.getCurrentUser(),cid, createCalendarWindow.getName());
+                model.CreateCalendar(newCalendar);
+                model.getCurrentUserCalendars().addCalendarToCollection(newCalendar);
+                dialog = new Dialog.Builder().setDialogTitle("Calendar").setLabel("Calendar Created").setColor(Color.green).build();
+                dialog.setVisible(true);
+            }
+            else {
+                dialog = new Dialog.Builder().setDialogTitle("Calendar").setLabel("Calendar can't be created").setColor(Color.red).build();
+                dialog.setVisible(true);
+            }
+
+            createCalendarWindow.setVisible(false);
+            createCalendarWindow.dispose();
+        }
+    }
+
+    class createCalendarButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            createCalendarWindow = new CreateCalendarWindow();
+            createCalendarWindow.setVisible(true);
+            createCalendarWindow.addCreateCalendarListener(new createCalendarListener());
+
         }
     }
 

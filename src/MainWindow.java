@@ -21,6 +21,7 @@ public class MainWindow extends JFrame {
     JTextField searchBox;
     JComboBox<String> viewMenu;
     JComboBox<String> calendarMenu;
+    JButton createCalendar;
     JCheckBox deleteSelector;
 
 
@@ -43,7 +44,7 @@ public class MainWindow extends JFrame {
         viewMenu.setSize(100, 20);
 
         logout = new JButton("Logout");
-        logout.setLocation(800, 10);
+        logout.setLocation(900, 10);
         logout.setSize(100, 20);
 
 
@@ -70,12 +71,14 @@ public class MainWindow extends JFrame {
         search.setLocation(520, 10);
         search.setSize(20, 20);
 
-        calendar.setEnableDragCreate(true);
+       createCalendar = new JButton("Create Calendar");
+       createCalendar.setLocation(780,10);
+       createCalendar.setSize(110,20);
 
         deleteSelector = new JCheckBox();
         deleteSelector.setText("Delete");
         deleteSelector.setLocation(670, 10);
-        deleteSelector.setSize(150, 20);
+        deleteSelector.setSize(100, 20);
 
         cp.add(calendar);
         cp.add(addEvent);
@@ -84,6 +87,7 @@ public class MainWindow extends JFrame {
         cp.add(viewMenu);
         cp.add(logout);
         cp.add(deleteSelector);
+        cp.add(createCalendar);
 
     }
 
@@ -111,6 +115,11 @@ public class MainWindow extends JFrame {
     public void addMainCalendarListener(CalendarAdapter mainCalendarAdapter ){
 
         calendar.addCalendarListener(mainCalendarAdapter);
+    }
+
+    public void addCreateCalendarButtonListener(ActionListener createCalendarButtonListener){
+
+        this.createCalendar.addActionListener(createCalendarButtonListener);
     }
 
 

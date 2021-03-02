@@ -29,6 +29,10 @@ public class CreateCalendarWindow extends JFrame {
         createCalendar = new JButton("Create");
         createCalendar.setLocation(100,120);
         createCalendar.setSize(100,20);
+
+        c.add(calendarName);
+        c.add(calendarText);
+        c.add(createCalendar);
     }
 
     public String getName(){
