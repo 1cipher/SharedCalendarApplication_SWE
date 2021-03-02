@@ -275,7 +275,8 @@ public class MWController {
 
             Appointment a =  (Appointment) e.getItem();
             String s;
-            s = a.getId();
+            s = a.getId(); //non serve,mi serviva solo per vedere che funziona
+            //TODO: DISPLAY EVENTI,2 MODI: O SETTIAMO DIRETTAMENTE GLI APPOINTMENT CON LE INFORMAZIONI DELL'EVENTO OPPURE RICERCA DELL'EVENTO
 
             eventView = new EventDisplayWindow.Builder()
                     .setName("")
