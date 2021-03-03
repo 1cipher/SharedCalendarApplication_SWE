@@ -54,6 +54,7 @@ public class MainWindow extends JFrame {
         calendar.setTheme(ThemeType.Light);
         calendar.setLocation(0, 40);
         calendar.setSize(1000, 700);
+        calendar.setAllowInplaceEdit(false);
         calendar.setVisible(true);
         calendar.endInit();
 

@@ -499,8 +499,11 @@ public class MWController {
 
         public void itemClick(ItemMouseEvent e){
 
+            if(eventView!=null){
+                eventView.setVisible(false);
+                eventView.dispose();
+            }
             Appointment a =  (Appointment) e.getItem();
-
             eventView = new EventDisplayWindow.Builder()
                     .setName(a.getHeaderText())
                     .setStartDate(a.getStartTime().toString())
