@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class EventDisplayWindow extends JFrame {
 
@@ -145,12 +146,19 @@ public class EventDisplayWindow extends JFrame {
 
             return eventDisplayWindow;
 
-
-
-
         }
 
 
+    }
+
+    public void addOkButtonForEventDisplayWindowListener(ActionListener okButtonForEventDisplayWindowListener){
+
+        this.okButton.addActionListener(okButtonForEventDisplayWindowListener);
+    }
+
+    public void addDeleteButtonForEventDisplayWindowListener(ActionListener deleteButtonForEventDisplayWindowListener){
+
+        this.deleteButton.addActionListener(deleteButtonForEventDisplayWindowListener);
     }
 
 

@@ -96,7 +96,7 @@ public class Database {
             e.printStackTrace();
         };
 
-        sql = "SELECT CALENDARID,EVENT,ID,NAME,START_DATE,END_DATE,LOCATION FROM PARTICIPATION,CALENDAREVENTS,EVENTS " +
+        sql = "SELECT CALENDARID,EVENT,ID,NAME,START_DATE,END_DATE,LOCATION,DESCRIPTION FROM PARTICIPATION,CALENDAREVENTS,EVENTS " +
                 "WHERE UID='"+currentUser.getUsername()+
                 "' AND CALENDAR=CALENDARID " +
                 "AND EVENT=ID;";
@@ -105,7 +105,7 @@ public class Database {
             while (rs.next()){
                 String calendar_id = rs.getString("CALENDARID");
                 Calendar calendar = calendars.getCalendar(calendar_id);
-                Event event = new Event(rs.getString("ID"), rs.getString("NAME"), new DateTime(rs.getTimestamp("START_DATE")),new DateTime(rs.getTimestamp("END_DATE")), rs.getString("LOCATION"));
+                Event event = new Event(rs.getString("ID"), rs.getString("NAME"), new DateTime(rs.getTimestamp("START_DATE")),new DateTime(rs.getTimestamp("END_DATE")), rs.getString("LOCATION"),rs.getString("DESCRIPTION"));
                 calendar.addtoCalendar(event);
             }
         } catch (SQLException e) {

@@ -182,17 +182,18 @@ public class MWController {
                 dialog.addDialogListener(new dialogListener());
             }
 
-            Event event = new Event(uid,name,startDate,endDate,location);
+            Event event = new Event(uid,name,startDate,endDate,location,descr);
             model.addEventinEvents(event,cwView.getCurrentCalendar().getId());
             Item appointment = new Appointment();
             appointment.setStartTime(new DateTime(calendar1.get(java.util.Calendar.YEAR),calendar1.get(java.util.Calendar.MONTH)+1,calendar1.get(java.util.Calendar.DAY_OF_MONTH),Integer.parseInt(startHour.substring(0,2)),Integer.parseInt(startHour.substring(3,5)),00));
             appointment.setEndTime(new DateTime(calendar2.get(java.util.Calendar.YEAR),calendar2.get(java.util.Calendar.MONTH)+1,calendar2.get(java.util.Calendar.DAY_OF_MONTH),Integer.parseInt(endHour.substring(0,2)),Integer.parseInt(endHour.substring(3,5)),00));
             appointment.setHeaderText(name);
             appointment.setId(uid);
+            appointment.setDescriptionText(descr);
             Location loc = new Location();
             loc.setName(location);
             appointment.setLocation(loc);
-            mwView.calendar.getSchedule().getItems().add(appointment); //TODO: LOADVIEW?
+            mwView.calendar.getSchedule().getItems().add(appointment);
             cwView.setVisible(false);
             cwView.dispose();
 
@@ -283,6 +284,7 @@ public class MWController {
                     .setStartDate(a.getStartTime().toString())
                     .setEndDate(a.getEndTime().toString())
                     .setLocation(a.getLocation().getName())
+                    .setDescription(a.getDescriptionText())
                     .build();
             eventView.setVisible(true);
             //mwView.calendar.getSchedule().getItems().remove(e.getItem());
@@ -378,6 +380,7 @@ public class MWController {
                 appointment.setStartTime(new DateTime(start.getYear(), start.getMonth(), start.getDay(), start.getHour(), start.getMinute(), 0));
                 appointment.setEndTime(new DateTime(end.getYear(), end.getMonth(),end.getDay(),end.getHour(),end.getMinute(),0));
                 appointment.setHeaderText(event.getName());
+                appointment.setDescriptionText(event.getDescription());
                 appointment.setId(event.getId());
                 Location loc = new Location();
                 loc.setName(event.getLocation());
@@ -473,6 +476,25 @@ public class MWController {
             createCalendarWindow = new CreateCalendarWindow();
             createCalendarWindow.setVisible(true);
             createCalendarWindow.addCreateCalendarListener(new createCalendarListener());
+
+        }
+    }
+
+    class okButtonForEventDisplayWindowListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            eventView.setVisible(false);
+            eventView.dispose();
+
+        }
+    }
+
+    class deleteButtonForEventDisplayWindowListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
 
         }
     }

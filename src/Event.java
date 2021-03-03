@@ -1,7 +1,5 @@
 import com.mindfusion.common.DateTime;
 
-import java.util.Date;
-
 public class Event {
 
 
@@ -13,21 +11,21 @@ public class Event {
     }
 
     private String id;
-    private String Name;
-
-
+    private String name;
     private DateTime start;
     private DateTime end;
-    private String Location;
+    private String location;
     private String Color;
-    private String Description;
+    private String description;
 
-    public Event(String id, String name, DateTime start, DateTime end, String location) {
+    public Event(String id, String name, DateTime start, DateTime end, String location,String description) {
+
         this.id = id;
-        Name = name;
+        this.name = name;
         this.start = start;
         this.end = end;
-        Location = location;
+        this.location = location;
+        this.description = description;
 
     }
 
@@ -36,11 +34,11 @@ public class Event {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public String getLocation() {
-        return Location;
+        return location;
     }
 
     public String getColor() {
@@ -48,7 +46,7 @@ public class Event {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public DateTime getStartDate() {
