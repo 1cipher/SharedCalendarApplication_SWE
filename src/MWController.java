@@ -189,6 +189,9 @@ public class MWController {
             appointment.setEndTime(new DateTime(calendar2.get(java.util.Calendar.YEAR),calendar2.get(java.util.Calendar.MONTH)+1,calendar2.get(java.util.Calendar.DAY_OF_MONTH),Integer.parseInt(endHour.substring(0,2)),Integer.parseInt(endHour.substring(3,5)),00));
             appointment.setHeaderText(name);
             appointment.setId(uid);
+            Location loc = new Location();
+            loc.setName(location);
+            appointment.setLocation(loc);
             mwView.calendar.getSchedule().getItems().add(appointment); //TODO: LOADVIEW?
             cwView.setVisible(false);
             cwView.dispose();
@@ -274,16 +277,12 @@ public class MWController {
         public void itemClick(ItemMouseEvent e){
 
             Appointment a =  (Appointment) e.getItem();
-            String s;
-            s = a.getId(); //non serve,mi serviva solo per vedere che funziona
-            //TODO: DISPLAY EVENTI,2 MODI: O SETTIAMO DIRETTAMENTE GLI APPOINTMENT CON LE INFORMAZIONI DELL'EVENTO OPPURE RICERCA DELL'EVENTO
 
             eventView = new EventDisplayWindow.Builder()
-                    .setName("")
-                    .setStartDate("")
-                    .setEndDate("")
-                    .setLocation("")
-                    .setDescription("")
+                    .setName(a.getHeaderText())
+                    .setStartDate(a.getStartTime().toString())
+                    .setEndDate(a.getEndTime().toString())
+                    .setLocation(a.getLocation().getName())
                     .build();
             eventView.setVisible(true);
             //mwView.calendar.getSchedule().getItems().remove(e.getItem());
@@ -380,6 +379,9 @@ public class MWController {
                 appointment.setEndTime(new DateTime(end.getYear(), end.getMonth(),end.getDay(),end.getHour(),end.getMinute(),0));
                 appointment.setHeaderText(event.getName());
                 appointment.setId(event.getId());
+                Location loc = new Location();
+                loc.setName(event.getLocation());
+                appointment.setLocation(loc);
                 mwView.calendar.getSchedule().getItems().add(appointment);
             }
         }
