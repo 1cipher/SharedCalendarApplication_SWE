@@ -164,7 +164,6 @@ public class Database {
         String sql2 = "DELETE FROM CALENDAREVENTS WHERE EVENT='"+id+"';";
         update(sql);
         update(sql2);
-        
     }
 
     public void CreateCalendar(Calendar calendar){
