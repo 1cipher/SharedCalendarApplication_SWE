@@ -59,13 +59,24 @@ public class Database {
 
     public void registerNewUser(String username,String password) {
 
+        try {
+            stmt = c.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         String sql = "INSERT INTO LOGIN(UID,PASSWORD)" +
                 "VALUES('"+username+"','"+password+"');" +
                 "INSERT INTO CALENDAR(ID,NAME,OWNER)" +
                 "VALUES('"+"CID1"+"','"+username+"_default"+"','"+username+"');" +
                 "INSERT INTO PARTICIPATION(UID,CALENDARID,TYPE)" +
                 "VALUES('"+username+"','"+"CID1"+"',0)";
-        update(sql);
+
+
+        try {
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -75,8 +86,8 @@ public class Database {
         ResultSet rs;
 
         String sql = "SELECT CALENDARID,NAME FROM PARTICIPATION,CALENDAR WHERE UID='"+currentUser.getUsername()+"' AND ID=CALENDARID;";
-        rs = fetch(sql);
         try {
+            rs = stmt.executeQuery(sql);
             while (rs.next()){
                 Calendar calendar = new Calendar(currentUser, rs.getString("CALENDARID"),rs.getString("NAME"));
                 calendars.addCalendarToCollection(calendar);
@@ -85,13 +96,12 @@ public class Database {
             e.printStackTrace();
         };
 
-
         sql = "SELECT CALENDARID,EVENT,ID,NAME,START_DATE,END_DATE,LOCATION FROM PARTICIPATION,CALENDAREVENTS,EVENTS " +
                 "WHERE UID='"+currentUser.getUsername()+
                 "' AND CALENDAR=CALENDARID " +
                 "AND EVENT=ID;";
-        rs = fetch(sql);
         try {
+            rs = stmt.executeQuery(sql);
             while (rs.next()){
                 String calendar_id = rs.getString("CALENDARID");
                 Calendar calendar = calendars.getCalendar(calendar_id);
@@ -113,7 +123,12 @@ public class Database {
                 "FROM LOGIN " +
                 "WHERE UID = '" + username + "'";
 
-        ResultSet resultSet = fetch(sql);
+        ResultSet resultSet = null;
+        try {
+            resultSet = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         boolean check = false;
         try {
@@ -128,7 +143,7 @@ public class Database {
     }
 
     public void addEventinEvents(Event e, String calendar_id) {
-
+        
         DateTime start = e.getStartDate();
         DateTime end = e.getEndDate();
         Timestamp ts=new Timestamp(start.getYear(),start.getMonth()-1,start.getDay(),start.getHour(),start.getMinute(),0,0);
@@ -136,7 +151,7 @@ public class Database {
         String sql = "INSERT INTO EVENTS(ID,NAME,START_DATE,END_DATE,LOCATION,COLOR,DESCRIPTION)" +
                 "VALUES('"+e.getId()+"','"+e.getName()+"','"+ts+"','"+te+"','"+e.getLocation()+"',0,'"+e.getDescription()+"');";
         update(sql);
-
+        
         sql = "INSERT INTO CALENDAREVENTS(CALENDAR,EVENT)" +
                 "VALUES('"+calendar_id+"','"+e.getId()+"');";
         update(sql);
@@ -149,7 +164,7 @@ public class Database {
         String sql2 = "DELETE FROM CALENDAREVENTS WHERE EVENT='"+e.getId()+"';";
         update(sql);
         update(sql2);
-
+        
     }
 
     public void CreateCalendar(Calendar calendar){
@@ -159,35 +174,13 @@ public class Database {
                 "VALUES('"+currentUser.getUsername()+"','"+calendar.getId()+"',0)";
         update(sql);
     }
-
+    
     private void update(String sql){
-        //TODO: primo try si può cancellare tutto?
-        try {
-            stmt = c.createStatement();
-        }
-        catch (SQLException e){
-            e.printStackTrace();
-        }
         try{
             stmt.executeUpdate(sql);
         }catch (SQLException e){
             e.printStackTrace();
         }
-
-    }
-    private ResultSet fetch(String sql) {
-        try {
-            stmt = c.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        ResultSet resultSet = null;
-        try {
-            resultSet = stmt.executeQuery(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return resultSet;
     }
 
 }
