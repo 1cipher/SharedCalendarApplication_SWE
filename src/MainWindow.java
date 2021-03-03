@@ -7,6 +7,7 @@ import com.mindfusion.scheduling.model.Item;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.util.ArrayList;
 
@@ -22,7 +23,6 @@ public class MainWindow extends JFrame {
     JComboBox<String> viewMenu;
     JComboBox<String> calendarMenu;
     JButton createCalendar;
-    JCheckBox deleteSelector;
 
 
 
@@ -76,18 +76,12 @@ public class MainWindow extends JFrame {
        createCalendar.setLocation(780,10);
        createCalendar.setSize(110,20);
 
-        deleteSelector = new JCheckBox();
-        deleteSelector.setText("Delete");
-        deleteSelector.setLocation(670, 10);
-        deleteSelector.setSize(100, 20);
-
         cp.add(calendar);
         cp.add(addEvent);
         cp.add(searchBox);
         cp.add(search);
         cp.add(viewMenu);
         cp.add(logout);
-        cp.add(deleteSelector);
         cp.add(createCalendar);
 
     }
@@ -121,6 +115,11 @@ public class MainWindow extends JFrame {
     public void addCreateCalendarButtonListener(ActionListener createCalendarButtonListener){
 
         this.createCalendar.addActionListener(createCalendarButtonListener);
+    }
+
+    public void addCalendarInMainWindowPressedListener(MouseListener calendarInMainWindowPressedListener){
+
+        this.calendar.addMouseListener(calendarInMainWindowPressedListener);
     }
 
 

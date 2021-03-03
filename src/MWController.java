@@ -13,7 +13,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.List;
 
 public class MWController {
 
@@ -50,14 +49,14 @@ public class MWController {
         this.mwView.addMainCalendarListener(new mainCalendarAdapter());
         this.mwView.addLogoutListener(new logoutListener());
         this.mwView.addCreateCalendarButtonListener(new createCalendarButtonListener());
-
+        this.mwView.addCalendarInMainWindowPressedListener(new calendarInMainWindowPressedListener());
 
     }
 
     public void attachCalendarWindow(){
 
         this.cwView.addCreateEventListener(new createEventListener());
-        this.cwView.addCalendarPressListener(new calendarPressedListener());
+        this.cwView.addCalendarPressListener(new calendarinCalendarWindowPressedListener());
 
     }
 
@@ -207,7 +206,42 @@ public class MWController {
         }
     }
 
-    class calendarPressedListener implements MouseListener {
+    class calendarInMainWindowPressedListener implements MouseListener{
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+            if(e.getClickCount()==2 && mwView.calendar.getCurrentView() == CalendarView.WeekRange){
+
+                mwView.calendar.setCurrentView(CalendarView.Timetable);
+                mwView.calendar.setCurrentTime(mwView.calendar.getDateAt(e.getX(),e.getY()));
+                mwView.viewMenu.setSelectedIndex(0);
+            }
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
+    }
+
+    class calendarinCalendarWindowPressedListener implements MouseListener {
 
         @Override
         public void mouseClicked(MouseEvent e) {
