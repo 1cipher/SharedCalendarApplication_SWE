@@ -68,13 +68,14 @@ public class MainWindow extends JFrame {
         search.setLocation(520, 10);
         search.setSize(20, 20);
 
-       createCalendar = new JButton("Create Calendar");
-       createCalendar.setLocation(780,10);
-       createCalendar.setSize(110,20);
+        createCalendar = new JButton("Create Calendar");
+        createCalendar.setLocation(780,10);
+        createCalendar.setSize(110,20);
 
         selectedCalendarMenu = new JComboBox<>();
         selectedCalendarMenu.setLocation(670, 10);
         selectedCalendarMenu.setSize(100, 20);
+        selectedCalendarMenu.setRenderer(new CustomRenderer());
 
         cp.add(calendar);
         cp.add(addEvent);
