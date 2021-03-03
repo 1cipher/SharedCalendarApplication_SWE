@@ -36,12 +36,12 @@ public class MWController {
 
     }
 
-    public void attachCreateCalendarWindow(){
+    public void attachCreateCalendarWindow() {
 
         this.createCalendarWindow.addCreateCalendarListener(new createCalendarListener());
     }
 
-    public void attachMainWindow(){
+    public void attachMainWindow() {
 
         this.mwView.addChangeViewListener(new changeViewListener());
         this.mwView.addAddEventListener(new addEventListener());
@@ -49,30 +49,29 @@ public class MWController {
         this.mwView.addMainCalendarListener(new mainCalendarAdapter());
         this.mwView.addLogoutListener(new logoutListener());
         this.mwView.addCreateCalendarButtonListener(new createCalendarButtonListener());
-        this.mwView.addCalendarInMainWindowPressedListener(new calendarInMainWindowPressedListener());
         this.mwView.addSelectedCalendarListener(new selectedCalendarListener());
 
     }
 
-    public void attachCalendarWindow(){
+    public void attachCalendarWindow() {
 
         this.cwView.addCreateEventListener(new createEventListener());
         this.cwView.addCalendarPressListener(new calendarinCalendarWindowPressedListener());
 
     }
 
-    public void attachLoginWindow(){
+    public void attachLoginWindow() {
 
         this.logView.addLoginListener(new LoginListener());
         this.logView.addRegisterListener(new RegisterListener());
     }
 
-    public void attachRegisterWindow(){
+    public void attachRegisterWindow() {
 
         this.regView.addListener(new RegViewListener());
     }
 
-    public void attachEventDisplayWindow(){
+    public void attachEventDisplayWindow() {
 
         this.eventView.addDeleteButtonForEventDisplayWindowListener(new deleteButtonForEventDisplayWindowListener());
         this.eventView.addOkButtonForEventDisplayWindowListener(new okButtonForEventDisplayWindowListener());
@@ -101,18 +100,17 @@ public class MWController {
             System.out.println(mwView.calendar.getSchedule().getItems().size());
             boolean check = false;
             int i = 0;
-            while(!check && i<itemList.size()){
+            while (!check && i < itemList.size()) {
                 String comp = itemList.get(i).getHeaderText();
-                if(nameToSearch.compareTo(comp)==0)
+                if (nameToSearch.compareTo(comp) == 0)
                     check = true;
                 else
                     i++;
             }
-            if (check){
+            if (check) {
                 DateTime dt = itemList.get(i).getStartTime();
                 mwView.calendar.setDate(dt);
-            }
-            else{
+            } else {
                 dialog = new Dialog.Builder().setDialogTitle("Register Problem")
                         .setLabel("Username already present")
                         .setColor(Color.red)
@@ -134,11 +132,10 @@ public class MWController {
 
             if (selection.equals("day"))
                 mwView.calendar.setCurrentView(CalendarView.Timetable);
-            else if (selection.equals("week")){
+            else if (selection.equals("week")) {
                 mwView.calendar.setCurrentView(CalendarView.WeekRange);
                 mwView.calendar.getWeekRangeSettings().setHeaderStyle(EnumSet.of(WeekRangeHeaderStyle.Title));
-            }
-            else if (selection.equals("month"))
+            } else if (selection.equals("month"))
                 mwView.calendar.setCurrentView(CalendarView.MonthRange);
 
 
@@ -151,7 +148,7 @@ public class MWController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            String uid = java.util.UUID.randomUUID().toString().substring(0,19);
+            String uid = java.util.UUID.randomUUID().toString().substring(0, 19);
             String name = cwView.name.getText();
             String location = cwView.location.getText();
             String descr = cwView.descr.getText();
@@ -175,24 +172,23 @@ public class MWController {
             java.util.Calendar calendar2 = new GregorianCalendar();
             calendar2.setTime(date2);
 
-            DateTime startDate = new DateTime(calendar1.get(java.util.Calendar.YEAR)-1900,calendar1.get(java.util.Calendar.MONTH)+1,calendar1.get(java.util.Calendar.DAY_OF_MONTH),Integer.parseInt(startHour.substring(0,2)),Integer.parseInt(startHour.substring(3,5)),0);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
-            DateTime endDate = new DateTime(calendar2.get(java.util.Calendar.YEAR)-1900,calendar2.get(java.util.Calendar.MONTH)+1,calendar2.get(java.util.Calendar.DAY_OF_MONTH),Integer.parseInt(endHour.substring(0,2)),Integer.parseInt(endHour.substring(3,5)),0); //TODO:COLLEZIONARE GLI ORARI DAI RISPETTIVI TEXTFIELD
-            if(!name.isEmpty() && !uid.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
+            DateTime startDate = new DateTime(calendar1.get(java.util.Calendar.YEAR) - 1900, calendar1.get(java.util.Calendar.MONTH) + 1, calendar1.get(java.util.Calendar.DAY_OF_MONTH), Integer.parseInt(startHour.substring(0, 2)), Integer.parseInt(startHour.substring(3, 5)), 0);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
+            DateTime endDate = new DateTime(calendar2.get(java.util.Calendar.YEAR) - 1900, calendar2.get(java.util.Calendar.MONTH) + 1, calendar2.get(java.util.Calendar.DAY_OF_MONTH), Integer.parseInt(endHour.substring(0, 2)), Integer.parseInt(endHour.substring(3, 5)), 0); //TODO:COLLEZIONARE GLI ORARI DAI RISPETTIVI TEXTFIELD
+            if (!name.isEmpty() && !uid.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
                 dialog = new Dialog.Builder().setColor(Color.green).setLabel("Event Created!").setDialogTitle("Event").build();
                 dialog.setVisible(true);
                 dialog.addDialogListener(new dialogListener());
-            }
-            else{
+            } else {
                 dialog = new Dialog.Builder().setColor(Color.red).setLabel("Check null values").setDialogTitle("Event").build();
                 dialog.setVisible(true);
                 dialog.addDialogListener(new dialogListener());
             }
 
-            Event event = new Event(uid,name,startDate,endDate,location,descr);
-            model.addEventinEvents(event,cwView.getCurrentCalendar().getId());
+            Event event = new Event(uid, name, startDate, endDate, location, descr);
+            model.addEventinEvents(event, cwView.getCurrentCalendar().getId());
             Item appointment = new Appointment();
-            appointment.setStartTime(new DateTime(calendar1.get(java.util.Calendar.YEAR),calendar1.get(java.util.Calendar.MONTH)+1,calendar1.get(java.util.Calendar.DAY_OF_MONTH),Integer.parseInt(startHour.substring(0,2)),Integer.parseInt(startHour.substring(3,5)),00));
-            appointment.setEndTime(new DateTime(calendar2.get(java.util.Calendar.YEAR),calendar2.get(java.util.Calendar.MONTH)+1,calendar2.get(java.util.Calendar.DAY_OF_MONTH),Integer.parseInt(endHour.substring(0,2)),Integer.parseInt(endHour.substring(3,5)),00));
+            appointment.setStartTime(new DateTime(calendar1.get(java.util.Calendar.YEAR), calendar1.get(java.util.Calendar.MONTH) + 1, calendar1.get(java.util.Calendar.DAY_OF_MONTH), Integer.parseInt(startHour.substring(0, 2)), Integer.parseInt(startHour.substring(3, 5)), 00));
+            appointment.setEndTime(new DateTime(calendar2.get(java.util.Calendar.YEAR), calendar2.get(java.util.Calendar.MONTH) + 1, calendar2.get(java.util.Calendar.DAY_OF_MONTH), Integer.parseInt(endHour.substring(0, 2)), Integer.parseInt(endHour.substring(3, 5)), 00));
             appointment.setHeaderText(name);
             appointment.setId(uid);
             appointment.setDescriptionText(descr);
@@ -206,41 +202,6 @@ public class MWController {
             cwView.setVisible(false);
             cwView.dispose();
 
-
-        }
-    }
-
-    class calendarInMainWindowPressedListener implements MouseListener{
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-
-            if(e.getClickCount()==2 && mwView.calendar.getCurrentView() == CalendarView.WeekRange){
-
-                mwView.calendar.setCurrentView(CalendarView.Timetable);
-                mwView.calendar.setCurrentTime(mwView.calendar.getDateAt(e.getX(),e.getY()));  //TODO: NOT SELECTING THE RIGHT DAY BUT THE CURRENT
-                mwView.viewMenu.setSelectedIndex(0);
-            }
-
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
 
         }
     }
@@ -296,12 +257,11 @@ public class MWController {
             Date utilDate = cal.getTime();
             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
-            if(cwView.startDate.getText().compareTo(sqlDate.toString())>0) {
+            if (cwView.startDate.getText().compareTo(sqlDate.toString()) > 0) {
                 java.sql.Date d = java.sql.Date.valueOf(cwView.startDate.getText());
                 cwView.setSelectedEndDate(d);
                 cwView.setSelectedStartDate(sqlDate);
-            }
-            else
+            } else
                 cwView.setSelectedEndDate(sqlDate);
 
         }
@@ -317,7 +277,7 @@ public class MWController {
         }
     }
 
-    class logoutListener implements ActionListener{
+    class logoutListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -342,7 +302,7 @@ public class MWController {
         }
     }
 
-    class LoginListener implements ActionListener{
+    class LoginListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -350,13 +310,13 @@ public class MWController {
             String acquiredUser = logView.getUsername();
             String acquiredPassword = logView.getPassword();
             try {
-                boolean check = model.checkUserPresence(acquiredUser,acquiredPassword);
-                if(check){
+                boolean check = model.checkUserPresence(acquiredUser, acquiredPassword);
+                if (check) {
 
                     mwView = new MainWindow();
                     mwView.setVisible(true);
                     attachMainWindow();
-                    if(regView != null){
+                    if (regView != null) {
 
                         regView.setVisible(false);
                         regView.dispose();
@@ -373,8 +333,7 @@ public class MWController {
                             .setLabel("You are logged in!")
                             .build();
 
-                }
-                else{
+                } else {
                     dialog = new Dialog.Builder().setDialogTitle("Access denied")
                             .setLabel("Your username or password is wrong")
                             .setColor(Color.red)
@@ -397,15 +356,15 @@ public class MWController {
         }
     }
 
-    public void loadView(CalendarCollection calendars){
+    public void loadView(CalendarCollection calendars) {
         ArrayList<Event> events = calendars.getEvents();
-        for (Event event:
+        for (Event event :
                 events) {
             Item appointment = new Appointment();
             DateTime start = event.getStartDate();
             DateTime end = event.getEndDate();
             appointment.setStartTime(new DateTime(start.getYear(), start.getMonth(), start.getDay(), start.getHour(), start.getMinute(), 0));
-            appointment.setEndTime(new DateTime(end.getYear(), end.getMonth(),end.getDay(),end.getHour(),end.getMinute(),0));
+            appointment.setEndTime(new DateTime(end.getYear(), end.getMonth(), end.getDay(), end.getHour(), end.getMinute(), 0));
             appointment.setHeaderText(event.getName());
             appointment.setDescriptionText(event.getDescription());
             appointment.setId(event.getId());
@@ -416,7 +375,7 @@ public class MWController {
         }
     }
 
-    class RegisterListener implements ActionListener{
+    class RegisterListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -429,7 +388,7 @@ public class MWController {
         }
     }
 
-    class RegViewListener implements ActionListener{
+    class RegViewListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -437,7 +396,7 @@ public class MWController {
             String newUser = regView.getUsername();
             String newPassword = regView.getPassword();
 
-            if (newUser.length()==0 || newPassword.length() == 0) {
+            if (newUser.length() == 0 || newPassword.length() == 0) {
 
                 dialog = new Dialog.Builder().setDialogTitle("Register Problem")
                         .setLabel("Username or password fields are empty")
@@ -445,9 +404,7 @@ public class MWController {
                         .build();
                 dialog.setVisible(true);
                 dialog.addDialogListener(new dialogListener());
-            }
-
-            else if (model.isExistingUsername(newUser)) {
+            } else if (model.isExistingUsername(newUser)) {
 
                 dialog = new Dialog.Builder().setDialogTitle("Register Problem")
                         .setLabel("Username already present")
@@ -455,11 +412,9 @@ public class MWController {
                         .build();
                 dialog.setVisible(true);
                 dialog.addDialogListener(new dialogListener());
-            }
+            } else {
 
-            else{
-
-                model.registerNewUser(newUser,newPassword);
+                model.registerNewUser(newUser, newPassword);
                 dialog = new Dialog.Builder().setDialogTitle("Successfull sign up!")
                         .setLabel("You have been registered on our system!")
                         .setColor(Color.green)
@@ -472,19 +427,18 @@ public class MWController {
         }
     }
 
-    class createCalendarListener implements ActionListener{
+    class createCalendarListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String cid = java.util.UUID.randomUUID().toString().substring(0,19);
-            if(!createCalendarWindow.getName().isEmpty()){
-                Calendar newCalendar=new Calendar(model.getCurrentUser(),cid, createCalendarWindow.getName());
+            String cid = java.util.UUID.randomUUID().toString().substring(0, 19);
+            if (!createCalendarWindow.getName().isEmpty()) {
+                Calendar newCalendar = new Calendar(model.getCurrentUser(), cid, createCalendarWindow.getName());
                 model.CreateCalendar(newCalendar);
                 model.getCurrentUserCalendars().addCalendarToCollection(newCalendar);
                 dialog = new Dialog.Builder().setDialogTitle("Calendar").setLabel("Calendar Created").setColor(Color.green).build();
                 dialog.setVisible(true);
-            }
-            else {
+            } else {
                 dialog = new Dialog.Builder().setDialogTitle("Calendar").setLabel("Calendar can't be created").setColor(Color.red).build();
                 dialog.setVisible(true);
             }
@@ -494,7 +448,7 @@ public class MWController {
         }
     }
 
-    class createCalendarButtonListener implements ActionListener{
+    class createCalendarButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -506,7 +460,7 @@ public class MWController {
         }
     }
 
-    class okButtonForEventDisplayWindowListener implements ActionListener{
+    class okButtonForEventDisplayWindowListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
 
@@ -516,7 +470,7 @@ public class MWController {
         }
     }
 
-    class deleteButtonForEventDisplayWindowListener implements ActionListener{
+    class deleteButtonForEventDisplayWindowListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -534,15 +488,15 @@ public class MWController {
         }
     }
 
-    class mainCalendarAdapter extends CalendarAdapter{
+    class mainCalendarAdapter extends CalendarAdapter {
 
-        public void itemClick(ItemMouseEvent e){
+        public void itemClick(ItemMouseEvent e) {
 
-            if(eventView!=null){
+            if (eventView != null) {
                 eventView.setVisible(false);
                 eventView.dispose();
             }
-            Appointment a =  (Appointment) e.getItem();
+            Appointment a = (Appointment) e.getItem();
             eventView = new EventDisplayWindow.Builder()
                     .setName(a.getHeaderText())
                     .setStartDate(a.getStartTime().toString())
@@ -555,22 +509,27 @@ public class MWController {
             attachEventDisplayWindow();
 
         }
-    }
 
-    class selectedCalendarListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            mwView.calendar.getSchedule().getAllItems().clear();
-            CalendarCollection cc = new CalendarCollection();
-            cc.addCalendarToCollection(mwView.getCurrentCalendar());
-            loadView(cc);
-
+        public void dateClick(ResourceDateEvent e) {
+            if (mwView.calendar.getCurrentView() == CalendarView.WeekRange) {
+                mwView.calendar.setCurrentView(CalendarView.Timetable);
+                mwView.calendar.setDate(e.getDate());
+                mwView.viewMenu.setSelectedIndex(0);
+            }
         }
     }
+        class selectedCalendarListener implements ActionListener {
 
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-}
+                mwView.calendar.getSchedule().getAllItems().clear();
+                CalendarCollection cc = new CalendarCollection();
+                cc.addCalendarToCollection(mwView.getCurrentCalendar());
+                loadView(cc);
+
+            }
+        }
+    }
 
 
