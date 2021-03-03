@@ -490,7 +490,7 @@ public class MWController {
             eventView.setVisible(false);
             eventView.dispose();
 
-            //TODO:     INTERESSANTE TROVARE UNA SOLUZIONE ALTERNATIVA PER ACQUISIRE IP
+            //TODO:     INTERESSANTE TROVARE UNA SOLUZIONE ALTERNATIVA PER ACQUISIRE ID
 
         }
     }

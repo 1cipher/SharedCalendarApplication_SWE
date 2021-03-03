@@ -28,7 +28,7 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(368, 362);
+        setSize(1000, 1000);
         setExtendedState(MAXIMIZED_BOTH);
         setTitle("Calendar");
 
@@ -53,7 +53,7 @@ public class MainWindow extends JFrame {
         calendar.setCurrentView(CalendarView.Timetable);
         calendar.setTheme(ThemeType.Light);
         calendar.setLocation(0, 40);
-        calendar.setSize(1000, 1000);
+        calendar.setSize(1000, 700);
         calendar.setVisible(true);
         calendar.endInit();
 
