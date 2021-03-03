@@ -50,6 +50,7 @@ public class MWController {
         this.mwView.addLogoutListener(new logoutListener());
         this.mwView.addCreateCalendarButtonListener(new createCalendarButtonListener());
         this.mwView.addCalendarInMainWindowPressedListener(new calendarInMainWindowPressedListener());
+        this.mwView.addSelectedCalendarListener(new selectedCalendarListener());
 
     }
 
@@ -198,7 +199,10 @@ public class MWController {
             Location loc = new Location();
             loc.setName(location);
             appointment.setLocation(loc);
-            mwView.calendar.getSchedule().getItems().add(appointment);
+            CalendarCollection cc = new CalendarCollection();
+            cc.addCalendarToCollection(mwView.getCurrentCalendar());
+            mwView.calendar.getSchedule().getAllItems().clear();
+            loadView(cc);
             cwView.setVisible(false);
             cwView.dispose();
 
@@ -214,7 +218,7 @@ public class MWController {
             if(e.getClickCount()==2 && mwView.calendar.getCurrentView() == CalendarView.WeekRange){
 
                 mwView.calendar.setCurrentView(CalendarView.Timetable);
-                mwView.calendar.setCurrentTime(mwView.calendar.getDateAt(e.getX(),e.getY()));
+                mwView.calendar.setCurrentTime(mwView.calendar.getDateAt(e.getX(),e.getY()));  //TODO: NOT SELECTING THE RIGHT DAY BUT THE CURRENT
                 mwView.viewMenu.setSelectedIndex(0);
             }
 
@@ -363,6 +367,7 @@ public class MWController {
                     User user = new User(acquiredUser);
                     model.setCurrentUser(user);
                     loadView(model.getCurrentUserCalendars());
+                    mwView.populateCalendars(model.getCurrentUserCalendars());
                     dialog = new Dialog.Builder().setDialogTitle("LoginSuccessful!")
                             .setColor(Color.green)
                             .setLabel("You are logged in!")
@@ -390,24 +395,24 @@ public class MWController {
 
 
         }
+    }
 
-        public void loadView(CalendarCollection calendars){
-            ArrayList<Event> events = calendars.getEvents();
-            for (Event event:
-                    events) {
-                Item appointment = new Appointment();
-                DateTime start = event.getStartDate();
-                DateTime end = event.getEndDate();
-                appointment.setStartTime(new DateTime(start.getYear(), start.getMonth(), start.getDay(), start.getHour(), start.getMinute(), 0));
-                appointment.setEndTime(new DateTime(end.getYear(), end.getMonth(),end.getDay(),end.getHour(),end.getMinute(),0));
-                appointment.setHeaderText(event.getName());
-                appointment.setDescriptionText(event.getDescription());
-                appointment.setId(event.getId());
-                Location loc = new Location();
-                loc.setName(event.getLocation());
-                appointment.setLocation(loc);
-                mwView.calendar.getSchedule().getItems().add(appointment);
-            }
+    public void loadView(CalendarCollection calendars){
+        ArrayList<Event> events = calendars.getEvents();
+        for (Event event:
+                events) {
+            Item appointment = new Appointment();
+            DateTime start = event.getStartDate();
+            DateTime end = event.getEndDate();
+            appointment.setStartTime(new DateTime(start.getYear(), start.getMonth(), start.getDay(), start.getHour(), start.getMinute(), 0));
+            appointment.setEndTime(new DateTime(end.getYear(), end.getMonth(),end.getDay(),end.getHour(),end.getMinute(),0));
+            appointment.setHeaderText(event.getName());
+            appointment.setDescriptionText(event.getDescription());
+            appointment.setId(event.getId());
+            Location loc = new Location();
+            loc.setName(event.getLocation());
+            appointment.setLocation(loc);
+            mwView.calendar.getSchedule().getItems().add(appointment);
         }
     }
 
@@ -548,6 +553,19 @@ public class MWController {
             eventView.setVisible(true);
             eventView.setTitle(a.getId());
             attachEventDisplayWindow();
+
+        }
+    }
+
+    class selectedCalendarListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            mwView.calendar.getSchedule().getAllItems().clear();
+            CalendarCollection cc = new CalendarCollection();
+            cc.addCalendarToCollection(mwView.getCurrentCalendar());
+            loadView(cc);
 
         }
     }

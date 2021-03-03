@@ -1,8 +1,4 @@
-import com.mindfusion.common.DateTime;
 import com.mindfusion.scheduling.*;
-import com.mindfusion.scheduling.Calendar;
-import com.mindfusion.scheduling.model.Appointment;
-import com.mindfusion.scheduling.model.Item;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,14 +11,14 @@ import java.util.ArrayList;
 public class MainWindow extends JFrame {
 
     JFormattedTextField textField = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
-    Calendar calendar;
+    com.mindfusion.scheduling.Calendar calendar;
     JButton search;
     JButton addEvent;
     JButton logout;
     JTextField searchBox;
     JComboBox<String> viewMenu;
-    JComboBox<String> calendarMenu;
     JButton createCalendar;
+    JComboBox<Calendar> selectedCalendarMenu;
 
 
 
@@ -48,7 +44,7 @@ public class MainWindow extends JFrame {
         logout.setSize(100, 20);
 
 
-        calendar = new Calendar();
+        calendar = new com.mindfusion.scheduling.Calendar();
         calendar.beginInit();
         calendar.setCurrentView(CalendarView.Timetable);
         calendar.setTheme(ThemeType.Light);
@@ -76,6 +72,10 @@ public class MainWindow extends JFrame {
        createCalendar.setLocation(780,10);
        createCalendar.setSize(110,20);
 
+        selectedCalendarMenu = new JComboBox<>();
+        selectedCalendarMenu.setLocation(670, 10);
+        selectedCalendarMenu.setSize(100, 20);
+
         cp.add(calendar);
         cp.add(addEvent);
         cp.add(searchBox);
@@ -83,6 +83,7 @@ public class MainWindow extends JFrame {
         cp.add(viewMenu);
         cp.add(logout);
         cp.add(createCalendar);
+        cp.add(selectedCalendarMenu);
 
     }
 
@@ -121,6 +122,25 @@ public class MainWindow extends JFrame {
 
         this.calendar.addMouseListener(calendarInMainWindowPressedListener);
     }
+
+    public void addSelectedCalendarListener(ActionListener selectedCalendarListener){
+
+        this.selectedCalendarMenu.addActionListener(selectedCalendarListener);
+    }
+
+    public void populateCalendars(CalendarCollection list){
+
+        ArrayList<Calendar> calendars_list = list.getCalendars();
+        for (Calendar calendar:
+                calendars_list) {
+            selectedCalendarMenu.addItem(calendar);
+        }
+    }
+
+    public Calendar getCurrentCalendar(){
+        return (Calendar) selectedCalendarMenu.getSelectedItem();
+    }
+
 
 
 }
