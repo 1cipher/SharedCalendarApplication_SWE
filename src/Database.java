@@ -159,9 +159,9 @@ public class Database {
 
     }
 
-    public void deleteEvent(Event e){
-        String sql = "DELETE FROM EVENTS WHERE ID='"+e.getId()+"';";
-        String sql2 = "DELETE FROM CALENDAREVENTS WHERE EVENT='"+e.getId()+"';";
+    public void deleteEvent(String id){
+        String sql = "DELETE FROM EVENTS WHERE ID='"+id+"';";
+        String sql2 = "DELETE FROM CALENDAREVENTS WHERE EVENT='"+id+"';";
         update(sql);
         update(sql2);
         

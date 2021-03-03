@@ -72,6 +72,12 @@ public class MWController {
         this.regView.addListener(new RegViewListener());
     }
 
+    public void attachEventDisplayWindow(){
+
+        this.eventView.addDeleteButtonForEventDisplayWindowListener(new deleteButtonForEventDisplayWindowListener());
+        this.eventView.addOkButtonForEventDisplayWindowListener(new okButtonForEventDisplayWindowListener());
+    }
+
     class addEventListener implements ActionListener {
 
         @Override
@@ -269,25 +275,6 @@ public class MWController {
 
         @Override
         public void mouseExited(MouseEvent e) {
-
-        }
-    }
-
-    class mainCalendarAdapter extends CalendarAdapter{
-
-        public void itemClick(ItemMouseEvent e){
-
-            Appointment a =  (Appointment) e.getItem();
-
-            eventView = new EventDisplayWindow.Builder()
-                    .setName(a.getHeaderText())
-                    .setStartDate(a.getStartTime().toString())
-                    .setEndDate(a.getEndTime().toString())
-                    .setLocation(a.getLocation().getName())
-                    .setDescription(a.getDescriptionText())
-                    .build();
-            eventView.setVisible(true);
-            //mwView.calendar.getSchedule().getItems().remove(e.getItem());
 
         }
     }
@@ -496,8 +483,38 @@ public class MWController {
         public void actionPerformed(ActionEvent e) {
 
 
+            Appointment appointment = (Appointment) mwView.calendar.getSchedule().getItems().get(eventView.getTitle());
+            model.deleteEvent(appointment.getId());
+            mwView.calendar.getSchedule().getItems().remove(appointment);
+            mwView.calendar.repaint();
+            eventView.setVisible(false);
+            eventView.dispose();
+
+            //TODO:     INTERESSANTE TROVARE UNA SOLUZIONE ALTERNATIVA PER ACQUISIRE IP
+
         }
     }
+
+    class mainCalendarAdapter extends CalendarAdapter{
+
+        public void itemClick(ItemMouseEvent e){
+
+            Appointment a =  (Appointment) e.getItem();
+
+            eventView = new EventDisplayWindow.Builder()
+                    .setName(a.getHeaderText())
+                    .setStartDate(a.getStartTime().toString())
+                    .setEndDate(a.getEndTime().toString())
+                    .setLocation(a.getLocation().getName())
+                    .setDescription(a.getDescriptionText())
+                    .build();
+            eventView.setVisible(true);
+            eventView.setTitle(a.getId());
+            attachEventDisplayWindow();
+
+        }
+    }
+
 
 }
 
