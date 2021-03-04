@@ -511,7 +511,7 @@ public class MWController {
         }
 
         public void dateClick(ResourceDateEvent e) {
-            if (mwView.calendar.getCurrentView() == CalendarView.WeekRange) {
+            if (mwView.calendar.getCurrentView() == CalendarView.WeekRange && e.getClicks() == 2) {
                 mwView.calendar.setCurrentView(CalendarView.Timetable);
                 mwView.calendar.setDate(e.getDate());
                 mwView.viewMenu.setSelectedIndex(0);
