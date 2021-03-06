@@ -1,12 +1,14 @@
+package view;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class Dialog extends JFrame {
 
-    JButton button;
-    JLabel label;
-    Container cp;
+    private JButton button;
+    private JLabel label;
+    private Container cp;
 
     private Dialog(){
 

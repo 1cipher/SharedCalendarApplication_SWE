@@ -1,27 +1,34 @@
-import com.mindfusion.scheduling.Calendar;
+package view;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+public class Register extends JFrame {
 
-public class Login extends JFrame {
+    private JLabel usernameLabel;
+    private JLabel passwordLabel;
+    private JTextField textUser;
+    private JTextField textPassword;
+    private JButton reg;
+    private JLabel multifunctionalLabel;
 
-    JLabel usernameLabel;
-    JLabel passwordLabel;
-    JTextField textUser;
-    JTextField textPassword;
-    JButton register;
-    JButton log;
-
-    public Login(){
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    public Register()  {
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
         setSize(368, 200);
-        setTitle("Login");
+        setTitle("view.Register");
 
         Container cp = getContentPane();
 
         cp.setLayout(null);
+
+        multifunctionalLabel = new JLabel();
+        multifunctionalLabel.setLocation(93,90);
+        multifunctionalLabel.setSize(190,30);
+        multifunctionalLabel.setText("");
+        multifunctionalLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        multifunctionalLabel.setForeground(Color.red);
+        cp.add(multifunctionalLabel);
 
         usernameLabel = new JLabel();
         usernameLabel.setLocation(10,10);
@@ -45,17 +52,12 @@ public class Login extends JFrame {
         textPassword.setSize(120,20);
         cp.add(textPassword);
 
-        register = new JButton();
-        register.setText("Register");
-        register.setLocation(200,60);
-        register.setSize(120,30);
-        cp.add(register);
+        reg = new JButton();
+        reg.setText("view.Register now");
+        reg.setLocation(123,60);
+        reg.setSize(120,30);
+        cp.add(reg);
 
-        log = new JButton();
-        log.setText("Login");
-        log.setLocation(20,60);
-        log.setSize(120,30);
-        cp.add(log);
 
     }
 
@@ -69,16 +71,11 @@ public class Login extends JFrame {
         return textPassword.getText();
     }
 
+    public void addListener(ActionListener RegViewListener){
 
-    void addLoginListener(ActionListener loginListener){
-
-        log.addActionListener(loginListener);
-
+        reg.addActionListener(RegViewListener);
     }
 
-    void addRegisterListener(ActionListener registerListener){
 
-        register.addActionListener(registerListener);
-    }
 
 }

@@ -1,4 +1,8 @@
+package view;
+
 import com.mindfusion.scheduling.*;
+import model.CalendarCollection;
+import utils.CustomRenderer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,19 +10,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 
 public class MainWindow extends JFrame {
 
-    JFormattedTextField textField = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
-    com.mindfusion.scheduling.Calendar calendar;
-    JButton search;
-    JButton addEvent;
-    JButton logout;
-    JTextField searchBox;
-    JComboBox<String> viewMenu;
-    JButton createCalendar;
-    JComboBox<Calendar> selectedCalendarMenu;
+    private JFormattedTextField textField = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
+    private com.mindfusion.scheduling.Calendar calendar;
+    private JButton search;
+    private JButton addEvent;
+    private JButton logout;
+    private JTextField searchBox;
+    private JComboBox<String> viewMenu;
+    private JButton createCalendar;
+    private JComboBox<model.Calendar> selectedCalendarMenu;
 
 
 
@@ -26,7 +31,7 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1000, 1000);
         setExtendedState(MAXIMIZED_BOTH);
-        setTitle("Calendar");
+        setTitle("model.Calendar");
 
         Container cp = getContentPane();
         cp.setLayout(null);
@@ -55,7 +60,7 @@ public class MainWindow extends JFrame {
         calendar.endInit();
 
         addEvent = new JButton();
-        addEvent.setText("Create Event");
+        addEvent.setText("Create model.Event");
         addEvent.setLocation(0, 10);
         addEvent.setSize(200, 20);
 
@@ -68,7 +73,7 @@ public class MainWindow extends JFrame {
         search.setLocation(520, 10);
         search.setSize(20, 20);
 
-        createCalendar = new JButton("Create Calendar");
+        createCalendar = new JButton("Create model.Calendar");
         createCalendar.setLocation(780,10);
         createCalendar.setSize(110,20);
 
@@ -88,11 +93,49 @@ public class MainWindow extends JFrame {
 
     }
 
+    public String getSearchText(){
+        return searchBox.getText();
+    }
+
+    public JComboBox<String> getViewMenu() {
+        return viewMenu;
+    }
+
+    public Calendar getCalendar(){
+        return calendar;
+    }
+
+    public model.Calendar getCurrentCalendar(){
+        return (model.Calendar) selectedCalendarMenu.getSelectedItem();
+    }
+
+    public void changeView(){
+        String selection = (String) viewMenu.getSelectedItem();
+
+        if (selection.equals("day"))
+            calendar.setCurrentView(CalendarView.Timetable);
+        else if (selection.equals("week")) {
+            calendar.setCurrentView(CalendarView.WeekRange);
+            calendar.getWeekRangeSettings().setHeaderStyle(EnumSet.of(WeekRangeHeaderStyle.Title));
+        } else if (selection.equals("month"))
+            calendar.setCurrentView(CalendarView.MonthRange);
+
+
+    }
+    }
+
+    public void setCalendars(CalendarCollection list) {
+        ArrayList<model.Calendar> calendars_list = list.getCalendars();
+        for (model.Calendar calendar:
+                calendars_list) {
+            selectedCalendarMenu.addItem(calendar);
+        }
+    }
+
     public void addSearchListener(ActionListener searchListener){
 
         this.search.addActionListener(searchListener);
     }
-
 
     public void addAddEventListener(ActionListener addEventListener){
 
@@ -128,20 +171,6 @@ public class MainWindow extends JFrame {
 
         this.selectedCalendarMenu.addActionListener(selectedCalendarListener);
     }
-
-    public void populateCalendars(CalendarCollection list){
-
-        ArrayList<Calendar> calendars_list = list.getCalendars();
-        for (Calendar calendar:
-                calendars_list) {
-            selectedCalendarMenu.addItem(calendar);
-        }
-    }
-
-    public Calendar getCurrentCalendar(){
-        return (Calendar) selectedCalendarMenu.getSelectedItem();
-    }
-
 
 
 }

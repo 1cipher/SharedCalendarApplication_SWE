@@ -1,43 +1,16 @@
+package model;
 
 import com.mindfusion.common.DateTime;
 
-
 import java.sql.*;
 
-public class Database {
-    User currentUser;
-    public Connection c = null;
+public class Gateway {
+
     Statement stmt = null;
-    PreparedStatement pstmt = null;
+    Connection c;
 
-    public Database() {
-
-    }
-
-    public User getCurrentUser(){
-        return currentUser;
-    }
-
-    public void createConnection() {
-
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            c = DriverManager
-                    .getConnection("jdbc:postgresql://localhost:5432/CalendarApplication",
-                            "postgres", Private.password);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-    private void dropConnection() throws  Exception{
-
-        c.close();
+    public Gateway(Connection c){
+        this.c = c;
     }
 
     public boolean checkUserPresence(String acquiredUser,String acquiredPassword) throws SQLException {
@@ -51,10 +24,6 @@ public class Database {
         boolean check = result.next();
 
         return check;
-    }
-
-    public void setCurrentUser(User user){
-        this.currentUser = user;
     }
 
     public void registerNewUser(String username,String password) {
@@ -80,7 +49,7 @@ public class Database {
 
     }
 
-    public CalendarCollection getCurrentUserCalendars(){
+    public CalendarCollection getUserCalendars(User currentUser){
 
         CalendarCollection calendars = new CalendarCollection();
         ResultSet rs;
@@ -143,7 +112,7 @@ public class Database {
     }
 
     public void addEventinEvents(Event e, String calendar_id) {
-        
+
         DateTime start = e.getStartDate();
         DateTime end = e.getEndDate();
         Timestamp ts=new Timestamp(start.getYear(),start.getMonth()-1,start.getDay(),start.getHour(),start.getMinute(),0,0);
@@ -151,7 +120,7 @@ public class Database {
         String sql = "INSERT INTO EVENTS(ID,NAME,START_DATE,END_DATE,LOCATION,COLOR,DESCRIPTION)" +
                 "VALUES('"+e.getId()+"','"+e.getName()+"','"+ts+"','"+te+"','"+e.getLocation()+"',0,'"+e.getDescription()+"');";
         update(sql);
-        
+
         sql = "INSERT INTO CALENDAREVENTS(CALENDAR,EVENT)" +
                 "VALUES('"+calendar_id+"','"+e.getId()+"');";
         update(sql);
@@ -166,14 +135,14 @@ public class Database {
         update(sql2);
     }
 
-    public void CreateCalendar(Calendar calendar){
+    public void CreateCalendar(Calendar calendar, User currentUser){
         String sql = "INSERT INTO CALENDAR(ID,NAME,OWNER)" +
                 "VALUES('"+calendar.getId()+"','"+calendar.getName()+"','"+currentUser.getUsername()+"');" +
                 "INSERT INTO PARTICIPATION(UID,CALENDARID,TYPE)" +
                 "VALUES('"+currentUser.getUsername()+"','"+calendar.getId()+"',0)";
         update(sql);
     }
-    
+
     private void update(String sql){
         try{
             stmt.executeUpdate(sql);
@@ -183,7 +152,3 @@ public class Database {
     }
 
 }
-
-
-
-

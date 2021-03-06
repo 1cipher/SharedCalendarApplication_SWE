@@ -1,3 +1,5 @@
+package model;
+
 import com.mindfusion.common.DateTime;
 
 public class Event {

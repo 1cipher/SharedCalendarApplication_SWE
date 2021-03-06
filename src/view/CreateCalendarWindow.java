@@ -1,24 +1,26 @@
+package view;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class CreateCalendarWindow extends JFrame {
 
-    JLabel calendarName;
-    JTextField calendarText;
-    JButton createCalendar;
-    Container c;
+    private JLabel calendarName;
+    private JTextField calendarText;
+    private JButton createCalendar;
+    private Container c;
 
     public CreateCalendarWindow(){
 
-        setName("Create Calendar");
+        setName("Create model.Calendar");
         setSize(300,200);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 
         c = getContentPane();
         c.setLayout(null);
 
-        calendarName = new JLabel("Calendar: ",SwingConstants.CENTER);
+        calendarName = new JLabel("model.Calendar: ",SwingConstants.CENTER);
         calendarName.setLocation(30,50);
         calendarName.setSize(100,20);
 

@@ -1,22 +1,25 @@
+package view;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class EventDisplayWindow extends JFrame {
 
-    JLabel name;
-    JLabel startDate;
-    JLabel endDate;
-    JLabel location;
-    JLabel descr;
-    JLabel nameDisplayed;
-    JLabel startDateDisplayed;
-    JLabel endDateDisplayed;
-    JLabel locationDisplayed;
-    JLabel descrDisplayed;
-    JButton okButton;
-    JButton deleteButton;
-    Container c;
+    private JLabel name;
+    private JLabel startDate;
+    private JLabel endDate;
+    private JLabel location;
+    private JLabel descr;
+    private JLabel nameDisplayed;
+    private JLabel startDateDisplayed;
+    private JLabel endDateDisplayed;
+    private JLabel locationDisplayed;
+    private JLabel descrDisplayed;
+    private JButton okButton;
+    private JButton deleteButton;
+    private Container c;
 
     private EventDisplayWindow(){
 
@@ -70,6 +73,13 @@ public class EventDisplayWindow extends JFrame {
         okButton = new JButton("Ok!");
         okButton.setLocation(90,200);
         okButton.setSize(100,20);
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                dispose();
+            }
+        });
 
         deleteButton = new JButton("Delete!");
         deleteButton.setLocation(210,200);
