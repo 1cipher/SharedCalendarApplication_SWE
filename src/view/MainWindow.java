@@ -31,7 +31,7 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1000, 1000);
         setExtendedState(MAXIMIZED_BOTH);
-        setTitle("model.Calendar");
+        setTitle("Calendar");
 
         Container cp = getContentPane();
         cp.setLayout(null);
@@ -60,7 +60,7 @@ public class MainWindow extends JFrame {
         calendar.endInit();
 
         addEvent = new JButton();
-        addEvent.setText("Create model.Event");
+        addEvent.setText("Create Event");
         addEvent.setLocation(0, 10);
         addEvent.setSize(200, 20);
 
@@ -73,7 +73,7 @@ public class MainWindow extends JFrame {
         search.setLocation(520, 10);
         search.setSize(20, 20);
 
-        createCalendar = new JButton("Create model.Calendar");
+        createCalendar = new JButton("Create Calendar");
         createCalendar.setLocation(780,10);
         createCalendar.setSize(110,20);
 
@@ -122,7 +122,7 @@ public class MainWindow extends JFrame {
 
 
     }
-    }
+
 
     public void setCalendars(CalendarCollection list) {
         ArrayList<model.Calendar> calendars_list = list.getCalendars();

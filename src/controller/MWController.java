@@ -1,3 +1,5 @@
+package controller;
+
 import com.mindfusion.common.DateTime;
 import com.mindfusion.scheduling.*;
 import com.mindfusion.scheduling.Calendar;
@@ -7,7 +9,6 @@ import view.*;
 import view.Dialog;
 
 import java.awt.*;
-import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -92,7 +93,7 @@ public class MWController {
             public void actionPerformed(ActionEvent e) {
                 createCalendarWindow = new CreateCalendarWindow();
                 createCalendarWindow.setVisible(true);
-                createCalendarWindow.addCreateCalendarListener(new crea);
+                createCalendarWindow.addCreateCalendarListener(new CreateCalendarListener());
             }
         });
         this.mwView.addSelectedCalendarListener(new ActionListener() {
@@ -477,6 +478,27 @@ public class MWController {
             dialog.setVisible(false);
             dialog.dispose();
 
+        }
+    }
+
+    class CreateCalendarListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String cid = java.util.UUID.randomUUID().toString().substring(0, 19);
+            if (!createCalendarWindow.getName().isEmpty()) {
+                model.Calendar newCalendar = new model.Calendar(currentUser, cid, createCalendarWindow.getName());
+                model.CreateCalendar(newCalendar,currentUser);
+                model.getUserCalendars(currentUser).addCalendarToCollection(newCalendar);
+                dialog = new Dialog.Builder().setDialogTitle("Calendar").setLabel("Calendar Created").setColor(Color.green).build();
+                dialog.setVisible(true);
+            } else {
+                dialog = new Dialog.Builder().setDialogTitle("Calendar").setLabel("Calendar can't be created").setColor(Color.red).build();
+                dialog.setVisible(true);
+            }
+
+            createCalendarWindow.setVisible(false);
+            createCalendarWindow.dispose();
         }
     }
 }

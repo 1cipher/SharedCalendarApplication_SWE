@@ -26,7 +26,7 @@ public class Dialog extends JFrame {
         JButton button;
         JLabel label;
         Color color;
-        String title;
+        String titleToDisplay;
 
         public Builder(){
 
@@ -44,7 +44,7 @@ public class Dialog extends JFrame {
 
         public Builder setDialogTitle(String title){
 
-            this.title = title;
+            this.titleToDisplay = title;
 
             return this;
         }

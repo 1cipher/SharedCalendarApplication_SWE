@@ -11,7 +11,7 @@ public class Calendar {
 
     public Calendar(User user, String cid, String name) {
         this.user = user;
-        this.newBuffer = new ArrayList<Event>();
+        this.newBuffer = new ArrayList<>();
         this.id = cid;
         this.name = name;
     }
