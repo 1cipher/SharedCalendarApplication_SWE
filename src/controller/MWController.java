@@ -348,6 +348,8 @@ public class MWController {
         Location loc = new Location();
         loc.setName(location);
         appointment.setLocation(loc);
+        model.addEventinEvents(event, cwView.getCurrentCalendar().getId());
+
     }
 
 
