@@ -116,7 +116,7 @@ public class MWController {
             public void actionPerformed(ActionEvent e) {
 
                 createEvent();
-                CalendarCollection cc = new CalendarCollection();
+                CalendarCollection cc = currentUser.getCollection();
                 cc.addCalendarToCollection(mwView.getCurrentCalendar());
                 mwView.getCalendar().getSchedule().getAllItems().clear();
                 loadView(cc);
@@ -375,6 +375,7 @@ public class MWController {
                 currentUser = user;
                 CalendarCollection cc = model.getUserCalendars(currentUser);
                 loadView(cc);
+                user.setCollection(cc);
                 mwView.setCalendars(cc);
                 dialog = new view.Dialog.Builder().setDialogTitle("LoginSuccessful!")
                         .setColor(Color.green)
