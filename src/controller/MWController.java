@@ -116,8 +116,8 @@ public class MWController {
             public void actionPerformed(ActionEvent e) {
 
                 createEvent();
-                CalendarCollection cc = currentUser.getCollection();
-                cc.addCalendarToCollection(mwView.getCurrentCalendar());
+                CalendarCollection cc = new CalendarCollection();
+                cc.addCalendarToCollection(currentUser.getCollection().getCalendar(mwView.getCurrentCalendar().getId()));
                 mwView.getCalendar().getSchedule().getAllItems().clear();
                 loadView(cc);
                 cwView.setVisible(false);
