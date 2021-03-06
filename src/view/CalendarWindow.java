@@ -1,13 +1,16 @@
+package view;
+
 import javax.swing.*;
 
 import com.mindfusion.scheduling.ThemeType;
+import model.Calendar;
+import utils.CustomRenderer;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 public class CalendarWindow extends JFrame {
 
@@ -105,7 +108,7 @@ public class CalendarWindow extends JFrame {
         colorLabel.setLocation(410,200);
         colorLabel.setSize(50,20);
 
-        calendarLabel = new JLabel("Calendar: ");
+        calendarLabel = new JLabel("model.Calendar: ");
         calendarLabel.setLocation(410,230);
         calendarLabel.setSize(50,20);
 
@@ -117,7 +120,7 @@ public class CalendarWindow extends JFrame {
         color.addItem("Green");
         color.addItem("Blue");
 
-        createEvent = new JButton("Create Event");
+        createEvent = new JButton("Create model.Event");
         createEvent.setLocation(700,200);
         createEvent.setSize(150,20);
 
@@ -186,18 +189,5 @@ public class CalendarWindow extends JFrame {
 
         this.cal.addMouseListener(calendarPressedListener);
     }
-
-    public void populateCalendars(CalendarCollection list){
-        ArrayList<Calendar> calendars_list = list.getCalendars();
-        for (Calendar calendar:
-        calendars_list) {
-            calendar_id.addItem(calendar);
-        }
-    }
-
-    public Calendar getCurrentCalendar(){
-        return (Calendar) calendar_id.getSelectedItem();
-    }
-
 
 }

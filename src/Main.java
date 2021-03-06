@@ -1,4 +1,11 @@
 
+import model.Database;
+import model.Gateway;
+import view.CalendarWindow;
+import view.Login;
+import view.MainWindow;
+import view.Register;
+
 import javax.swing.*;
 
 public class Main {
@@ -16,7 +23,7 @@ public class Main {
                      log.setVisible(true);
 
                      Database db = new Database();
-                     db.createConnection();
+                     Gateway g = new Gateway(db.createConnection());
 
                      MWController mwc = new MWController(log,db);
 

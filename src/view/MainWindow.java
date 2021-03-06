@@ -1,4 +1,8 @@
+package view;
+
 import com.mindfusion.scheduling.*;
+import model.CalendarCollection;
+import utils.CustomRenderer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +30,7 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1000, 1000);
         setExtendedState(MAXIMIZED_BOTH);
-        setTitle("Calendar");
+        setTitle("model.Calendar");
 
         Container cp = getContentPane();
         cp.setLayout(null);
@@ -55,7 +59,7 @@ public class MainWindow extends JFrame {
         calendar.endInit();
 
         addEvent = new JButton();
-        addEvent.setText("Create Event");
+        addEvent.setText("Create model.Event");
         addEvent.setLocation(0, 10);
         addEvent.setSize(200, 20);
 
@@ -68,7 +72,7 @@ public class MainWindow extends JFrame {
         search.setLocation(520, 10);
         search.setSize(20, 20);
 
-        createCalendar = new JButton("Create Calendar");
+        createCalendar = new JButton("Create model.Calendar");
         createCalendar.setLocation(780,10);
         createCalendar.setSize(110,20);
 
@@ -128,20 +132,6 @@ public class MainWindow extends JFrame {
 
         this.selectedCalendarMenu.addActionListener(selectedCalendarListener);
     }
-
-    public void populateCalendars(CalendarCollection list){
-
-        ArrayList<Calendar> calendars_list = list.getCalendars();
-        for (Calendar calendar:
-                calendars_list) {
-            selectedCalendarMenu.addItem(calendar);
-        }
-    }
-
-    public Calendar getCurrentCalendar(){
-        return (Calendar) selectedCalendarMenu.getSelectedItem();
-    }
-
 
 
 }
