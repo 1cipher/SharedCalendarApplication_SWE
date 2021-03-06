@@ -4,6 +4,7 @@ import utils.Private;
 
 import java.sql.*;
 
+
 public class Database {
 
     public Database() {
@@ -17,6 +18,7 @@ public class Database {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
         Connection c = null;
         try {
             c = DriverManager

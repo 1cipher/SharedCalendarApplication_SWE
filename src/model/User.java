@@ -16,6 +16,7 @@ public class User {
     public void setCollection(CalendarCollection cc){
         this.collection = cc;
     }
+
     public CalendarCollection getCollection(){
         return collection;
     }

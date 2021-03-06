@@ -100,8 +100,7 @@ public class MWController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mwView.getCalendar().getSchedule().getAllItems().clear();
-                CalendarCollection cc = new CalendarCollection();
-                cc.addCalendarToCollection(mwView.getCurrentCalendar());
+                model.Calendar cc = mwView.getCurrentCalendar();
                 loadView(cc);
             }
         });
@@ -116,10 +115,8 @@ public class MWController {
             public void actionPerformed(ActionEvent e) {
 
                 createEvent();
-                CalendarCollection cc = new CalendarCollection();
-                cc.addCalendarToCollection(currentUser.getCollection().getCalendar(mwView.getCurrentCalendar().getId()));
                 mwView.getCalendar().getSchedule().getAllItems().clear();
-                loadView(cc);
+                loadView(currentUser.getCollection().getCalendar(mwView.getCurrentCalendar().getId()));
                 cwView.setVisible(false);
                 cwView.dispose();
                 //TODO: sei un po' cattivo
@@ -211,8 +208,8 @@ public class MWController {
         }
     }
 
-    public void loadView(CalendarCollection calendars) {
-        ArrayList<model.Event> events = calendars.getEvents();
+    public void loadView(model.Calendar calendar) {
+        ArrayList<model.Event> events = calendar.getEvents();
         for (model.Event event :
                 events) {
             Item appointment = new Appointment();
@@ -349,7 +346,7 @@ public class MWController {
         loc.setName(location);
         appointment.setLocation(loc);*/
         model.addEventinEvents(event, cwView.getCurrentCalendar().getId());
-        currentUser.getCollection().getCalendar(cwView.getCurrentCalendar().getId()).addtoCalendar(event);
+        currentUser.setCollection(model.getUserCalendars(currentUser));
     }
 
 
@@ -373,8 +370,8 @@ public class MWController {
 
                 User user = new User(acquiredUser);
                 currentUser = user;
+
                 CalendarCollection cc = model.getUserCalendars(currentUser);
-                loadView(cc);
                 user.setCollection(cc);
                 mwView.setCalendars(cc);
                 dialog = new view.Dialog.Builder().setDialogTitle("LoginSuccessful!")

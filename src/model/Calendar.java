@@ -33,6 +33,7 @@ public class Calendar {
     public String getId() {
         return id;
     }
+
     public ArrayList<Event> getEvents(){
         return newBuffer;
     }
