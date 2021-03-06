@@ -172,5 +172,9 @@ public class MainWindow extends JFrame {
         this.selectedCalendarMenu.addActionListener(selectedCalendarListener);
     }
 
+    public void close(){
+        setVisible(false);
+        dispose();
+    }
 
 }

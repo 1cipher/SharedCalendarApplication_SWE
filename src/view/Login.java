@@ -71,6 +71,10 @@ public class Login extends JFrame {
         return textPassword.getText();
     }
 
+    public void close(){
+        setVisible(false);
+        dispose();
+    }
 
     public void addLoginListener(ActionListener loginListener){
 

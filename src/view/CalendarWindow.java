@@ -36,7 +36,7 @@ public class CalendarWindow extends JFrame {
     private JComboBox<Calendar> selectedCalendarMenu;
 
 
-    public CalendarWindow(){
+    public CalendarWindow(CalendarCollection calendars){
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 
         setSize(850,300);
@@ -53,6 +53,7 @@ public class CalendarWindow extends JFrame {
         selectedCalendarMenu.setLocation(500,230);
         selectedCalendarMenu.setSize(150,20);
         selectedCalendarMenu.setRenderer(new CustomRenderer());
+        setCalendars(calendars);
 
         startDateLabel = new JLabel("Start Date: ");
         startDateLabel.setLocation(410,40);
@@ -233,6 +234,10 @@ public class CalendarWindow extends JFrame {
     public void addCalendarPressListener(MouseListener calendarPressedListener){
 
         this.cal.addMouseListener(calendarPressedListener);
+    }
+    public void close(){
+        this.setVisible(false);
+        this.dispose();
     }
 
 }

@@ -13,14 +13,11 @@ public class Main {
              @Override
              public void run() {
                  try {
-                     Login log = new Login();
-
-                     log.setVisible(true);
 
                      Database db = new Database();
                      Gateway g = new Gateway(db.createConnection());
 
-                     MWController mwc = new MWController(log,g);
+                     MWController mwc = new MWController(g);
 
                  }catch (Exception e){
                      e.printStackTrace();

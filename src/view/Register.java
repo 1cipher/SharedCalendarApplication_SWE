@@ -76,6 +76,11 @@ public class Register extends JFrame {
         reg.addActionListener(RegViewListener);
     }
 
+    public void close(){
+        setVisible(false);
+        dispose();
+    }
+
 
 
 }

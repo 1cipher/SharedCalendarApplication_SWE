@@ -102,6 +102,11 @@ public class EventDisplayWindow extends JFrame {
 
     }
 
+    public void close(){
+        this.setVisible(false);
+        this.dispose();
+    }
+
     public static class Builder{
 
         String nameDisplayed;
@@ -161,12 +166,12 @@ public class EventDisplayWindow extends JFrame {
 
     }
 
-    public void addOkButtonForEventDisplayWindowListener(ActionListener okButtonForEventDisplayWindowListener){
+    public void addOkButtonListener(ActionListener okButtonForEventDisplayWindowListener){
 
         this.okButton.addActionListener(okButtonForEventDisplayWindowListener);
     }
 
-    public void addDeleteButtonForEventDisplayWindowListener(ActionListener deleteButtonForEventDisplayWindowListener){
+    public void addDeleteButtonListener(ActionListener deleteButtonForEventDisplayWindowListener){
 
         this.deleteButton.addActionListener(deleteButtonForEventDisplayWindowListener);
     }
