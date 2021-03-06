@@ -9,6 +9,7 @@ public class Dialog extends JFrame {
     private JButton button;
     private JLabel label;
     private Container cp;
+    public enum type {error, success};
 
     private Dialog(){
 
@@ -35,16 +36,17 @@ public class Dialog extends JFrame {
 
         }
 
-        public Builder setColor(Color color){
+        public Builder setType(type t){
 
-            this.color = color;
+            if (t==type.error) {
+                this.color = Color.red;
+                titleToDisplay = "Error!";
+            }
 
-            return this;
-        }
-
-        public Builder setDialogTitle(String title){
-
-            this.titleToDisplay = title;
+            if (t==type.success) {
+                this.color = Color.green;
+                titleToDisplay = "Success!";
+            }
 
             return this;
         }
@@ -78,7 +80,13 @@ public class Dialog extends JFrame {
 
         }
 
-
     }
 
+    public void close(){
+        setVisible(false);
+        dispose();
+    }
+
+
 }
+

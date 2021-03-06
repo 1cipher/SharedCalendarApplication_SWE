@@ -4,8 +4,6 @@ import com.mindfusion.common.DateTime;
 
 public class Event {
 
-
-
     enum Color {RED,BLUE,BLACK}
 
     public String getId() {

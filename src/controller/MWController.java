@@ -63,8 +63,17 @@ public class MWController {
         //TODO: ci sono problemi con la finestra di registrazione
     }
 
-    public void setupEventWindow() {
+    public void setupEventWindow(Appointment a) {
 
+        eventView = new EventDisplayWindow.Builder()
+                .setName(a.getHeaderText())
+                .setStartDate(a.getStartTime().toString())
+                .setEndDate(a.getEndTime().toString())
+                .setLocation(a.getLocation().getName())
+                .setDescription(a.getDescriptionText())
+                .build();
+        eventView.setVisible(true);
+        eventView.setTitle(a.getId());
         this.eventView.addDeleteButtonListener(e -> deleteEvent());
         this.eventView.addOkButtonListener(e -> eventView.close());
 
@@ -97,6 +106,13 @@ public class MWController {
 
     }
 
+    public void setupDialog(){
+
+        dialog.setVisible(true);
+        dialog.addDialogListener(e->dialog.close());
+
+    }
+
     public void register() {
 
         String newUser = regView.getUsername();
@@ -104,27 +120,17 @@ public class MWController {
 
         if (newUser.length() == 0 || newPassword.length() == 0) {
 
-            dialog = new view.Dialog.Builder().setDialogTitle("view.Register Problem")
-                    .setLabel("Username or password fields are empty")
-                    .setColor(Color.red)
-                    .build();
+            dialog = new view.Dialog.Builder().setType(Dialog.type.error).setLabel("Empty field!").build();
         } else if (model.isExistingUsername(newUser)) {
 
-            dialog = new view.Dialog.Builder().setDialogTitle("view.Register Problem")
-                    .setLabel("Username already present")
-                    .setColor(Color.red)
-                    .build();
+            dialog = new view.Dialog.Builder().setLabel("Username already existing!").setType(Dialog.type.error).build();
 
         } else {
 
             model.registerNewUser(newUser, newPassword);
-            dialog = new view.Dialog.Builder().setDialogTitle("Successfull sign up!")
-                    .setLabel("You have been registered on our system!")
-                    .setColor(Color.green)
-                    .build();
+            dialog = new view.Dialog.Builder().setType(Dialog.type.success).setLabel("You have been registered!").build();
         }
-        dialog.setVisible(true);
-        dialog.addDialogListener(new DialogListener());
+        setupDialog();
     }
 
     private void login(){
@@ -147,25 +153,15 @@ public class MWController {
                 currentUser.setCollection(cc);
 
                 mwView.setCalendars(cc);
-                dialog = new view.Dialog.Builder().setDialogTitle("LoginSuccessful!")
-                        .setColor(Color.green)
-                        .setLabel("You are logged in!")
-                        .build();
+                dialog = new view.Dialog.Builder().setType(Dialog.type.success).setLabel("You are logged in!").build();
 
             } else {
-                dialog = new view.Dialog.Builder().setDialogTitle("Access denied")
-                        .setLabel("Your username or password is wrong")
-                        .setColor(Color.red)
-                        .build();
+                dialog = new view.Dialog.Builder().setType(Dialog.type.error).setLabel("Wrong credentials!").build();
             }
         } catch (SQLException ex) { //TODO: no sql here
-            dialog = new view.Dialog.Builder().setDialogTitle("Access denied")
-                    .setLabel("Your username or password is wrong")
-                    .setColor(Color.red)
-                    .build();
+            dialog = new view.Dialog.Builder().setType(Dialog.type.error).setLabel("Exception!").build();
         }
-        dialog.setVisible(true);
-        dialog.addDialogListener(new DialogListener());
+        setupDialog();
 
     }
 
@@ -192,38 +188,6 @@ public class MWController {
         }
     }
 
-    class mainCalendarAdapter extends CalendarAdapter {
-
-        public void itemClick(ItemMouseEvent e) {
-
-            if (eventView != null) {
-                eventView.setVisible(false);
-                eventView.dispose();
-            }
-            Appointment a = (Appointment) e.getItem();
-            eventView = new EventDisplayWindow.Builder()
-                    .setName(a.getHeaderText())
-                    .setStartDate(a.getStartTime().toString())
-                    .setEndDate(a.getEndTime().toString())
-                    .setLocation(a.getLocation().getName())
-                    .setDescription(a.getDescriptionText())
-                    .build();
-            eventView.setVisible(true);
-            eventView.setTitle(a.getId());
-            setupEventWindow();
-
-        }
-
-        public void dateClick(ResourceDateEvent e) {
-            Calendar calendar = mwView.getCalendar();
-            if (calendar.getCurrentView() == CalendarView.WeekRange) {
-                calendar.setCurrentView(CalendarView.Timetable);
-                calendar.setDate(e.getDate());
-                mwView.getViewMenu().setSelectedIndex(0);
-            }
-        }
-    }
-
     private void search() {
         String nameToSearch = mwView.getSearchText();
         ItemList itemList = mwView.getCalendar().getSchedule().getItems();
@@ -240,12 +204,8 @@ public class MWController {
             DateTime dt = itemList.get(i).getStartTime();
             mwView.getCalendar().setDate(dt);
         } else {
-            dialog = new view.Dialog.Builder().setDialogTitle("view.Register Problem")
-                    .setLabel("No event found!")
-                    .setColor(Color.red)
-                    .build();
-            dialog.setVisible(true);
-            dialog.addDialogListener(new DialogListener());
+            dialog = new view.Dialog.Builder().setLabel("No event found!").setType(Dialog.type.error).build();
+            setupDialog();
         }
     }
 
@@ -255,9 +215,9 @@ public class MWController {
             model.Calendar newCalendar = new model.Calendar(currentUser, cid, createCalendarWindow.getName());
             model.CreateCalendar(newCalendar, currentUser);
             model.getUserCalendars(currentUser).addCalendarToCollection(newCalendar);
-            dialog = new view.Dialog.Builder().setDialogTitle("model.Calendar").setLabel("model.Calendar Created").setColor(Color.green).build();
+            dialog = new view.Dialog.Builder().setLabel("model.Calendar Created").setType(Dialog.type.success).build();
         } else {
-            dialog = new Dialog.Builder().setDialogTitle("model.Calendar").setLabel("model.Calendar can't be created").setColor(Color.red).build();
+            dialog = new Dialog.Builder().setLabel("model.Calendar can't be created").setType(Dialog.type.error).build();
         }
         dialog.setVisible(true);
         createCalendarWindow.setVisible(false);
@@ -266,6 +226,7 @@ public class MWController {
     }
 
     private void createEvent(){
+
         String uid = java.util.UUID.randomUUID().toString().substring(0, 19);
         String name = cwView.getName();
         String location = cwView.getLocationName();
@@ -292,20 +253,18 @@ public class MWController {
         greg.setTime(date2);
         DateTime endDate = new DateTime(greg.get(java.util.Calendar.YEAR) - 1900, greg.get(java.util.Calendar.MONTH) + 1, greg.get(java.util.Calendar.DAY_OF_MONTH), Integer.parseInt(endHour.substring(0, 2)), Integer.parseInt(endHour.substring(3, 5)), 0); //TODO:COLLEZIONARE GLI ORARI DAI RISPETTIVI TEXTFIELD
         if (!name.isEmpty() && !uid.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
-            dialog = new view.Dialog.Builder().setColor(Color.green).setLabel("model.Event Created!").setDialogTitle("model.Event").build();
-            dialog.setVisible(true);
-            dialog.addDialogListener(new DialogListener());
+            dialog = new view.Dialog.Builder().setType(Dialog.type.success).setLabel("model.Event Created!").build();
+
         } else {
-            dialog = new view.Dialog.Builder().setColor(Color.red).setLabel("Check null values").setDialogTitle("model.Event").build();
-            dialog.setVisible(true);
-            dialog.addDialogListener(new DialogListener());
+            dialog = new view.Dialog.Builder().setType(Dialog.type.error).setLabel("Check null values").build();
         }
+
+        setupDialog();
 
         model.Event event = new model.Event(uid, name, startDate, endDate, location, descr);
         model.addEventinEvents(event, cwView.getCurrentCalendar().getId());
         currentUser.setCollection(model.getUserCalendars(currentUser));
         mwView.getCalendar().getSchedule().getAllItems().clear();
-        loadView();
         cwView.close();
     }
 
@@ -314,6 +273,28 @@ public class MWController {
         model.deleteEvent(appointment.getId());
         mwView.getCalendar().getSchedule().getItems().remove(appointment);
         eventView.close();
+    }
+
+    class mainCalendarAdapter extends CalendarAdapter {
+
+        public void itemClick(ItemMouseEvent e) {
+
+            if (eventView != null) {
+                eventView.close();
+            }
+            Appointment a = (Appointment) e.getItem();
+            setupEventWindow(a);
+
+        }
+
+        public void dateClick(ResourceDateEvent e) {
+            Calendar calendar = mwView.getCalendar();
+            if (calendar.getCurrentView() == CalendarView.WeekRange) {
+                calendar.setCurrentView(CalendarView.Timetable);
+                calendar.setDate(e.getDate());
+                mwView.getViewMenu().setSelectedIndex(0);
+            }
+        }
     }
 
     class CalendarinCalendarWindowPressedListener implements MouseListener {
@@ -387,15 +368,6 @@ public class MWController {
         }
     }
 
-    class DialogListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            dialog.setVisible(false);
-            dialog.dispose();
-
-        }
-    }
 }
 
 
