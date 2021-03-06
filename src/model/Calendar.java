@@ -20,7 +20,7 @@ public class Calendar {
         return name;
     }
 
-    public void addtoCalendar(Event e) throws SQLException {
+    public void addtoCalendar(Event e)  {
         newBuffer.add(e);
     }
 

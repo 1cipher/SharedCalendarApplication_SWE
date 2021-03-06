@@ -339,7 +339,7 @@ public class MWController {
         }
 
         model.Event event = new model.Event(uid, name, startDate, endDate, location, descr);
-        Item appointment = new Appointment();
+        /*Item appointment = new Appointment();
         appointment.setStartTime(new DateTime(calendar1.get(java.util.Calendar.YEAR), calendar1.get(java.util.Calendar.MONTH) + 1, calendar1.get(java.util.Calendar.DAY_OF_MONTH), Integer.parseInt(startHour.substring(0, 2)), Integer.parseInt(startHour.substring(3, 5)), 00));
         appointment.setEndTime(new DateTime(calendar2.get(java.util.Calendar.YEAR), calendar2.get(java.util.Calendar.MONTH) + 1, calendar2.get(java.util.Calendar.DAY_OF_MONTH), Integer.parseInt(endHour.substring(0, 2)), Integer.parseInt(endHour.substring(3, 5)), 00));
         appointment.setHeaderText(name);
@@ -347,9 +347,9 @@ public class MWController {
         appointment.setDescriptionText(descr);
         Location loc = new Location();
         loc.setName(location);
-        appointment.setLocation(loc);
+        appointment.setLocation(loc);*/
         model.addEventinEvents(event, cwView.getCurrentCalendar().getId());
-
+        currentUser.getCollection().getCalendar(cwView.getCurrentCalendar().getId()).addtoCalendar(event);
     }
 
 
