@@ -10,19 +10,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 
 public class MainWindow extends JFrame {
 
-    JFormattedTextField textField = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
-    com.mindfusion.scheduling.Calendar calendar;
-    JButton search;
-    JButton addEvent;
-    JButton logout;
-    JTextField searchBox;
-    JComboBox<String> viewMenu;
-    JButton createCalendar;
-    JComboBox<Calendar> selectedCalendarMenu;
+    private JFormattedTextField textField = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
+    private com.mindfusion.scheduling.Calendar calendar;
+    private JButton search;
+    private JButton addEvent;
+    private JButton logout;
+    private JTextField searchBox;
+    private JComboBox<String> viewMenu;
+    private JButton createCalendar;
+    private JComboBox<model.Calendar> selectedCalendarMenu;
 
 
 
@@ -92,11 +93,49 @@ public class MainWindow extends JFrame {
 
     }
 
+    public String getSearchText(){
+        return searchBox.getText();
+    }
+
+    public JComboBox<String> getViewMenu() {
+        return viewMenu;
+    }
+
+    public Calendar getCalendar(){
+        return calendar;
+    }
+
+    public model.Calendar getCurrentCalendar(){
+        return (model.Calendar) selectedCalendarMenu.getSelectedItem();
+    }
+
+    public void changeView(){
+        String selection = (String) viewMenu.getSelectedItem();
+
+        if (selection.equals("day"))
+            calendar.setCurrentView(CalendarView.Timetable);
+        else if (selection.equals("week")) {
+            calendar.setCurrentView(CalendarView.WeekRange);
+            calendar.getWeekRangeSettings().setHeaderStyle(EnumSet.of(WeekRangeHeaderStyle.Title));
+        } else if (selection.equals("month"))
+            calendar.setCurrentView(CalendarView.MonthRange);
+
+
+    }
+    }
+
+    public void setCalendars(CalendarCollection list) {
+        ArrayList<model.Calendar> calendars_list = list.getCalendars();
+        for (model.Calendar calendar:
+                calendars_list) {
+            selectedCalendarMenu.addItem(calendar);
+        }
+    }
+
     public void addSearchListener(ActionListener searchListener){
 
         this.search.addActionListener(searchListener);
     }
-
 
     public void addAddEventListener(ActionListener addEventListener){
 

@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 
 public class CreateCalendarWindow extends JFrame {
 
-    JLabel calendarName;
-    JTextField calendarText;
-    JButton createCalendar;
-    Container c;
+    private JLabel calendarName;
+    private JTextField calendarText;
+    private JButton createCalendar;
+    private Container c;
 
     public CreateCalendarWindow(){
 

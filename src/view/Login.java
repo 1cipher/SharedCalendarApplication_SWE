@@ -9,12 +9,12 @@ import java.awt.event.ActionListener;
 
 public class Login extends JFrame {
 
-    JLabel usernameLabel;
-    JLabel passwordLabel;
-    JTextField textUser;
-    JTextField textPassword;
-    JButton register;
-    JButton log;
+    private JLabel usernameLabel;
+    private JLabel passwordLabel;
+    private JTextField textUser;
+    private JTextField textPassword;
+    private JButton register;
+    private JButton log;
 
     public Login(){
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -72,13 +72,13 @@ public class Login extends JFrame {
     }
 
 
-    void addLoginListener(ActionListener loginListener){
+    public void addLoginListener(ActionListener loginListener){
 
         log.addActionListener(loginListener);
 
     }
 
-    void addRegisterListener(ActionListener registerListener){
+    public void addRegisterListener(ActionListener registerListener){
 
         register.addActionListener(registerListener);
     }

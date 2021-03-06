@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import com.mindfusion.scheduling.ThemeType;
 import model.Calendar;
+import model.CalendarCollection;
 import utils.CustomRenderer;
 
 import java.awt.*;
@@ -11,27 +12,28 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class CalendarWindow extends JFrame {
 
-    com.mindfusion.scheduling.Calendar cal;
-    JTextField startDate;
-    JTextField endDate;
-    JLabel startDateLabel;
-    JLabel endDateLabel;
-    JLabel nameLabel;
-    JLabel calendarLabel;
-    JTextField name;
-    JLabel locationLabel;
-    JTextField location;
-    JComboBox<String> color;
-    JLabel colorLabel;
-    JLabel descrLabel;
-    JTextArea descr;
-    JButton createEvent;
-    JComboBox<String> startHour;
-    JComboBox<String> endHour;
-    JComboBox<Calendar> calendar_id;
+    private com.mindfusion.scheduling.Calendar cal;
+    private JTextField startDate;
+    private JTextField endDate;
+    private JLabel startDateLabel;
+    private JLabel endDateLabel;
+    private JLabel nameLabel;
+    private JLabel calendarLabel;
+    private JTextField name;
+    private JLabel locationLabel;
+    private JTextField location;
+    private JComboBox<String> color;
+    private JLabel colorLabel;
+    private JLabel descrLabel;
+    private JTextArea descr;
+    private JButton createEvent;
+    private JComboBox<String> startHour;
+    private JComboBox<String> endHour;
+    private JComboBox<Calendar> selectedCalendarMenu;
 
 
     public CalendarWindow(){
@@ -47,10 +49,10 @@ public class CalendarWindow extends JFrame {
         cal.setSize(400,200);
         cal.setTheme(ThemeType.Light);
 
-        calendar_id = new JComboBox<>();
-        calendar_id.setLocation(500,230);
-        calendar_id.setSize(150,20);
-        calendar_id.setRenderer(new CustomRenderer());
+        selectedCalendarMenu = new JComboBox<>();
+        selectedCalendarMenu.setLocation(500,230);
+        selectedCalendarMenu.setSize(150,20);
+        selectedCalendarMenu.setRenderer(new CustomRenderer());
 
         startDateLabel = new JLabel("Start Date: ");
         startDateLabel.setLocation(410,40);
@@ -140,9 +142,45 @@ public class CalendarWindow extends JFrame {
         cp.add(endDateLabel);
         cp.add(startHour);
         cp.add(endHour);
-        cp.add(calendar_id);
+        cp.add(selectedCalendarMenu);
         cp.add(calendarLabel);
 
+    }
+
+    public com.mindfusion.scheduling.Calendar getCal() {
+        return cal;
+    }
+
+    public String getName(){
+        return name.getText();
+    }
+
+    public String getDescriptionText(){
+        return descr.getText();
+    }
+
+    public String getStartDate(){
+        return startDate.getText();
+    }
+
+    public String getEndDate(){
+        return endDate.getText();
+    }
+
+    public String getLocationName(){
+        return location.getText();
+    }
+
+    public String getStartHour() {
+        return (String) startHour.getSelectedItem();
+    }
+
+    public String getEndHour() {
+        return (String) endHour.getSelectedItem();
+    }
+
+    public model.Calendar getCurrentCalendar(){
+        return (model.Calendar) selectedCalendarMenu.getSelectedItem();
     }
 
     public DefaultComboBoxModel<String> createModel(){
@@ -164,6 +202,13 @@ public class CalendarWindow extends JFrame {
         return model;
     }
 
+    public void setCalendars(CalendarCollection list){
+        ArrayList<model.Calendar> calendars_list = list.getCalendars();
+        for (model.Calendar calendar:
+                calendars_list) {
+            selectedCalendarMenu.addItem(calendar);
+        }
+    }
 
     public void setSelectedStartDate(java.sql.Date newDate){
 

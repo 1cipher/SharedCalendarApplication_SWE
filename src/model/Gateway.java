@@ -49,7 +49,7 @@ public class Gateway {
 
     }
 
-    public CalendarCollection getCurrentUserCalendars(User currentUser){
+    public CalendarCollection getUserCalendars(User currentUser){
 
         CalendarCollection calendars = new CalendarCollection();
         ResultSet rs;

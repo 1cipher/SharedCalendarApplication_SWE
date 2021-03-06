@@ -6,12 +6,12 @@ import java.awt.event.ActionListener;
 
 public class Register extends JFrame {
 
-    JLabel usernameLabel;
-    JLabel passwordLabel;
-    JTextField textUser;
-    JTextField textPassword;
-    JButton reg;
-    JLabel multifunctionalLabel;
+    private JLabel usernameLabel;
+    private JLabel passwordLabel;
+    private JTextField textUser;
+    private JTextField textPassword;
+    private JButton reg;
+    private JLabel multifunctionalLabel;
 
     public Register()  {
         setDefaultCloseOperation(HIDE_ON_CLOSE);
