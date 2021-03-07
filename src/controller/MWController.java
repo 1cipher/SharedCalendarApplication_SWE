@@ -167,7 +167,7 @@ public class MWController {
 
 
     public void loadView() {
-        model.Calendar calendar = mwView.getCurrentCalendar();
+        model.Calendar calendar = currentUser.getCollection().getCalendar(mwView.getCurrentCalendar().getId());
         mwView.getCalendar().getSchedule().getAllItems().clear();
 
         ArrayList<model.Event> events = calendar.getEvents();
@@ -252,19 +252,24 @@ public class MWController {
         DateTime startDate = new DateTime(greg.get(java.util.Calendar.YEAR) - 1900, greg.get(java.util.Calendar.MONTH) + 1, greg.get(java.util.Calendar.DAY_OF_MONTH), Integer.parseInt(startHour.substring(0, 2)), Integer.parseInt(startHour.substring(3, 5)), 0);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
         greg.setTime(date2);
         DateTime endDate = new DateTime(greg.get(java.util.Calendar.YEAR) - 1900, greg.get(java.util.Calendar.MONTH) + 1, greg.get(java.util.Calendar.DAY_OF_MONTH), Integer.parseInt(endHour.substring(0, 2)), Integer.parseInt(endHour.substring(3, 5)), 0); //TODO:COLLEZIONARE GLI ORARI DAI RISPETTIVI TEXTFIELD
-        if (!name.isEmpty() && !uid.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
-            dialog = new view.Dialog.Builder().setType(Dialog.type.success).setLabel("model.Event Created!").build();
 
-        } else {
-            dialog = new view.Dialog.Builder().setType(Dialog.type.error).setLabel("Check null values").build();
+        if (startDate.isLessThan(endDate)) {
+
+            if (!name.isEmpty() && !uid.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
+                dialog = new view.Dialog.Builder().setType(Dialog.type.success).setLabel("model.Event Created!").build();
+
+            } else {
+                dialog = new view.Dialog.Builder().setType(Dialog.type.error).setLabel("Check null values").build();
+            }
+
+            model.Event event = new model.Event(uid, name, startDate, endDate, location, descr);
+            model.addEventinEvents(event, cwView.getCurrentCalendar().getId());
+            currentUser.setCollection(model.getUserCalendars(currentUser));
+            mwView.getCalendar().getSchedule().getAllItems().clear();
+        }else{
+            dialog = new view.Dialog.Builder().setType(Dialog.type.error).setLabel("Inconsistent dates!").build();
         }
-
         setupDialog();
-
-        model.Event event = new model.Event(uid, name, startDate, endDate, location, descr);
-        model.addEventinEvents(event, cwView.getCurrentCalendar().getId());
-        currentUser.setCollection(model.getUserCalendars(currentUser));
-        mwView.getCalendar().getSchedule().getAllItems().clear();
         cwView.close();
     }
 
