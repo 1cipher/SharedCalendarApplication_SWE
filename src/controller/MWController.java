@@ -234,24 +234,19 @@ public class MWController {
         String startdate = cwView.getStartDate();
         String enddate = cwView.getEndDate();
 
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         String startHour = cwView.getStartHour();
         String endHour = cwView.getEndHour();
-        Date date1 = new Date();
-        Date date2 = new Date();
-        try {
-            date1 = dateFormatter.parse(startdate);
-            date2 = dateFormatter.parse(enddate);
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
 
-        java.util.Calendar greg = new GregorianCalendar();
-
-        greg.setTime(date1);
-        DateTime startDate = new DateTime(greg.get(java.util.Calendar.YEAR) - 1900, greg.get(java.util.Calendar.MONTH) + 1, greg.get(java.util.Calendar.DAY_OF_MONTH), Integer.parseInt(startHour.substring(0, 2)), Integer.parseInt(startHour.substring(3, 5)), 0);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
-        greg.setTime(date2);
-        DateTime endDate = new DateTime(greg.get(java.util.Calendar.YEAR) - 1900, greg.get(java.util.Calendar.MONTH) + 1, greg.get(java.util.Calendar.DAY_OF_MONTH), Integer.parseInt(endHour.substring(0, 2)), Integer.parseInt(endHour.substring(3, 5)), 0); //TODO:COLLEZIONARE GLI ORARI DAI RISPETTIVI TEXTFIELD
+        DateTime startDate = new DateTime(Integer.parseInt(startdate.substring(0, 4)) - 1900,
+                Integer.parseInt(startdate.substring(5,7)),
+                Integer.parseInt(startdate.substring(8,10)),
+                Integer.parseInt(startHour.substring(0, 2)),
+                Integer.parseInt(startHour.substring(3, 5)), 0);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
+        DateTime endDate = new DateTime(Integer.parseInt(enddate.substring(0, 4)) - 1900,
+                Integer.parseInt(enddate.substring(5,7)),
+                Integer.parseInt(enddate.substring(8,10)),
+                Integer.parseInt(endHour.substring(0, 2)),
+                Integer.parseInt(endHour.substring(3, 5)), 0);
 
         if (startDate.isLessThan(endDate)) {
 
@@ -266,6 +261,7 @@ public class MWController {
             model.addEventinEvents(event, cwView.getCurrentCalendar().getId());
             currentUser.setCollection(model.getUserCalendars(currentUser));
             mwView.getCalendar().getSchedule().getAllItems().clear();
+            loadView();
         }else{
             dialog = new view.Dialog.Builder().setType(Dialog.type.error).setLabel("Inconsistent dates!").build();
         }
