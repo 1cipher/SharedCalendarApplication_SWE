@@ -9,7 +9,6 @@ public class CreateCalendarWindow extends JFrame {
     private JLabel calendarName;
     private JTextField calendarText;
     private JButton createCalendar;
-    private Container c;
 
     public CreateCalendarWindow(){
 
@@ -17,7 +16,7 @@ public class CreateCalendarWindow extends JFrame {
         setSize(300,200);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 
-        c = getContentPane();
+        Container c = getContentPane();
         c.setLayout(null);
 
         calendarName = new JLabel("model.Calendar: ",SwingConstants.CENTER);
@@ -37,7 +36,9 @@ public class CreateCalendarWindow extends JFrame {
         c.add(createCalendar);
     }
 
+    @Override
     public String getName(){
+
         return calendarText.getText();
     }
 

@@ -9,7 +9,6 @@ import view.*;
 import view.Dialog;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -115,15 +114,15 @@ public class MWController {
 
         if (newUser.length() == 0 || newPassword.length() == 0) {
 
-            dialog = new view.Dialog.Builder().setType(Dialog.type.error).setLabel("Empty field!").build();
+            dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Empty field!").build();
         } else if (model.isExistingUsername(newUser)) {
 
-            dialog = new view.Dialog.Builder().setLabel("Username already existing!").setType(Dialog.type.error).build();
+            dialog = new view.Dialog.Builder().setLabel("Username already existing!").setType(Dialog.type.ERROR).build();
 
         } else {
 
             model.registerNewUser(newUser, newPassword);
-            dialog = new view.Dialog.Builder().setType(Dialog.type.success).setLabel("You have been registered!").build();
+            dialog = new view.Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("You have been registered!").build();
         }
         setupDialog();
     }
@@ -148,10 +147,10 @@ public class MWController {
             currentUser.setCollection(cc);
 
             mwView.setCalendars(cc);
-            dialog = new view.Dialog.Builder().setType(Dialog.type.success).setLabel("You are logged in!").build();
+            dialog = new view.Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("You are logged in!").build();
 
         } else {
-            dialog = new view.Dialog.Builder().setType(Dialog.type.error).setLabel("Wrong credentials!").build();
+            dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Wrong credentials!").build();
         }
         setupDialog();
 
@@ -195,7 +194,7 @@ public class MWController {
             DateTime dt = itemList.get(i).getStartTime();
             mwView.getCalendar().setDate(dt);
         } else {
-            dialog = new view.Dialog.Builder().setLabel("No event found!").setType(Dialog.type.error).build();
+            dialog = new view.Dialog.Builder().setLabel("No event found!").setType(Dialog.type.ERROR).build();
             setupDialog();
         }
     }
@@ -206,9 +205,9 @@ public class MWController {
             model.Calendar newCalendar = new model.Calendar(currentUser, cid, createCalendarWindow.getName());
             model.CreateCalendar(newCalendar, currentUser);
             model.getUserCalendars(currentUser).addCalendarToCollection(newCalendar);
-            dialog = new view.Dialog.Builder().setLabel("model.Calendar Created").setType(Dialog.type.success).build();
+            dialog = new view.Dialog.Builder().setLabel("model.Calendar Created").setType(Dialog.type.SUCCESS).build();
         } else {
-            dialog = new Dialog.Builder().setLabel("model.Calendar can't be created").setType(Dialog.type.error).build();
+            dialog = new Dialog.Builder().setLabel("model.Calendar can't be created").setType(Dialog.type.ERROR).build();
         }
         dialog.setVisible(true);
         createCalendarWindow.setVisible(false);
@@ -242,10 +241,10 @@ public class MWController {
         if (startDate.isLessThan(endDate)) {
 
             if (!name.isEmpty() && !uid.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
-                dialog = new view.Dialog.Builder().setType(Dialog.type.success).setLabel("model.Event Created!").build();
+                dialog = new view.Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("model.Event Created!").build();
 
             } else {
-                dialog = new view.Dialog.Builder().setType(Dialog.type.error).setLabel("Check null values").build();
+                dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Check null values").build();
             }
 
             model.Event event = new model.Event(uid, name, startDate, endDate, location, descr);
@@ -254,7 +253,7 @@ public class MWController {
             mwView.getCalendar().getSchedule().getAllItems().clear();
             loadView();
         }else{
-            dialog = new view.Dialog.Builder().setType(Dialog.type.error).setLabel("Inconsistent dates!").build();
+            dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Inconsistent dates!").build();
         }
         setupDialog();
         cwView.close();
@@ -269,6 +268,7 @@ public class MWController {
 
     class mainCalendarAdapter extends CalendarAdapter {
 
+        @Override
         public void itemClick(ItemMouseEvent e) {
 
             if (eventView != null) {
@@ -279,6 +279,7 @@ public class MWController {
 
         }
 
+        @Override
         public void dateClick(ResourceDateEvent e) {
             Calendar calendar = mwView.getCalendar();
             if (calendar.getCurrentView() == CalendarView.WeekRange) {
@@ -363,11 +364,13 @@ public class MWController {
         @Override
         public void mouseEntered(MouseEvent e) {
 
-
+            //no need to handle this,it only matters when mouse is inside the calendar
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
+
+            //no need to handle this,it only matters when mouse is inside the calendar
 
         }
     }

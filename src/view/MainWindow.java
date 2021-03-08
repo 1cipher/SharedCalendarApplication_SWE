@@ -120,8 +120,6 @@ public class MainWindow extends JFrame {
         return (model.Calendar) selectedCalendarMenu.getSelectedItem();
     }
 
-    public JComboBox<String> getStyleSelector() {return styleSelector;}
-
     public void changeStyle(){
 
         String selection = (String) styleSelector.getSelectedItem();
@@ -132,14 +130,21 @@ public class MainWindow extends JFrame {
     public void changeView(){
         String selection = (String) viewMenu.getSelectedItem();
 
-        if (selection.equals("day"))
-            calendar.setCurrentView(CalendarView.Timetable);
-        else if (selection.equals("week")) {
-            calendar.setCurrentView(CalendarView.WeekRange);
-            calendar.getWeekRangeSettings().setHeaderStyle(EnumSet.of(WeekRangeHeaderStyle.Title));
+        assert selection != null;
+        switch (selection) {
+            case "day":
+                calendar.setCurrentView(CalendarView.Timetable);
+                break;
+            case "week":
+                calendar.setCurrentView(CalendarView.WeekRange);
+                calendar.getWeekRangeSettings().setHeaderStyle(EnumSet.of(WeekRangeHeaderStyle.Title));
+                break;
+            case "month":
+                calendar.setCurrentView(CalendarView.MonthRange);
+                break;
+            default:
+                break;
         }
-        else if (selection.equals("month"))
-            calendar.setCurrentView(CalendarView.MonthRange);
 
 
     }
@@ -181,11 +186,6 @@ public class MainWindow extends JFrame {
     public void addCreateCalendarButtonListener(ActionListener createCalendarButtonListener){
 
         this.createCalendar.addActionListener(createCalendarButtonListener);
-    }
-
-    public void addCalendarInMainWindowPressedListener(MouseListener calendarInMainWindowPressedListener){
-
-        this.calendar.addMouseListener(calendarInMainWindowPressedListener);
     }
 
     public void addSelectedCalendarListener(ActionListener selectedCalendarListener){

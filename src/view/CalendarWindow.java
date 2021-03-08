@@ -123,7 +123,7 @@ public class CalendarWindow extends JFrame {
         calendarLabel.setLocation(410,230);
         calendarLabel.setSize(50,20);
 
-        color = new JComboBox<String>();
+        color = new JComboBox<>();
         color.setLocation(500,200);
         color.setSize(100,20);
         color.addItem("Black");
@@ -160,7 +160,9 @@ public class CalendarWindow extends JFrame {
         return cal;
     }
 
-    public String getName(){
+    @Override
+    public String getName() {
+
         return name.getText();
     }
 
@@ -212,25 +214,21 @@ public class CalendarWindow extends JFrame {
     }
 
     public void setCalendars(CalendarCollection list){
-        ArrayList<model.Calendar> calendars_list = list.getCalendars();
+        ArrayList<model.Calendar> calendarsList = list.getCalendars();
         for (model.Calendar calendar:
-                calendars_list) {
+                calendarsList) {
             selectedCalendarMenu.addItem(calendar);
         }
     }
 
     public void setSelectedStartDate(java.sql.Date newDate){
 
-        java.sql.Date selectedDate = newDate;
-
-        startDate.setText((selectedDate.toString()));
+        startDate.setText((newDate.toString()));
     }
 
     public void setSelectedEndDate(java.sql.Date newDate){
 
-        java.sql.Date selectedDate = newDate;
-
-        endDate.setText((selectedDate.toString()));
+        endDate.setText((newDate.toString()));
     }
 
 

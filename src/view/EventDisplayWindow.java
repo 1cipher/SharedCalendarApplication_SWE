@@ -73,13 +73,6 @@ public class EventDisplayWindow extends JFrame {
         okButton = new JButton("Ok!");
         okButton.setLocation(90,200);
         okButton.setSize(100,20);
-        okButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                dispose();
-            }
-        });
 
         deleteButton = new JButton("Delete!");
         deleteButton.setLocation(210,200);

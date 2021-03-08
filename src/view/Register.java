@@ -71,9 +71,9 @@ public class Register extends JFrame {
         return textPassword.getText();
     }
 
-    public void addListener(ActionListener RegViewListener){
+    public void addListener(ActionListener regViewListener){
 
-        reg.addActionListener(RegViewListener);
+        reg.addActionListener(regViewListener);
     }
 
     public void close(){

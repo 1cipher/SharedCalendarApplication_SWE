@@ -9,7 +9,7 @@ public class Dialog extends JFrame {
     private JButton button;
     private JLabel label;
     private Container cp;
-    public enum type {error, success};
+    public enum type {ERROR, SUCCESS}
 
     private Dialog(){
 
@@ -22,7 +22,7 @@ public class Dialog extends JFrame {
         this.button.addActionListener(dialogListener);
     }
 
-    public static class Builder extends JFrame{
+    public static class Builder {
 
         JButton button;
         JLabel label;
@@ -38,12 +38,12 @@ public class Dialog extends JFrame {
 
         public Builder setType(type t){
 
-            if (t==type.error) {
+            if (t==type.ERROR) {
                 this.color = Color.red;
                 titleToDisplay = "Error!";
             }
 
-            if (t==type.success) {
+            if (t==type.SUCCESS) {
                 this.color = Color.green;
                 titleToDisplay = "Success!";
             }
@@ -57,7 +57,7 @@ public class Dialog extends JFrame {
 
             return this;
         }
-                                                                                    //TODO: BUILDER DOVREBBE ESSERE UNA JFRAME?
+
         public Dialog build(){
 
             Dialog dialog = new Dialog();
