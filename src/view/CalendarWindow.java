@@ -36,6 +36,14 @@ public class CalendarWindow extends JFrame {
     private JComboBox<Calendar> selectedCalendarMenu;
 
 
+    public void setStartDate(String startDate) {
+        this.startDate.setText(startDate);
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate.setText(endDate);
+    }
+
     public CalendarWindow(CalendarCollection calendars){
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 

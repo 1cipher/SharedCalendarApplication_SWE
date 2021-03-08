@@ -7,14 +7,8 @@ import com.mindfusion.scheduling.model.*;
 import model.*;
 import view.*;
 import view.Dialog;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -60,7 +54,7 @@ public class MWController {
         regView = new Register();
         regView.setVisible(true);
         this.regView.addListener(e -> register());
-        //TODO: ci sono problemi con la finestra di registrazione
+
     }
 
     public void setupEventWindow(Appointment a) {
@@ -313,7 +307,6 @@ public class MWController {
 
                 cwView.setSelectedStartDate(sqlDate);
 
-
             }
 
         }
@@ -345,18 +338,31 @@ public class MWController {
             cal.set(pointedDate.getYear(), pointedDate.getMonth() - 1, pointedDate.getDay());
             Date utilDate = cal.getTime();
             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+            String defaultDate = "0001-01-01";
+            SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+            String d1 = sdformat.format(sqlDate);
 
-            if (cwView.getStartDate().compareTo(sqlDate.toString()) > 0) {
+            if(d1.compareTo(defaultDate)==0) {
+
+                java.sql.Date d = java.sql.Date.valueOf(cwView.getStartDate());
+                cwView.setSelectedEndDate(d);
+                cwView.setSelectedStartDate(d);
+            }
+
+            else if (cwView.getStartDate().compareTo(sqlDate.toString()) > 0) {
                 java.sql.Date d = java.sql.Date.valueOf(cwView.getStartDate());
                 cwView.setSelectedEndDate(d);
                 cwView.setSelectedStartDate(sqlDate);
-            } else
+            }
+
+            else
                 cwView.setSelectedEndDate(sqlDate);
 
         }
 
         @Override
         public void mouseEntered(MouseEvent e) {
+
 
         }
 
