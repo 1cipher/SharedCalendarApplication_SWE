@@ -11,32 +11,42 @@ public class Gateway {
 
     public Gateway(Connection c){
         this.c = c;
+        try {
+            stmt = c.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public boolean checkUserPresence(String acquiredUser,String acquiredPassword) throws SQLException {
+    public boolean checkUserPresence(String acquiredUser,String acquiredPassword) {
 
         String sql = "SELECT UID " +
                 "FROM LOGIN " +
                 "WHERE UID = '"+acquiredUser+"' AND PASSWORD ='"+acquiredPassword+"'";
 
-        stmt = c.createStatement();
-        ResultSet result = stmt.executeQuery(sql);
-        boolean check = result.next();
+
+        boolean check = false;
+        try {
+
+            ResultSet result = stmt.executeQuery(sql);
+            check = result.next();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
         return check;
     }
 
     public void registerNewUser(String username,String password) {
 
-        try {
-            stmt = c.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        String cid = java.util.UUID.randomUUID().toString().substring(0, 19);
+
         String sql = "INSERT INTO LOGIN(UID,PASSWORD)" +
                 "VALUES('"+username+"','"+password+"');" +
                 "INSERT INTO CALENDAR(ID,NAME,OWNER)" +
-                "VALUES('"+"CID1"+"','"+username+"_default"+"','"+username+"');" +
+                "VALUES('"+cid+"','"+username+"_default"+"','"+username+"');" +
                 "INSERT INTO PARTICIPATION(UID,CALENDARID,TYPE)" +
                 "VALUES('"+username+"','"+"CID1"+"',0)";
 
@@ -92,6 +102,7 @@ public class Gateway {
                 "FROM LOGIN " +
                 "WHERE UID = '" + username + "'";
 
+
         ResultSet resultSet = null;
         try {
             resultSet = stmt.executeQuery(sql);
@@ -144,6 +155,7 @@ public class Gateway {
     }
 
     private void update(String sql){
+
         try{
             stmt.executeUpdate(sql);
         }catch (SQLException e){

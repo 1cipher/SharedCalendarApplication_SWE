@@ -85,6 +85,7 @@ public class MWController {
         mwView = new MainWindow();
         mwView.setVisible(true);
         this.mwView.addChangeViewListener(e -> mwView.changeView());
+        this.mwView.addStyleSelectorListener(e-> mwView.changeStyle());
         this.mwView.addAddEventListener(e -> setupCalendarWindow());
         this.mwView.addSearchListener(e -> search());
         this.mwView.addMainCalendarListener(new mainCalendarAdapter());
@@ -136,30 +137,27 @@ public class MWController {
     private void login(){
         String acquiredUser = logView.getUsername();
         String acquiredPassword = logView.getPassword();
-        try {
-            boolean check = model.checkUserPresence(acquiredUser, acquiredPassword);
-            if (check) {
 
-                setupMainWindow();
+        boolean check = model.checkUserPresence(acquiredUser, acquiredPassword);
+        if (check) {
 
-                if (regView != null) {
-                    regView.close();
-                }
-                logView.close();
+            setupMainWindow();
 
-                currentUser = new User(acquiredUser);
-
-                CalendarCollection cc = model.getUserCalendars(currentUser);
-                currentUser.setCollection(cc);
-
-                mwView.setCalendars(cc);
-                dialog = new view.Dialog.Builder().setType(Dialog.type.success).setLabel("You are logged in!").build();
-
-            } else {
-                dialog = new view.Dialog.Builder().setType(Dialog.type.error).setLabel("Wrong credentials!").build();
+            if (regView != null) {
+                regView.close();
             }
-        } catch (SQLException ex) { //TODO: no sql here
-            dialog = new view.Dialog.Builder().setType(Dialog.type.error).setLabel("Exception!").build();
+            logView.close();
+
+            currentUser = new User(acquiredUser);
+
+            CalendarCollection cc = model.getUserCalendars(currentUser);
+            currentUser.setCollection(cc);
+
+            mwView.setCalendars(cc);
+            dialog = new view.Dialog.Builder().setType(Dialog.type.success).setLabel("You are logged in!").build();
+
+        } else {
+            dialog = new view.Dialog.Builder().setType(Dialog.type.error).setLabel("Wrong credentials!").build();
         }
         setupDialog();
 
@@ -183,7 +181,6 @@ public class MWController {
             Location loc = new Location();
             loc.setName(event.getLocation());
             appointment.setLocation(loc);
-
             mwView.getCalendar().getSchedule().getItems().add(appointment);
         }
     }

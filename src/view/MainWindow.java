@@ -24,6 +24,7 @@ public class MainWindow extends JFrame {
     private JComboBox<String> viewMenu;
     private JButton createCalendar;
     private JComboBox<model.Calendar> selectedCalendarMenu;
+    private JComboBox<String> styleSelector;
 
 
 
@@ -43,6 +44,15 @@ public class MainWindow extends JFrame {
         viewMenu.addItem("month");
         viewMenu.setLocation(550, 10);
         viewMenu.setSize(100, 20);
+
+        styleSelector = new JComboBox<>();
+        styleSelector.setName("Style");
+        styleSelector.addItem(ThemeType.Light.toString());
+        styleSelector.addItem(ThemeType.Lila.toString());
+        styleSelector.addItem(ThemeType.Vista.toString());
+        styleSelector.addItem(ThemeType.Silver.toString());
+        styleSelector.setLocation(1010,10);
+        styleSelector.setSize(100,20);
 
         logout = new JButton("Logout");
         logout.setLocation(900, 10);
@@ -90,6 +100,7 @@ public class MainWindow extends JFrame {
         cp.add(logout);
         cp.add(createCalendar);
         cp.add(selectedCalendarMenu);
+        cp.add(styleSelector);
 
     }
 
@@ -109,6 +120,15 @@ public class MainWindow extends JFrame {
         return (model.Calendar) selectedCalendarMenu.getSelectedItem();
     }
 
+    public JComboBox<String> getStyleSelector() {return styleSelector;}
+
+    public void changeStyle(){
+
+        String selection = (String) styleSelector.getSelectedItem();
+
+        calendar.setTheme(ThemeType.valueOf(selection));
+    }
+
     public void changeView(){
         String selection = (String) viewMenu.getSelectedItem();
 
@@ -117,7 +137,8 @@ public class MainWindow extends JFrame {
         else if (selection.equals("week")) {
             calendar.setCurrentView(CalendarView.WeekRange);
             calendar.getWeekRangeSettings().setHeaderStyle(EnumSet.of(WeekRangeHeaderStyle.Title));
-        } else if (selection.equals("month"))
+        }
+        else if (selection.equals("month"))
             calendar.setCurrentView(CalendarView.MonthRange);
 
 
@@ -170,6 +191,11 @@ public class MainWindow extends JFrame {
     public void addSelectedCalendarListener(ActionListener selectedCalendarListener){
 
         this.selectedCalendarMenu.addActionListener(selectedCalendarListener);
+    }
+
+    public void addStyleSelectorListener(ActionListener styleSelectorListener){
+
+        this.styleSelector.addActionListener(styleSelectorListener);
     }
 
     public void close(){
