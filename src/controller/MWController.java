@@ -14,49 +14,59 @@ import java.util.*;
 
 public class MWController {
 
-    private MainWindow mwView;
-    private CalendarWindow cwView;
-    private Gateway model;
-    private view.Dialog dialog;
-    private Login logView;
-    private Register regView;
-    private EventDisplayWindow eventView;
-    private CreateCalendarWindow createCalendarWindow;
-    private User currentUser;
+    private static MainWindow mwView;
+    private static CalendarWindow cwView;
+    private static Gateway model;
+    private static view.Dialog dialog;
+    private static Login logView;
+    private static Register regView;
+    private static EventDisplayWindow eventView;
+    private static CreateCalendarWindow createCalendarWindow;
+    private static User currentUser;
+    private static MWController instance = null;
 
-    public MWController(Gateway db) {
+    private MWController() {
+    }
 
-        this.model = db;
-        setupLoginWindow();
+    public static MWController getInstance(){
+        if (instance==null){
+            instance = new MWController();
+            setupLoginWindow();
+        }
+        return instance;
 
     }
 
-    public void setupCreateCalendarWindow() {
+    public static void setDatabase(Gateway m){
+        model = m;
+    }
+
+    public static void setupCreateCalendarWindow() {
 
         createCalendarWindow = new CreateCalendarWindow();
         createCalendarWindow.setVisible(true);
-        this.createCalendarWindow.addCreateCalendarListener(e -> createCalendar());
+        createCalendarWindow.addCreateCalendarListener(e -> createCalendar());
 
     }
 
-    public void setupCalendarWindow() {
+    public static void setupCalendarWindow() {
 
         cwView = new CalendarWindow(model.getUserCalendars(currentUser));
         cwView.setVisible(true);
-        this.cwView.addCreateEventListener(e -> createEvent());
-        this.cwView.addCalendarPressListener(new CalendarinCalendarWindowPressedListener());
+        cwView.addCreateEventListener(e -> createEvent());
+        cwView.addCalendarPressListener(new CalendarinCalendarWindowPressedListener());
 
     }
 
-    public void setupRegisterWindow() {
+    public static void setupRegisterWindow() {
 
         regView = new Register();
         regView.setVisible(true);
-        this.regView.addListener(e -> register());
+        regView.addListener(e -> register());
 
     }
 
-    public void setupEventWindow(Appointment a) {
+    public static void setupEventWindow(Appointment a) {
 
         eventView = new EventDisplayWindow.Builder()
                 .setName(a.getHeaderText())
@@ -67,47 +77,47 @@ public class MWController {
                 .build();
         eventView.setVisible(true);
         eventView.setTitle(a.getId());
-        this.eventView.addDeleteButtonListener(e -> deleteEvent());
-        this.eventView.addOkButtonListener(e -> eventView.close());
+        eventView.addDeleteButtonListener(e -> deleteEvent());
+        eventView.addOkButtonListener(e -> eventView.close());
 
     }
 
 
-    public void setupMainWindow() {
+    public static void setupMainWindow() {
 
         mwView = new MainWindow();
         mwView.setVisible(true);
-        this.mwView.addChangeViewListener(e -> mwView.changeView());
-        this.mwView.addStyleSelectorListener(e-> mwView.changeStyle());
-        this.mwView.addAddEventListener(e -> setupCalendarWindow());
-        this.mwView.addSearchListener(e -> search());
-        this.mwView.addMainCalendarListener(new mainCalendarAdapter());
-        this.mwView.addLogoutListener(e -> {
+        mwView.addChangeViewListener(e -> mwView.changeView());
+        mwView.addStyleSelectorListener(e-> mwView.changeStyle());
+        mwView.addAddEventListener(e -> setupCalendarWindow());
+        mwView.addSearchListener(e -> search());
+        mwView.addMainCalendarListener(new mainCalendarAdapter());
+        mwView.addLogoutListener(e -> {
             mwView.close();
             setupLoginWindow();
         });
-        this.mwView.addCreateCalendarButtonListener(e -> setupCreateCalendarWindow());
-        this.mwView.addSelectedCalendarListener(e -> loadView());
+        mwView.addCreateCalendarButtonListener(e -> setupCreateCalendarWindow());
+        mwView.addSelectedCalendarListener(e -> loadView());
 
     }
 
-    public void setupLoginWindow() {
+    public static void setupLoginWindow() {
 
         logView = new Login();
         logView.setVisible(true);
-        this.logView.addLoginListener(e -> login());
-        this.logView.addRegisterListener(e -> setupRegisterWindow());
+        logView.addLoginListener(e -> login());
+        logView.addRegisterListener(e -> setupRegisterWindow());
 
     }
 
-    public void setupDialog(){
+    public static void setupDialog(){
 
         dialog.setVisible(true);
         dialog.addDialogListener(e->dialog.close());
 
     }
 
-    public void register() {
+    public static void register() {
 
         String newUser = regView.getUsername();
         String newPassword = regView.getPassword();
@@ -127,7 +137,7 @@ public class MWController {
         setupDialog();
     }
 
-    private void login(){
+    private static void login(){
         String acquiredUser = logView.getUsername();
         String acquiredPassword = logView.getPassword();
 
@@ -157,8 +167,9 @@ public class MWController {
     }
 
 
-    public void loadView() {
-        model.Calendar calendar = currentUser.getCollection().getCalendar(mwView.getCurrentCalendar().getId());
+    public static void loadView() {
+        String calID = mwView.getCurrentCalendar().getId();
+        model.Calendar calendar = currentUser.getCollection().getCalendar(calID);
         mwView.getCalendar().getSchedule().getAllItems().clear();
 
         ArrayList<model.Event> events = calendar.getEvents();
@@ -178,7 +189,7 @@ public class MWController {
         }
     }
 
-    private void search() {
+    private static void search() {
         String nameToSearch = mwView.getSearchText();
         ItemList itemList = mwView.getCalendar().getSchedule().getItems();
         boolean check = false;
@@ -199,23 +210,29 @@ public class MWController {
         }
     }
 
-    private void createCalendar(){
+    private static void createCalendar(){
         String cid = java.util.UUID.randomUUID().toString().substring(0, 19);
+        model.Calendar newCalendar = null;
         if (!createCalendarWindow.getName().isEmpty()) {
-            model.Calendar newCalendar = new model.Calendar(currentUser, cid, createCalendarWindow.getName());
+            newCalendar = new model.Calendar(currentUser, cid, createCalendarWindow.getName());
             model.CreateCalendar(newCalendar, currentUser);
-            model.getUserCalendars(currentUser).addCalendarToCollection(newCalendar);
+            //model.getUserCalendars(currentUser).addCalendarToCollection(newCalendar);
             dialog = new view.Dialog.Builder().setLabel("model.Calendar Created").setType(Dialog.type.SUCCESS).build();
         } else {
             dialog = new Dialog.Builder().setLabel("model.Calendar can't be created").setType(Dialog.type.ERROR).build();
         }
-        dialog.setVisible(true);
+        setupDialog();
         createCalendarWindow.setVisible(false);
         createCalendarWindow.dispose();
-        //TODO aggiungere calendario a tutte le jcombobox e far visualizzare quello per primo
+        if (newCalendar!=null) {
+            CalendarCollection cal = currentUser.getCollection();
+            cal.addCalendarToCollection(newCalendar);
+            mwView.addCalendar(newCalendar);
+            loadView();
+        }
     }
 
-    private void createEvent(){
+    private static void createEvent(){
 
         String uid = java.util.UUID.randomUUID().toString().substring(0, 19);
         String name = cwView.getName();
@@ -248,7 +265,7 @@ public class MWController {
             }
 
             model.Event event = new model.Event(uid, name, startDate, endDate, location, descr);
-            model.addEventinEvents(event, cwView.getCurrentCalendar().getId());
+            model.addEventinEvents(event, mwView.getCurrentCalendar().getId());
             currentUser.setCollection(model.getUserCalendars(currentUser));
             mwView.getCalendar().getSchedule().getAllItems().clear();
             loadView();
@@ -259,14 +276,14 @@ public class MWController {
         cwView.close();
     }
 
-    public void deleteEvent(){
+    public static void deleteEvent(){
         Appointment appointment = (Appointment) mwView.getCalendar().getSchedule().getItems().get(eventView.getTitle());
         model.deleteEvent(appointment.getId());
         mwView.getCalendar().getSchedule().getItems().remove(appointment);
         eventView.close();
     }
 
-    class mainCalendarAdapter extends CalendarAdapter {
+    static class mainCalendarAdapter extends CalendarAdapter {
 
         @Override
         public void itemClick(ItemMouseEvent e) {
@@ -290,7 +307,7 @@ public class MWController {
         }
     }
 
-    class CalendarinCalendarWindowPressedListener implements MouseListener {
+    static class CalendarinCalendarWindowPressedListener implements MouseListener {
 
         @Override
         public void mouseClicked(MouseEvent e) {

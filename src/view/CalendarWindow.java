@@ -22,7 +22,6 @@ public class CalendarWindow extends JFrame {
     private JLabel startDateLabel;
     private JLabel endDateLabel;
     private JLabel nameLabel;
-    private JLabel calendarLabel;
     private JTextField name;
     private JLabel locationLabel;
     private JTextField location;
@@ -33,8 +32,6 @@ public class CalendarWindow extends JFrame {
     private JButton createEvent;
     private JComboBox<String> startHour;
     private JComboBox<String> endHour;
-    private JComboBox<Calendar> selectedCalendarMenu;
-
 
     public void setStartDate(String startDate) {
         this.startDate.setText(startDate);
@@ -56,12 +53,6 @@ public class CalendarWindow extends JFrame {
         cal.setLocation(0,0);
         cal.setSize(400,200);
         cal.setTheme(ThemeType.Light);
-
-        selectedCalendarMenu = new JComboBox<>();
-        selectedCalendarMenu.setLocation(500,230);
-        selectedCalendarMenu.setSize(150,20);
-        selectedCalendarMenu.setRenderer(new CustomRenderer());
-        setCalendars(calendars);
 
         startDateLabel = new JLabel("Start Date: ");
         startDateLabel.setLocation(410,40);
@@ -119,10 +110,6 @@ public class CalendarWindow extends JFrame {
         colorLabel.setLocation(410,200);
         colorLabel.setSize(50,20);
 
-        calendarLabel = new JLabel("model.Calendar: ");
-        calendarLabel.setLocation(410,230);
-        calendarLabel.setSize(50,20);
-
         color = new JComboBox<>();
         color.setLocation(500,200);
         color.setSize(100,20);
@@ -151,8 +138,6 @@ public class CalendarWindow extends JFrame {
         cp.add(endDateLabel);
         cp.add(startHour);
         cp.add(endHour);
-        cp.add(selectedCalendarMenu);
-        cp.add(calendarLabel);
 
     }
 
@@ -190,10 +175,6 @@ public class CalendarWindow extends JFrame {
         return (String) endHour.getSelectedItem();
     }
 
-    public model.Calendar getCurrentCalendar(){
-        return (model.Calendar) selectedCalendarMenu.getSelectedItem();
-    }
-
     public DefaultComboBoxModel<String> createModel(){
 
         java.util.Calendar calendar = java.util.Calendar.getInstance();
@@ -213,14 +194,6 @@ public class CalendarWindow extends JFrame {
         return model;
     }
 
-    public void setCalendars(CalendarCollection list){
-        ArrayList<model.Calendar> calendarsList = list.getCalendars();
-        for (model.Calendar calendar:
-                calendarsList) {
-            selectedCalendarMenu.addItem(calendar);
-        }
-    }
-
     public void setSelectedStartDate(java.sql.Date newDate){
 
         startDate.setText((newDate.toString()));
@@ -230,7 +203,6 @@ public class CalendarWindow extends JFrame {
 
         endDate.setText((newDate.toString()));
     }
-
 
     public void addCreateEventListener(ActionListener createEventListener){
 

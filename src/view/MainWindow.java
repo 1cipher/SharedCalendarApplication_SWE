@@ -149,6 +149,10 @@ public class MainWindow extends JFrame {
 
     }
 
+    public void addCalendar(model.Calendar cal){
+        selectedCalendarMenu.addItem(cal);
+        selectedCalendarMenu.setSelectedItem(cal);
+    }
 
     public void setCalendars(CalendarCollection list) {
         ArrayList<model.Calendar> calendarsList = list.getCalendars();

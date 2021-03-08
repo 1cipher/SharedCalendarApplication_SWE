@@ -17,7 +17,8 @@ public class Main {
                      Database db = new Database();
                      Gateway g = new Gateway(db.createConnection());
 
-                     MWController mwc = new MWController(g);
+                     MWController mwc = MWController.getInstance();
+                     MWController.setDatabase(g);
 
                  }catch (Exception e){
                      e.printStackTrace();
