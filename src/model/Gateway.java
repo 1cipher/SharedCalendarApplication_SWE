@@ -218,7 +218,6 @@ public class Gateway {
     }
 
     public void shareCalendar(Calendar calendar, String username){
-        //TODO: controllare se esiste! (oppure vincolo...)
         String sql = "INSERT INTO PARTICIPATION(UID,CALENDARID,TYPE)" +
                 "VALUES(?,?,0)";
 

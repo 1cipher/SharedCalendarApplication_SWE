@@ -228,8 +228,8 @@ public class MWController {
 
     private void shareCalendar(){
         model.Calendar calendar = mwView.getCurrentCalendar();
-        if (!shareView.getName().isEmpty()) {
-            String username = shareView.getUsername();
+        String username = shareView.getUsername();
+        if (!shareView.getName().isEmpty() && model.isExistingUsername(username)){
             model.shareCalendar(calendar, username);
             dialog = new view.Dialog.Builder().setLabel("Calendar Shared!").setType(Dialog.type.SUCCESS).build();
         } else {
