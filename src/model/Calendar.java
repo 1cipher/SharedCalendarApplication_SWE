@@ -1,6 +1,5 @@
 package model;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Calendar {
@@ -8,12 +7,14 @@ public class Calendar {
     ArrayList<Event> newBuffer;
     String id;
     String name;
+    public int permission;
 
-    public Calendar(User user, String cid, String name) {
+    public Calendar(User user, String cid, String name, int permission) {
         this.user = user;
         this.newBuffer = new ArrayList<>();
         this.id = cid;
         this.name = name;
+        this.permission = permission;
     }
 
     public String getName(){

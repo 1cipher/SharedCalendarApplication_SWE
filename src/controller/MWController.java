@@ -16,7 +16,7 @@ public class MWController {
 
     private MainWindow mwView;
     private CalendarWindow cwView;
-    private Gateway model;
+    private Gateway m;
     private view.Dialog dialog;
     private Login logView;
     private Register regView;
@@ -27,7 +27,7 @@ public class MWController {
     private MWController instance = null;
 
     public MWController(Gateway g) {
-        model = g;
+        m = g;
         setupLoginWindow();
     }
 
@@ -49,10 +49,16 @@ public class MWController {
 
     public void setupCalendarWindow() {
 
-        cwView = new CalendarWindow(model.getUserCalendars(currentUser));
-        cwView.setVisible(true);
-        cwView.addCreateEventListener(e -> createEvent());
-        cwView.addCalendarPressListener(new CalendarinCalendarWindowPressedListener());
+        if (mwView.getCurrentCalendar().permission==0) {
+            cwView = new CalendarWindow(m.getUserCalendars(currentUser));
+            cwView.setVisible(true);
+            cwView.addCreateEventListener(e -> createEvent());
+            cwView.addCalendarPressListener(new CalendarinCalendarWindowPressedListener());
+        }
+        else {
+            dialog = new view.Dialog.Builder().setLabel("You are not allowed!").setType(Dialog.type.ERROR).build();
+            setupDialog();
+        }
 
     }
 
@@ -66,17 +72,17 @@ public class MWController {
 
     public void setupEventWindow(Appointment a) {
 
-        eventView = new EventDisplayWindow.Builder()
-                .setName(a.getHeaderText())
-                .setStartDate(a.getStartTime().toString())
-                .setEndDate(a.getEndTime().toString())
-                .setLocation(a.getLocation().getName())
-                .setDescription(a.getDescriptionText())
-                .build();
-        eventView.setVisible(true);
-        eventView.setTitle(a.getId());
-        eventView.addDeleteButtonListener(e -> deleteEvent());
-        eventView.addOkButtonListener(e -> eventView.close());
+            eventView = new EventDisplayWindow.Builder()
+                    .setName(a.getHeaderText())
+                    .setStartDate(a.getStartTime().toString())
+                    .setEndDate(a.getEndTime().toString())
+                    .setLocation(a.getLocation().getName())
+                    .setDescription(a.getDescriptionText())
+                    .build();
+            eventView.setVisible(true);
+            eventView.setTitle(a.getId());
+            eventView.addDeleteButtonListener(e -> deleteEvent());
+            eventView.addOkButtonListener(e -> eventView.close());
 
     }
 
@@ -124,13 +130,13 @@ public class MWController {
         if (newUser.length() == 0 || newPassword.length() == 0) {
 
             dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Empty field!").build();
-        } else if (model.isExistingUsername(newUser)) {
+        } else if (m.isExistingUsername(newUser)) {
 
             dialog = new view.Dialog.Builder().setLabel("Username already existing!").setType(Dialog.type.ERROR).build();
 
         } else {
 
-            model.registerNewUser(newUser, newPassword);
+            m.registerNewUser(newUser, newPassword);
             dialog = new view.Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("You have been registered!").build();
         }
         setupDialog();
@@ -140,7 +146,7 @@ public class MWController {
         String acquiredUser = logView.getUsername();
         String acquiredPassword = logView.getPassword();
 
-        boolean check = model.checkUserPresence(acquiredUser, acquiredPassword);
+        boolean check = m.checkUserPresence(acquiredUser, acquiredPassword);
         if (check) {
 
             setupMainWindow();
@@ -152,7 +158,7 @@ public class MWController {
 
             currentUser = new User(acquiredUser);
 
-            CalendarCollection cc = model.getUserCalendars(currentUser);
+            CalendarCollection cc = m.getUserCalendars(currentUser);
             currentUser.setCollection(cc);
 
             mwView.setCalendars(cc);
@@ -209,9 +215,8 @@ public class MWController {
         String cid = java.util.UUID.randomUUID().toString().substring(0, 19);
         model.Calendar newCalendar = null;
         if (!createCalendarWindow.getName().isEmpty()) {
-            newCalendar = new model.Calendar(currentUser, cid, createCalendarWindow.getName());
-            model.CreateCalendar(newCalendar, currentUser);
-            //model.getUserCalendars(currentUser).addCalendarToCollection(newCalendar);
+            newCalendar = new model.Calendar(currentUser, cid, createCalendarWindow.getName(), 0);
+            m.CreateCalendar(newCalendar, currentUser);
             dialog = new view.Dialog.Builder().setLabel("model.Calendar Created").setType(Dialog.type.SUCCESS).build();
         } else {
             dialog = new Dialog.Builder().setLabel("model.Calendar can't be created").setType(Dialog.type.ERROR).build();
@@ -229,8 +234,8 @@ public class MWController {
     private void shareCalendar(){
         model.Calendar calendar = mwView.getCurrentCalendar();
         String username = shareView.getUsername();
-        if (!shareView.getName().isEmpty() && model.isExistingUsername(username)){
-            model.shareCalendar(calendar, username);
+        if (!shareView.getName().isEmpty() && m.isExistingUsername(username)){
+            m.shareCalendar(calendar, username, shareView.getPermission());
             dialog = new view.Dialog.Builder().setLabel("Calendar Shared!").setType(Dialog.type.SUCCESS).build();
         } else {
             dialog = new Dialog.Builder().setLabel("Calendar could NOT be shared!").setType(Dialog.type.ERROR).build();
@@ -241,6 +246,7 @@ public class MWController {
 
     private void createEvent(){
 
+        model.Calendar calendar = mwView.getCurrentCalendar();
         String uid = java.util.UUID.randomUUID().toString().substring(0, 19);
         String name = cwView.getName();
         String location = cwView.getLocationName();
@@ -252,13 +258,13 @@ public class MWController {
         String endHour = cwView.getEndHour();
 
         DateTime startDate = new DateTime(Integer.parseInt(startdate.substring(0, 4)) - 1900,
-                Integer.parseInt(startdate.substring(5,7)),
-                Integer.parseInt(startdate.substring(8,10)),
+                Integer.parseInt(startdate.substring(5, 7)),
+                Integer.parseInt(startdate.substring(8, 10)),
                 Integer.parseInt(startHour.substring(0, 2)),
                 Integer.parseInt(startHour.substring(3, 5)), 0);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
         DateTime endDate = new DateTime(Integer.parseInt(enddate.substring(0, 4)) - 1900,
-                Integer.parseInt(enddate.substring(5,7)),
-                Integer.parseInt(enddate.substring(8,10)),
+                Integer.parseInt(enddate.substring(5, 7)),
+                Integer.parseInt(enddate.substring(8, 10)),
                 Integer.parseInt(endHour.substring(0, 2)),
                 Integer.parseInt(endHour.substring(3, 5)), 0);
 
@@ -272,22 +278,29 @@ public class MWController {
             }
 
             model.Event event = new model.Event(uid, name, startDate, endDate, location, descr);
-            model.addEventinEvents(event, mwView.getCurrentCalendar().getId());
-            currentUser.setCollection(model.getUserCalendars(currentUser));
+            m.addEventinEvents(event, calendar.getId());
+            currentUser.setCollection(m.getUserCalendars(currentUser));
             mwView.getCalendar().getSchedule().getAllItems().clear();
             loadView();
-        }else{
+        } else {
             dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Inconsistent dates!").build();
         }
+
         setupDialog();
         cwView.close();
     }
 
     public void deleteEvent(){
-        Appointment appointment = (Appointment) mwView.getCalendar().getSchedule().getItems().get(eventView.getTitle());
-        model.deleteEvent(appointment.getId());
-        mwView.getCalendar().getSchedule().getItems().remove(appointment);
-        eventView.close();
+        if (mwView.getCurrentCalendar().permission==0) {
+            Appointment appointment = (Appointment) mwView.getCalendar().getSchedule().getItems().get(eventView.getTitle());
+            m.deleteEvent(appointment.getId());
+            mwView.getCalendar().getSchedule().getItems().remove(appointment);
+            eventView.close();
+        }
+        else {
+            dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("You are not allowed!").build();
+            setupDialog();
+        }
     }
 
     class mainCalendarAdapter extends CalendarAdapter {

@@ -67,13 +67,13 @@ public class Gateway {
         ResultSet rs;
         String username = currentUser.getUsername();
 
-        String sql = "SELECT CALENDARID,NAME FROM PARTICIPATION,CALENDAR WHERE UID=? AND ID=CALENDARID;";
+        String sql = "SELECT CALENDARID,NAME,TYPE FROM PARTICIPATION,CALENDAR WHERE UID=? AND ID=CALENDARID;";
         try {
             preparedStatement = c.prepareStatement(sql);
             preparedStatement.setString(1,username);
             rs = preparedStatement.executeQuery();
             while (rs.next()){
-                Calendar calendar = new Calendar(currentUser, rs.getString("CALENDARID"),rs.getString("NAME"));
+                Calendar calendar = new Calendar(currentUser, rs.getString("CALENDARID"),rs.getString("NAME"),rs.getInt("TYPE"));
                 calendars.addCalendarToCollection(calendar);
             }
         } catch (SQLException e) {
@@ -195,6 +195,7 @@ public class Gateway {
     }
 
     public void CreateCalendar(Calendar calendar, User currentUser){
+        //TODO: ability to change permission
         String username = currentUser.getUsername();
         String sql = "INSERT INTO CALENDAR(ID,NAME,OWNER)" +
                 "VALUES(?,?,?);" +
@@ -217,14 +218,15 @@ public class Gateway {
 
     }
 
-    public void shareCalendar(Calendar calendar, String username){
+    public void shareCalendar(Calendar calendar, String username, int permission){
         String sql = "INSERT INTO PARTICIPATION(UID,CALENDARID,TYPE)" +
-                "VALUES(?,?,0)";
+                "VALUES(?,?,?)";
 
         try {
             preparedStatement = c.prepareStatement(sql);
             preparedStatement.setString(1,username);
             preparedStatement.setString(2,calendar.getId());
+            preparedStatement.setInt(3,permission);
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
