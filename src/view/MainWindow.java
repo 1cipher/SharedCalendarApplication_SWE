@@ -1,8 +1,12 @@
 package view;
 
 import com.mindfusion.scheduling.*;
+import controller.LocationSearch;
+import controller.NameSearch;
+import controller.SearchStrategy;
 import model.CalendarCollection;
 import utils.CustomRenderer;
+import utils.SearchRenderer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,8 +30,13 @@ public class MainWindow extends JFrame {
     private JButton shareCalendar;
     private JComboBox<model.Calendar> selectedCalendarMenu;
     private JComboBox<String> styleSelector;
+    private JComboBox<SearchStrategy> searchType;
 
 
+    public SearchStrategy getSearchType() {
+
+        return (SearchStrategy) searchType.getSelectedItem();
+    }
 
     public MainWindow() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -78,7 +87,15 @@ public class MainWindow extends JFrame {
 
         searchBox = new JTextField();
         searchBox.setLocation(210, 10);
-        searchBox.setSize(300, 20);
+        searchBox.setSize(200, 20);
+
+        searchType = new JComboBox<>();
+        searchType.addItem(new NameSearch());
+        searchType.addItem(new LocationSearch());
+        searchType.setLocation(420,10);
+        searchType.setSize(90,20);
+        searchType.setRenderer(new SearchRenderer());
+
 
         search = new JButton(new ImageIcon("C:\\search.png"));
         search.setLocation(520, 10);
@@ -107,6 +124,7 @@ public class MainWindow extends JFrame {
         cp.add(shareCalendar);
         cp.add(selectedCalendarMenu);
         cp.add(styleSelector);
+        cp.add(searchType);
 
     }
 

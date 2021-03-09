@@ -189,20 +189,16 @@ public class MWController {
     }
 
     private void search() {
-        String nameToSearch = mwView.getSearchText();
+        String toSearch = mwView.getSearchText();
         ItemList itemList = mwView.getCalendar().getSchedule().getItems();
-        boolean check = false;
-        int i = 0;
-        while (!check && i < itemList.size()) {
-            String comp = itemList.get(i).getHeaderText();
-            if (nameToSearch.compareTo(comp) == 0)
-                check = true;
-            else
-                i++;
-        }
-        if (check) {
-            DateTime dt = itemList.get(i).getStartTime();
+
+        SearchStrategy strategy = mwView.getSearchType();
+        Item item = strategy.search(itemList,toSearch);
+
+        if (item != null) {
+            DateTime dt = item.getStartTime();
             mwView.getCalendar().setDate(dt);
+            setupEventWindow((Appointment) item);
         } else {
             dialog = new view.Dialog.Builder().setLabel("No event found!").setType(Dialog.type.ERROR).build();
             setupDialog();
