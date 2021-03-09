@@ -7,8 +7,13 @@ import java.sql.*;
 
 public class Database {
 
-    public Database() {
+    private static Database instance = null;
 
+    public static Database getInstance() {
+        if (instance!=null){
+            instance = new Database();
+        }
+        return instance;
     }
 
     public Connection createConnection() {

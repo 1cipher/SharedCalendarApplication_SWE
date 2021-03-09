@@ -14,11 +14,10 @@ public class Main {
              public void run() {
                  try {
 
-                     Database db = new Database();
+                     Database db = Database.getInstance();
                      Gateway g = new Gateway(db.createConnection());
 
-                     MWController mwc = MWController.getInstance();
-                     MWController.setDatabase(g);
+                     MWController mwc = new MWController(g);
 
                  }catch (Exception e){
                      e.printStackTrace();
