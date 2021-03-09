@@ -47,4 +47,9 @@ public class CreateCalendarWindow extends JFrame {
         this.createCalendar.addActionListener(createCalendarListener);
     }
 
+    public void close(){
+        setVisible(false);
+        dispose();
+    }
+
 }

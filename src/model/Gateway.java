@@ -217,12 +217,13 @@ public class Gateway {
 
     }
 
-    public void shareCalendar(Calendar calendar, User user){
-        String username = user.getUsername();
+    public void shareCalendar(Calendar calendar, String username){
+        //TODO: controllare se esiste! (oppure vincolo...)
         String sql = "INSERT INTO PARTICIPATION(UID,CALENDARID,TYPE)" +
                 "VALUES(?,?,0)";
 
         try {
+            preparedStatement = c.prepareStatement(sql);
             preparedStatement.setString(1,username);
             preparedStatement.setString(2,calendar.getId());
             preparedStatement.executeUpdate();

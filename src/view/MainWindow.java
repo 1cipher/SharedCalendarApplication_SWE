@@ -23,6 +23,7 @@ public class MainWindow extends JFrame {
     private JTextField searchBox;
     private JComboBox<String> viewMenu;
     private JButton createCalendar;
+    private JButton shareCalendar;
     private JComboBox<model.Calendar> selectedCalendarMenu;
     private JComboBox<String> styleSelector;
 
@@ -87,6 +88,10 @@ public class MainWindow extends JFrame {
         createCalendar.setLocation(780,10);
         createCalendar.setSize(110,20);
 
+        shareCalendar = new JButton("Share Calendar");
+        shareCalendar.setLocation(1200,10);
+        shareCalendar.setSize(110,20);
+
         selectedCalendarMenu = new JComboBox<>();
         selectedCalendarMenu.setLocation(670, 10);
         selectedCalendarMenu.setSize(100, 20);
@@ -99,6 +104,7 @@ public class MainWindow extends JFrame {
         cp.add(viewMenu);
         cp.add(logout);
         cp.add(createCalendar);
+        cp.add(shareCalendar);
         cp.add(selectedCalendarMenu);
         cp.add(styleSelector);
 
@@ -190,6 +196,11 @@ public class MainWindow extends JFrame {
     public void addCreateCalendarButtonListener(ActionListener createCalendarButtonListener){
 
         this.createCalendar.addActionListener(createCalendarButtonListener);
+    }
+
+    public void addShareCalendarButtonListener(ActionListener listener){
+
+        this.shareCalendar.addActionListener(listener);
     }
 
     public void addSelectedCalendarListener(ActionListener selectedCalendarListener){

@@ -22,6 +22,7 @@ public class MWController {
     private Register regView;
     private EventDisplayWindow eventView;
     private CreateCalendarWindow createCalendarWindow;
+    private ShareView shareView;
     private User currentUser;
     private MWController instance = null;
 
@@ -35,6 +36,14 @@ public class MWController {
         createCalendarWindow = new CreateCalendarWindow();
         createCalendarWindow.setVisible(true);
         createCalendarWindow.addCreateCalendarListener(e -> createCalendar());
+
+    }
+
+    public void setupShareView() {
+
+        shareView = new ShareView();
+        shareView.setVisible(true);
+        shareView.addShareButtonListener(e -> shareCalendar());
 
     }
 
@@ -87,6 +96,7 @@ public class MWController {
         });
         mwView.addCreateCalendarButtonListener(e -> setupCreateCalendarWindow());
         mwView.addSelectedCalendarListener(e -> loadView());
+        mwView.addShareCalendarButtonListener(e-> setupShareView());
 
     }
 
@@ -211,14 +221,26 @@ public class MWController {
             dialog = new Dialog.Builder().setLabel("model.Calendar can't be created").setType(Dialog.type.ERROR).build();
         }
         setupDialog();
-        createCalendarWindow.setVisible(false);
-        createCalendarWindow.dispose();
+        createCalendarWindow.close();
         if (newCalendar!=null) {
             mwView.addCalendar(newCalendar);
             CalendarCollection cal = currentUser.getCollection();
             cal.addCalendarToCollection(newCalendar);
             loadView();
         }
+    }
+
+    private void shareCalendar(){
+        model.Calendar calendar = mwView.getCurrentCalendar();
+        if (!shareView.getName().isEmpty()) {
+            String username = shareView.getUsername();
+            model.shareCalendar(calendar, username);
+            dialog = new view.Dialog.Builder().setLabel("Calendar Shared!").setType(Dialog.type.SUCCESS).build();
+        } else {
+            dialog = new Dialog.Builder().setLabel("Calendar could NOT be shared!").setType(Dialog.type.ERROR).build();
+        }
+        setupDialog();
+        shareView.close();
     }
 
     private void createEvent(){
