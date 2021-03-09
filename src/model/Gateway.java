@@ -216,4 +216,20 @@ public class Gateway {
 
 
     }
+
+    public void shareCalendar(Calendar calendar, User user){
+        String username = user.getUsername();
+        String sql = "INSERT INTO PARTICIPATION(UID,CALENDARID,TYPE)" +
+                "VALUES(?,?,0)";
+
+        try {
+            preparedStatement.setString(1,username);
+            preparedStatement.setString(2,calendar.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+
+    }
 }
