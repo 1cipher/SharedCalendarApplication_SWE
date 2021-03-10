@@ -12,14 +12,14 @@ public class CreateCalendarWindow extends JFrame {
 
     public CreateCalendarWindow(){
 
-        setName("Create model.Calendar");
+        setName("Calendar");
         setSize(300,200);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 
         Container c = getContentPane();
         c.setLayout(null);
 
-        calendarName = new JLabel("model.Calendar: ",SwingConstants.CENTER);
+        calendarName = new JLabel("Calendar: ",SwingConstants.CENTER);
         calendarName.setLocation(30,50);
         calendarName.setSize(100,20);
 
@@ -41,6 +41,8 @@ public class CreateCalendarWindow extends JFrame {
 
         return calendarText.getText();
     }
+
+
 
     public void addCreateCalendarListener(ActionListener createCalendarListener){
 

@@ -19,6 +19,7 @@ public class EventDisplayWindow extends JFrame {
     private JLabel descrDisplayed;
     private JButton okButton;
     private JButton deleteButton;
+    JButton editButton;
     private Container c;
 
     private EventDisplayWindow(){
@@ -71,12 +72,16 @@ public class EventDisplayWindow extends JFrame {
         descrDisplayed.setSize(100,20);
 
         okButton = new JButton("Ok!");
-        okButton.setLocation(90,200);
-        okButton.setSize(100,20);
+        okButton.setLocation(10,200);
+        okButton.setSize(120,20);
+
+        editButton = new JButton("Edit!");
+        editButton.setLocation(140,200);
+        editButton.setSize(120,20);
 
         deleteButton = new JButton("Delete!");
-        deleteButton.setLocation(210,200);
-        deleteButton.setSize(100,20);
+        deleteButton.setLocation(270,200);
+        deleteButton.setSize(120,20);
 
         c.add(name);
         c.add(startDate);
@@ -90,6 +95,7 @@ public class EventDisplayWindow extends JFrame {
         c.add(descrDisplayed);
         c.add(okButton);
         c.add(deleteButton);
+        c.add(editButton);
 
 
 
@@ -167,6 +173,11 @@ public class EventDisplayWindow extends JFrame {
     public void addDeleteButtonListener(ActionListener deleteButtonForEventDisplayWindowListener){
 
         this.deleteButton.addActionListener(deleteButtonForEventDisplayWindowListener);
+    }
+
+    public void addEditButtonListener(ActionListener editButtonListener){
+
+        this.editButton.addActionListener(editButtonListener);
     }
 
 

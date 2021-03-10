@@ -14,7 +14,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class CalendarWindow extends JFrame {
+public class CreateEventWindow extends JFrame {
 
     private com.mindfusion.scheduling.Calendar cal;
     private JTextField startDate;
@@ -32,16 +32,8 @@ public class CalendarWindow extends JFrame {
     private JButton createEvent;
     private JComboBox<String> startHour;
     private JComboBox<String> endHour;
-
-    public void setStartDate(String startDate) {
-        this.startDate.setText(startDate);
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate.setText(endDate);
-    }
-
-    public CalendarWindow(CalendarCollection calendars){
+    
+    public CreateEventWindow(CalendarCollection calendars){
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 
         setSize(850,300);
@@ -118,7 +110,7 @@ public class CalendarWindow extends JFrame {
         color.addItem("Green");
         color.addItem("Blue");
 
-        createEvent = new JButton("Create model.Event");
+        createEvent = new JButton("Save");
         createEvent.setLocation(700,200);
         createEvent.setSize(150,20);
 
@@ -173,6 +165,34 @@ public class CalendarWindow extends JFrame {
 
     public String getEndHour() {
         return (String) endHour.getSelectedItem();
+    }
+
+    public void setDescr(String descr) {
+        this.descr.setText(descr);
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate.setText(startDate);
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate.setText(endDate);
+    }
+
+    public void setName(String name) {
+        this.name.setText(name);
+    }
+
+    public void setLocation(String location) {
+        this.location.setText(location);
+    }
+
+    public void setStartHour(String startHour) {
+        this.startHour.setSelectedItem(startHour);
+    }
+
+    public void setEndHour(String endHour) {
+        this.endHour.setSelectedItem(endHour);
     }
 
     public DefaultComboBoxModel<String> createModel(){

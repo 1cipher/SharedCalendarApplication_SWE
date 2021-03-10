@@ -183,7 +183,7 @@ public class Gateway {
 
         String sql2 = "DELETE FROM CALENDAREVENTS WHERE EVENT=?;";
         try {
-            preparedStatement=c.prepareStatement(sql);
+            preparedStatement=c.prepareStatement(sql2);
             preparedStatement.setString(1,id);
 
             preparedStatement.executeUpdate();

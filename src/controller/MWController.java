@@ -9,13 +9,15 @@ import view.*;
 import view.Dialog;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class MWController {
 
     private MainWindow mwView;
-    private CalendarWindow cwView;
+    private CreateEventWindow cwView;
     private Gateway m;
     private view.Dialog dialog;
     private Login logView;
@@ -50,7 +52,7 @@ public class MWController {
     public void setupCalendarWindow() {
 
         if (mwView.getCurrentCalendar().permission==0) {
-            cwView = new CalendarWindow(m.getUserCalendars(currentUser));
+            cwView = new CreateEventWindow(m.getUserCalendars(currentUser));
             cwView.setVisible(true);
             cwView.addCreateEventListener(e -> createEvent());
             cwView.addCalendarPressListener(new CalendarinCalendarWindowPressedListener());
@@ -61,6 +63,45 @@ public class MWController {
         }
 
     }
+
+    public void setupEditEventWindow(Appointment a){
+
+        if (mwView.getCurrentCalendar().permission==0) {
+            cwView = new CreateEventWindow(m.getUserCalendars(currentUser));
+            cwView.setVisible(true);
+            cwView.addCalendarPressListener(new CalendarinCalendarWindowPressedListener());
+            SimpleDateFormat fromUser = new SimpleDateFormat("dd/MM/yy");
+            SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String startDate = null;
+            String endDate = null;
+            String s = a.getStartTime().toShortDateString();
+            try {
+                startDate = myFormat.format(fromUser.parse(a.getStartTime().toShortDateString()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
+                endDate = myFormat.format(fromUser.parse(a.getEndTime().toShortDateString()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            cwView.setStartDate(startDate);
+            cwView.setEndDate(endDate);
+            cwView.setName(a.getHeaderText());
+            cwView.setLocation(a.getLocation().getName());
+            cwView.setDescr(a.getDescriptionText());
+            cwView.setStartHour(a.getStartTime().toShortTimeString());
+            cwView.setEndHour(a.getEndTime().toShortTimeString());
+            cwView.addCreateEventListener(e->editEvent(a.getId()));
+            eventView.close();
+        }
+        else {
+            dialog = new view.Dialog.Builder().setLabel("You are not allowed!").setType(Dialog.type.ERROR).build();
+            setupDialog();
+        }
+    }
+
+
 
     public void setupRegisterWindow() {
 
@@ -83,6 +124,7 @@ public class MWController {
             eventView.setTitle(a.getId());
             eventView.addDeleteButtonListener(e -> deleteEvent());
             eventView.addOkButtonListener(e -> eventView.close());
+            eventView.addEditButtonListener(e->setupEditEventWindow(a));
 
     }
 
@@ -244,6 +286,53 @@ public class MWController {
         shareView.close();
     }
 
+    private void editEvent(String id){    //TODO:ANDREBBE UNIFICATO AL CREATE EVENT PERCHE ALLA FINE FANNO LA STESSA COSA
+
+        model.Calendar calendar = mwView.getCurrentCalendar();
+        m.deleteEvent(id);
+
+        String name = cwView.getName();
+        String location = cwView.getLocationName();
+        String descr = cwView.getDescriptionText();
+        String startdate = cwView.getStartDate();
+        String enddate = cwView.getEndDate();
+
+        String startHour = cwView.getStartHour();
+        String endHour = cwView.getEndHour();
+
+        DateTime startDate = new DateTime(Integer.parseInt(startdate.substring(0, 4)) - 1900,
+                Integer.parseInt(startdate.substring(5, 7)),
+                Integer.parseInt(startdate.substring(8, 10)),
+                Integer.parseInt(startHour.substring(0, 2)),
+                Integer.parseInt(startHour.substring(3, 5)), 0);
+        DateTime endDate = new DateTime(Integer.parseInt(enddate.substring(0, 4)) - 1900,
+                Integer.parseInt(enddate.substring(5, 7)),
+                Integer.parseInt(enddate.substring(8, 10)),
+                Integer.parseInt(endHour.substring(0, 2)),
+                Integer.parseInt(endHour.substring(3, 5)), 0);
+
+        if (startDate.isLessThan(endDate)) {
+
+            if (!name.isEmpty() && !id.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
+                dialog = new view.Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("Event edited!").build();
+
+            } else {
+                dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Check null values").build();
+            }
+
+            model.Event event = new model.Event(id, name, startDate, endDate, location, descr);
+            m.addEventinEvents(event, calendar.getId());
+            currentUser.setCollection(m.getUserCalendars(currentUser));
+            mwView.getCalendar().getSchedule().getAllItems().clear();
+            loadView();
+        } else {
+            dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Inconsistent dates!").build();
+        }
+
+        setupDialog();
+        cwView.close();
+    }
+
     private void createEvent(){
 
         model.Calendar calendar = mwView.getCurrentCalendar();
@@ -377,7 +466,7 @@ public class MWController {
             Date utilDate = cal.getTime();
             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
             String defaultDate = "0001-01-01";
-            SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdformat = new SimpleDateFormat("yyyy/MM/dd");
             String d1 = sdformat.format(sqlDate);
 
             if(d1.compareTo(defaultDate)==0) {
