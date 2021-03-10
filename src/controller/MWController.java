@@ -93,16 +93,16 @@ public class MWController {
         mwView.setVisible(true);
         mwView.addChangeViewListener(e -> mwView.changeView());
         mwView.addStyleSelectorListener(e-> mwView.changeStyle());
-        mwView.addAddEventListener(e -> setupCalendarWindow());
+        mwView.addNewEventListener(e -> setupCalendarWindow());
         mwView.addSearchListener(e -> search());
         mwView.addMainCalendarListener(new mainCalendarAdapter());
         mwView.addLogoutListener(e -> {
             mwView.close();
             setupLoginWindow();
         });
-        mwView.addCreateCalendarButtonListener(e -> setupCreateCalendarWindow());
+        mwView.addNewCalendarListener(e -> setupCreateCalendarWindow());
         mwView.addSelectedCalendarListener(e -> loadView());
-        mwView.addShareCalendarButtonListener(e-> setupShareView());
+        mwView.addShareCalendarListener(e-> setupShareView());
 
     }
 

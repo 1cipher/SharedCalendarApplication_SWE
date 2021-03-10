@@ -11,7 +11,6 @@ import utils.SearchRenderer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -22,15 +21,18 @@ public class MainWindow extends JFrame {
     private JFormattedTextField textField = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
     private com.mindfusion.scheduling.Calendar calendar;
     private JButton search;
-    private JButton addEvent;
-    private JButton logout;
     private JTextField searchBox;
     private JComboBox<String> viewMenu;
-    private JButton createCalendar;
-    private JButton shareCalendar;
     private JComboBox<model.Calendar> selectedCalendarMenu;
     private JComboBox<String> styleSelector;
     private JComboBox<SearchStrategy> searchType;
+    private JMenuBar bar;
+    private JMenu fileMenu;
+    private JMenu styleMenu;
+    private JMenuItem newCalendar;
+    private JMenuItem newEvent;
+    private JMenuItem shareCalendar;
+    private JMenuItem logout;
 
 
     public SearchStrategy getSearchType() {
@@ -64,11 +66,6 @@ public class MainWindow extends JFrame {
         styleSelector.setLocation(1010,10);
         styleSelector.setSize(100,20);
 
-        logout = new JButton("Logout");
-        logout.setLocation(900, 10);
-        logout.setSize(100, 20);
-
-
         calendar = new com.mindfusion.scheduling.Calendar();
         calendar.beginInit();
         calendar.setCurrentView(CalendarView.Timetable);
@@ -78,12 +75,6 @@ public class MainWindow extends JFrame {
         calendar.setAllowInplaceEdit(false);
         calendar.setVisible(true);
         calendar.endInit();
-
-        addEvent = new JButton();
-        addEvent.setText("Create Event");
-        addEvent.setLocation(0, 10);
-        addEvent.setSize(200, 20);
-
 
         searchBox = new JTextField();
         searchBox.setLocation(210, 10);
@@ -101,30 +92,49 @@ public class MainWindow extends JFrame {
         search.setLocation(520, 10);
         search.setSize(20, 20);
 
-        createCalendar = new JButton("Create Calendar");
-        createCalendar.setLocation(780,10);
-        createCalendar.setSize(110,20);
-
-        shareCalendar = new JButton("Share Calendar");
-        shareCalendar.setLocation(1200,10);
-        shareCalendar.setSize(110,20);
-
         selectedCalendarMenu = new JComboBox<>();
         selectedCalendarMenu.setLocation(670, 10);
         selectedCalendarMenu.setSize(100, 20);
         selectedCalendarMenu.setRenderer(new CustomRenderer());
 
+        bar = new JMenuBar();
+        fileMenu = new JMenu("File");
+        styleMenu = new JMenu("Style");
+        JMenu submenu = new JMenu("New");
+        newEvent = new JMenuItem("Event");
+        newCalendar = new JMenuItem("Calendar");
+        submenu.add(newEvent);
+        submenu.add(newCalendar);
+        fileMenu.add(submenu);
+        shareCalendar = new JMenuItem("Share");
+        logout = new JMenuItem("Logout");
+        JMenuItem light = new JMenuItem("Light");
+        light.addActionListener(e -> calendar.setTheme(ThemeType.Light));
+        styleMenu.add(light);
+        JMenuItem lila = new JMenuItem("Lila");
+        lila.addActionListener(e -> calendar.setTheme(ThemeType.Lila));
+        styleMenu.add(lila);
+        JMenuItem vista = new JMenuItem("Vista");
+        vista.addActionListener(e -> calendar.setTheme(ThemeType.Vista));
+        styleMenu.add(vista);
+        JMenuItem silver = new JMenuItem("Silver");
+        silver.addActionListener(e -> calendar.setTheme(ThemeType.Silver));
+        styleMenu.add(silver);
+        fileMenu.add(shareCalendar);
+        fileMenu.addSeparator();
+        fileMenu.add(logout);
+        bar.add(fileMenu);
+        bar.add(styleMenu);
+
         cp.add(calendar);
-        cp.add(addEvent);
         cp.add(searchBox);
         cp.add(search);
         cp.add(viewMenu);
-        cp.add(logout);
-        cp.add(createCalendar);
-        cp.add(shareCalendar);
         cp.add(selectedCalendarMenu);
         cp.add(styleSelector);
         cp.add(searchType);
+        cp.add(bar);
+        this.setJMenuBar(bar);
 
     }
 
@@ -191,9 +201,9 @@ public class MainWindow extends JFrame {
         this.search.addActionListener(searchListener);
     }
 
-    public void addAddEventListener(ActionListener addEventListener){
+    public void addNewEventListener(ActionListener newEventListener){
 
-        this.addEvent.addActionListener(addEventListener);
+        this.newEvent.addActionListener(newEventListener);
     }
 
    public void addChangeViewListener(ActionListener changeViewListener){
@@ -211,12 +221,12 @@ public class MainWindow extends JFrame {
         calendar.addCalendarListener(mainCalendarAdapter);
     }
 
-    public void addCreateCalendarButtonListener(ActionListener createCalendarButtonListener){
+    public void addNewCalendarListener(ActionListener addNewCalendarListener){
 
-        this.createCalendar.addActionListener(createCalendarButtonListener);
+        this.newCalendar.addActionListener(addNewCalendarListener);
     }
 
-    public void addShareCalendarButtonListener(ActionListener listener){
+    public void addShareCalendarListener(ActionListener listener){
 
         this.shareCalendar.addActionListener(listener);
     }
