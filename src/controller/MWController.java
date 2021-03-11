@@ -71,7 +71,7 @@ public class MWController {
             cwView.setVisible(true);
             cwView.addCalendarPressListener(new CalendarinCalendarWindowPressedListener());
             SimpleDateFormat fromUser = new SimpleDateFormat("dd/MM/yy");
-            SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-dd-MM");
             String startDate = null;
             String endDate = null;
             try {
@@ -482,7 +482,7 @@ public class MWController {
             else if (cwView.getStartDate().compareTo(sqlDate.toString()) > 0) {
                 java.sql.Date d = java.sql.Date.valueOf(cwView.getStartDate());
                 cwView.setSelectedEndDate(d);
-                cwView.setSelectedStartDate(sqlDate);
+                cwView.setSelectedStartDate(d);
             }
 
             else

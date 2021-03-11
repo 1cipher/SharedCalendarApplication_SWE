@@ -216,12 +216,14 @@ public class CreateEventWindow extends JFrame {
 
     public void setSelectedStartDate(java.sql.Date newDate){
 
-        startDate.setText((newDate.toString()));
+        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-dd-MM");
+        startDate.setText(myFormat.format(newDate));
     }
 
     public void setSelectedEndDate(java.sql.Date newDate){
 
-        endDate.setText((newDate.toString()));
+        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-dd-MM");
+        endDate.setText(myFormat.format(newDate));
     }
 
     public void addCreateEventListener(ActionListener createEventListener){
