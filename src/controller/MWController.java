@@ -363,16 +363,17 @@ public class MWController {
 
             if (!name.isEmpty() && !uid.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
                 dialog = new view.Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("model.Event Created!").build();
-
-            } else {
+                model.Event event = new model.Event(uid, name, startDate, endDate, location, descr);
+                m.addEventinEvents(event, calendar.getId());
+                currentUser.setCollection(m.getUserCalendars(currentUser));
+                mwView.getCalendar().getSchedule().getAllItems().clear();
+                loadView();
+            }
+            else {
                 dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Check null values").build();
             }
 
-            model.Event event = new model.Event(uid, name, startDate, endDate, location, descr);
-            m.addEventinEvents(event, calendar.getId());
-            currentUser.setCollection(m.getUserCalendars(currentUser));
-            mwView.getCalendar().getSchedule().getAllItems().clear();
-            loadView();
+
         } else {
             dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Inconsistent dates!").build();
         }
