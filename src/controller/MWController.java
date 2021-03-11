@@ -74,7 +74,6 @@ public class MWController {
             SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
             String startDate = null;
             String endDate = null;
-            String s = a.getStartTime().toShortDateString();
             try {
                 startDate = myFormat.format(fromUser.parse(a.getStartTime().toShortDateString()));
             } catch (ParseException e) {
@@ -288,7 +287,8 @@ public class MWController {
 
     private void editEvent(String id){    //TODO:ANDREBBE UNIFICATO AL CREATE EVENT PERCHE ALLA FINE FANNO LA STESSA COSA
 
-        model.Calendar calendar = mwView.getCurrentCalendar();
+        model.Calendar calendar;
+        calendar = mwView.getCurrentCalendar();
         m.deleteEvent(id);
 
         String name = cwView.getName();
@@ -315,17 +315,19 @@ public class MWController {
 
             if (!name.isEmpty() && !id.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
                 dialog = new view.Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("Event edited!").build();
+                model.Event event = new model.Event(id, name, startDate, endDate, location, descr);
+                m.addEventinEvents(event, calendar.getId());
+                currentUser.setCollection(m.getUserCalendars(currentUser));
+                mwView.getCalendar().getSchedule().getAllItems().clear();
+                loadView();
+            }
 
-            } else {
+            else {
                 dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Check null values").build();
             }
 
-            model.Event event = new model.Event(id, name, startDate, endDate, location, descr);
-            m.addEventinEvents(event, calendar.getId());
-            currentUser.setCollection(m.getUserCalendars(currentUser));
-            mwView.getCalendar().getSchedule().getAllItems().clear();
-            loadView();
-        } else {
+        }
+        else {
             dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Inconsistent dates!").build();
         }
 
