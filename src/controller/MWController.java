@@ -89,8 +89,8 @@ public class MWController {
             cwView.setName(a.getHeaderText());
             cwView.setLocation(a.getLocation().getName());
             cwView.setDescr(a.getDescriptionText());
-            cwView.setStartHour(a.getStartTime().toShortTimeString());
-            cwView.setEndHour(a.getEndTime().toShortTimeString());
+            cwView.setStartHour(a.getStartTime().toString("HH:mm"));
+            cwView.setEndHour(a.getEndTime().toString("HH:mm"));
             cwView.addCreateEventListener(e->editEvent(a.getId()));
             eventView.close();
         }
@@ -112,18 +112,18 @@ public class MWController {
 
     public void setupEventWindow(Appointment a) {
 
-            eventView = new EventDisplayWindow.Builder()
-                    .setName(a.getHeaderText())
-                    .setStartDate(a.getStartTime().toString())
-                    .setEndDate(a.getEndTime().toString())
-                    .setLocation(a.getLocation().getName())
-                    .setDescription(a.getDescriptionText())
-                    .build();
-            eventView.setVisible(true);
-            eventView.setTitle(a.getId());
-            eventView.addDeleteButtonListener(e -> deleteEvent());
-            eventView.addOkButtonListener(e -> eventView.close());
-            eventView.addEditButtonListener(e->setupEditEventWindow(a));
+        eventView = new EventDisplayWindow.Builder()
+                .setName(a.getHeaderText())
+                .setStartDate(a.getStartTime().toString())
+                .setEndDate(a.getEndTime().toString())
+                .setLocation(a.getLocation().getName())
+                .setDescription(a.getDescriptionText())
+                .build();
+        eventView.setVisible(true);
+        eventView.setTitle(a.getId());
+        eventView.addDeleteButtonListener(e -> deleteEvent());
+        eventView.addOkButtonListener(e -> eventView.close());
+        eventView.addEditButtonListener(e->setupEditEventWindow(a));
 
     }
 
@@ -505,5 +505,6 @@ public class MWController {
     }
 
 }
+
 
 
