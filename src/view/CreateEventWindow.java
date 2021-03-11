@@ -216,13 +216,13 @@ public class CreateEventWindow extends JFrame {
 
     public void setSelectedStartDate(java.sql.Date newDate){
 
-        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-dd-MM");
+        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
         startDate.setText(myFormat.format(newDate));
     }
 
     public void setSelectedEndDate(java.sql.Date newDate){
 
-        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-dd-MM");
+        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
         endDate.setText(myFormat.format(newDate));
     }
 

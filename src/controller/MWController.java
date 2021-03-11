@@ -70,8 +70,8 @@ public class MWController {
             cwView = new CreateEventWindow(m.getUserCalendars(currentUser));
             cwView.setVisible(true);
             cwView.addCalendarPressListener(new CalendarinCalendarWindowPressedListener());
-            SimpleDateFormat fromUser = new SimpleDateFormat("dd/MM/yy");
-            SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-dd-MM");
+            SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yy");
+            SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
             String startDate = null;
             String endDate = null;
             try {
