@@ -70,22 +70,9 @@ public class MWController {
             cwView = new CreateEventWindow(m.getUserCalendars(currentUser));
             cwView.setVisible(true);
             cwView.addCalendarPressListener(new CalendarinCalendarWindowPressedListener());
-            SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yy");
-            SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String startDate = null;
-            String endDate = null;
-            try {
-                startDate = myFormat.format(fromUser.parse(a.getStartTime().toShortDateString()));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            try {
-                endDate = myFormat.format(fromUser.parse(a.getEndTime().toShortDateString()));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            cwView.setStartDate(startDate);
-            cwView.setEndDate(endDate);
+
+            cwView.setStartDate(a.getStartTime().getYear()+"-"+String.format("%02d",a.getStartTime().getMonth())+"-"+String.format("%02d",a.getStartTime().getDay()));
+            cwView.setEndDate(a.getEndTime().getYear()+"-"+String.format("%02d",a.getEndTime().getMonth())+"-"+String.format("%02d",a.getEndTime().getDay()));
             cwView.setName(a.getHeaderText());
             cwView.setLocation(a.getLocation().getName());
             cwView.setDescr(a.getDescriptionText());
