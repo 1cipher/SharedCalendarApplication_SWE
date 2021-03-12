@@ -5,8 +5,11 @@ import com.mindfusion.scheduling.*;
 import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.model.*;
 import model.*;
+import model.Event;
 import view.*;
 import view.Dialog;
+
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
@@ -203,6 +206,9 @@ public class MWController {
         model.Calendar calendar = currentUser.getCollection().getCalendar(calID);
         mwView.getCalendar().getSchedule().getAllItems().clear();
 
+        Style style = new Style();
+        style.setLineColor(Color.black);
+
         ArrayList<model.Event> events = calendar.getEvents();
         for (model.Event event :
                 events) {
@@ -216,7 +222,10 @@ public class MWController {
             Location loc = new Location();
             loc.setName(event.getLocation());
             appointment.setLocation(loc);
-            if(event.getStartDate().isLessThan(event.getEndDate()))
+            appointment.setStyle(style);
+            int i = event.getStartDate().getDay();
+            int p = event.getEndDate().getDay();
+            if(event.getStartDate().getDay()<event.getEndDate().getDay())
                 appointment.setAllDayEvent(true);
 
             mwView.getCalendar().getSchedule().getItems().add(appointment);
