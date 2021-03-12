@@ -223,8 +223,6 @@ public class MWController {
             loc.setName(event.getLocation());
             appointment.setLocation(loc);
             appointment.setStyle(style);
-            int i = event.getStartDate().getDay();
-            int p = event.getEndDate().getDay();
             if(event.getStartDate().getDay()<event.getEndDate().getDay())
                 appointment.setAllDayEvent(true);
 
@@ -408,7 +406,7 @@ public class MWController {
         @Override
         public void dateClick(ResourceDateEvent e) {
             Calendar calendar = mwView.getCalendar();
-            if (calendar.getCurrentView() == CalendarView.WeekRange) {
+            if (calendar.getCurrentView() == CalendarView.WeekRange || calendar.getCurrentView() == CalendarView.MonthRange) {
                 calendar.setCurrentView(CalendarView.Timetable);
                 calendar.setDate(e.getDate());
                 mwView.getViewMenu().setSelectedIndex(0);
