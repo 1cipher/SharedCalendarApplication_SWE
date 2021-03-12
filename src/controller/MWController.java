@@ -121,7 +121,6 @@ public class MWController {
         mwView = new MainWindow();
         mwView.setVisible(true);
         mwView.addChangeViewListener(e -> mwView.changeView());
-        mwView.addStyleSelectorListener(e-> mwView.changeStyle());
         mwView.addNewEventListener(e -> setupCalendarWindow());
         mwView.addSearchListener(e -> search());
         mwView.addMainCalendarListener(new mainCalendarAdapter());

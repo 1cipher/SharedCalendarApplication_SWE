@@ -1,16 +1,16 @@
 package view;
 
 import com.mindfusion.scheduling.*;
-import controller.LocationSearch;
-import controller.NameSearch;
-import controller.SearchStrategy;
+import controller.*;
 import model.CalendarCollection;
 import utils.CustomRenderer;
 import utils.SearchRenderer;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -24,7 +24,6 @@ public class MainWindow extends JFrame {
     private JTextField searchBox;
     private JComboBox<String> viewMenu;
     private JComboBox<model.Calendar> selectedCalendarMenu;
-    private JComboBox<String> styleSelector;
     private JComboBox<SearchStrategy> searchType;
     private JMenuBar bar;
     private JMenu fileMenu;
@@ -45,6 +44,7 @@ public class MainWindow extends JFrame {
         setSize(1000, 1000);
         setExtendedState(MAXIMIZED_BOTH);
         setTitle("Calendar");
+        setLocationRelativeTo(null);
 
         Container cp = getContentPane();
         cp.setLayout(null);
@@ -56,15 +56,6 @@ public class MainWindow extends JFrame {
         viewMenu.addItem("month");
         viewMenu.setLocation(550, 10);
         viewMenu.setSize(100, 20);
-
-        styleSelector = new JComboBox<>();
-        styleSelector.setName("Style");
-        styleSelector.addItem(ThemeType.Light.toString());
-        styleSelector.addItem(ThemeType.Lila.toString());
-        styleSelector.addItem(ThemeType.Vista.toString());
-        styleSelector.addItem(ThemeType.Silver.toString());
-        styleSelector.setLocation(1010,10);
-        styleSelector.setSize(100,20);
 
         calendar = new com.mindfusion.scheduling.Calendar();
         calendar.beginInit();
@@ -83,12 +74,21 @@ public class MainWindow extends JFrame {
         searchType = new JComboBox<>();
         searchType.addItem(new NameSearch());
         searchType.addItem(new LocationSearch());
+        searchType.addItem(new NameSearchWithOldOnes());
+        searchType.addItem(new LocationStrategyWithOldOnes());
         searchType.setLocation(420,10);
         searchType.setSize(90,20);
         searchType.setRenderer(new SearchRenderer());
 
+        search = new JButton();
+        Image img = null;
+        try {
+            img = ImageIO.read(getClass().getResource("/utils/search.png")); //TODO: NON AGGIUNGE L'IMMAGINE
+            search.setIcon(new ImageIcon(img));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        search = new JButton(new ImageIcon("C:\\search.png"));
         search.setLocation(520, 10);
         search.setSize(20, 20);
 
@@ -131,7 +131,6 @@ public class MainWindow extends JFrame {
         cp.add(search);
         cp.add(viewMenu);
         cp.add(selectedCalendarMenu);
-        cp.add(styleSelector);
         cp.add(searchType);
         cp.add(bar);
         this.setJMenuBar(bar);
@@ -154,12 +153,6 @@ public class MainWindow extends JFrame {
         return (model.Calendar) selectedCalendarMenu.getSelectedItem();
     }
 
-    public void changeStyle(){
-
-        String selection = (String) styleSelector.getSelectedItem();
-
-        calendar.setTheme(ThemeType.valueOf(selection));
-    }
 
     public void changeView(){
         String selection = (String) viewMenu.getSelectedItem();
@@ -185,7 +178,7 @@ public class MainWindow extends JFrame {
 
     public void addCalendar(model.Calendar cal){
         selectedCalendarMenu.addItem(cal);
-        selectedCalendarMenu.setSelectedItem(cal);
+        selectedCalendarMenu.setSelectedItem(cal);  
     }
 
     public void setCalendars(CalendarCollection list) {
@@ -236,10 +229,6 @@ public class MainWindow extends JFrame {
         this.selectedCalendarMenu.addActionListener(selectedCalendarListener);
     }
 
-    public void addStyleSelectorListener(ActionListener styleSelectorListener){
-
-        this.styleSelector.addActionListener(styleSelectorListener);
-    }
 
     public void close(){
         setVisible(false);
