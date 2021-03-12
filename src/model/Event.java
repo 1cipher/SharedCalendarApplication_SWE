@@ -4,8 +4,6 @@ import com.mindfusion.common.DateTime;
 
 public class Event {
 
-    enum Color {RED,BLUE,BLACK}
-
     public String getId() {
         return id;
     }
@@ -15,7 +13,6 @@ public class Event {
     private DateTime start;
     private DateTime end;
     private String location;
-    private String Color;
     private String description;
 
     public Event(String id, String name, DateTime start, DateTime end, String location,String description) {
@@ -29,20 +26,12 @@ public class Event {
 
     }
 
-    public Event() {
-
-    }
-
     public String getName() {
         return name;
     }
 
     public String getLocation() {
         return location;
-    }
-
-    public String getColor() {
-        return Color;
     }
 
     public String getDescription() {

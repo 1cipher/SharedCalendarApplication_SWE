@@ -25,8 +25,6 @@ public class CreateEventWindow extends JFrame {
     private JTextField name;
     private JLabel locationLabel;
     private JTextField location;
-    private JComboBox<String> color;
-    private JLabel colorLabel;
     private JLabel descrLabel;
     private JTextArea descr;
     private JButton createEvent;
@@ -98,18 +96,6 @@ public class CreateEventWindow extends JFrame {
         descr.setSize(300,50);
         descr.setText("Sarà deliziosa!");
 
-        colorLabel = new JLabel("Colour: ");
-        colorLabel.setLocation(410,200);
-        colorLabel.setSize(50,20);
-
-        color = new JComboBox<>();
-        color.setLocation(500,200);
-        color.setSize(100,20);
-        color.addItem("Black");
-        color.addItem("Red");
-        color.addItem("Green");
-        color.addItem("Blue");
-
         createEvent = new JButton("Save");
         createEvent.setLocation(700,200);
         createEvent.setSize(150,20);
@@ -123,8 +109,6 @@ public class CreateEventWindow extends JFrame {
         cp.add(location);
         cp.add(descr);
         cp.add(descrLabel);
-        cp.add(colorLabel);
-        cp.add(color);
         cp.add(createEvent);
         cp.add(endDate);
         cp.add(endDateLabel);
