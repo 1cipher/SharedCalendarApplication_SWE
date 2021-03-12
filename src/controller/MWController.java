@@ -216,6 +216,9 @@ public class MWController {
             Location loc = new Location();
             loc.setName(event.getLocation());
             appointment.setLocation(loc);
+            if(event.getStartDate().compareTo(event.getEndDate())<0)
+                appointment.setAllDayEvent(true);
+
             mwView.getCalendar().getSchedule().getItems().add(appointment);
         }
     }
