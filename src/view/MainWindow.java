@@ -20,6 +20,7 @@ public class MainWindow extends JFrame {
 
     private JFormattedTextField textField = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
     private com.mindfusion.scheduling.Calendar calendar;
+    private JLabel searchLabel;
     private JButton search;
     private JTextField searchBox;
     private JComboBox<String> viewMenu;
@@ -67,8 +68,12 @@ public class MainWindow extends JFrame {
         calendar.setVisible(true);
         calendar.endInit();
 
+        searchLabel = new JLabel("Search with filters:");
+        searchLabel.setLocation(30,10);
+        searchLabel.setSize(150,20);
+
         searchBox = new JTextField();
-        searchBox.setLocation(210, 10);
+        searchBox.setLocation(150, 10);
         searchBox.setSize(200, 20);
 
         searchType = new JComboBox<>();
@@ -76,19 +81,20 @@ public class MainWindow extends JFrame {
         searchType.addItem(new LocationSearch());
         searchType.addItem(new NameSearchWithOldOnes());
         searchType.addItem(new LocationStrategyWithOldOnes());
-        searchType.setLocation(420,10);
-        searchType.setSize(90,20);
+        searchType.setLocation(360,10);
+        searchType.setSize(150,20);
         searchType.setRenderer(new SearchRenderer());
-
         search = new JButton();
         Image img = null;
         try {
-            img = ImageIO.read(getClass().getResource("/utils/search.png")); //TODO: NON AGGIUNGE L'IMMAGINE
-            search.setIcon(new ImageIcon(img));
+            img = ImageIO.read(getClass().getResource("/utils/search.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        assert img != null;
+        Image newimg = img.getScaledInstance( 20, 20,  java.awt.Image.SCALE_SMOOTH );
 
+        search.setIcon(new ImageIcon(newimg));
         search.setLocation(520, 10);
         search.setSize(20, 20);
 
@@ -127,6 +133,7 @@ public class MainWindow extends JFrame {
         bar.add(styleMenu);
 
         cp.add(calendar);
+        cp.add(searchLabel);
         cp.add(searchBox);
         cp.add(search);
         cp.add(viewMenu);
