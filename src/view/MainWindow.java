@@ -143,6 +143,7 @@ public class MainWindow extends JFrame {
 
     public void addCalendar(model.Calendar cal){
         calendars.add(0,cal);
+        calendarList.updateUI();
         calendarList.setSelectedIndex(0);
     }
 
