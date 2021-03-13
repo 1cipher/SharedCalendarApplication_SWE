@@ -1,44 +1,33 @@
 package view;
 
 import com.mindfusion.scheduling.*;
-import controller.*;
 import model.CalendarCollection;
 import utils.CustomRenderer;
-import utils.SearchRenderer;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.EnumSet;
 
 
 public class MainWindow extends JFrame {
 
-    private JFormattedTextField textField = new JFormattedTextField(DateFormat.getDateInstance(DateFormat.SHORT));
     private com.mindfusion.scheduling.Calendar calendar;
-    private JLabel searchLabel;
-    private JButton search;
-    private JTextField searchBox;
-    private JComboBox<String> viewMenu;
-    private JComboBox<model.Calendar> selectedCalendarMenu;
-    private JComboBox<SearchStrategy> searchType;
+    private JList viewMenu;
+    private JList calendarList;
     private JMenuBar bar;
     private JMenu fileMenu;
+    private JMenu editMenu;
     private JMenu styleMenu;
     private JMenuItem newCalendar;
     private JMenuItem newEvent;
+    private JMenuItem find;
     private JMenuItem shareCalendar;
     private JMenuItem logout;
-
-
-    public SearchStrategy getSearchType() {
-
-        return (SearchStrategy) searchType.getSelectedItem();
-    }
+    private JScrollPane viewScroll;
+    private JScrollPane calendarScroll;
+    private DefaultListModel calendars;
 
     public MainWindow() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -51,104 +40,74 @@ public class MainWindow extends JFrame {
         cp.setLayout(null);
         cp.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
-        viewMenu = new JComboBox<>();
-        viewMenu.addItem("day");
-        viewMenu.addItem("week");
-        viewMenu.addItem("month");
-        viewMenu.setLocation(550, 10);
-        viewMenu.setSize(100, 20);
+        String viewList[] = {"Day","Month","Year"};
+        viewMenu = new JList(viewList);
+        viewMenu.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        viewMenu.setLayoutOrientation(JList.VERTICAL);
+        viewMenu.setVisibleRowCount(3);
+        viewMenu.setSelectedIndex(0);
+        viewScroll = new JScrollPane(viewMenu);
+        viewScroll.setSize(200,80);
+        viewScroll.setLocation(0,0);
+
+        calendars = new DefaultListModel();
+        calendarList = new JList(calendars);
+        calendarList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        calendarList.setLayoutOrientation(JList.VERTICAL);
+        calendarList.setVisibleRowCount(-1);
+        calendarList.setCellRenderer(new utils.CustomRenderer());
+        calendarScroll = new JScrollPane(calendarList);
+        calendarScroll.setSize(200,300);
+        calendarScroll.setLocation(0,80);
 
         calendar = new com.mindfusion.scheduling.Calendar();
         calendar.beginInit();
         calendar.setCurrentView(CalendarView.Timetable);
         calendar.setTheme(ThemeType.Light);
-        calendar.setLocation(0, 40);
+        calendar.setLocation(200, 0);
         calendar.setSize(1000, 700);
         calendar.setAllowInplaceEdit(false);
         calendar.setVisible(true);
         calendar.endInit();
 
-        searchLabel = new JLabel("Search with filters:");
-        searchLabel.setLocation(30,10);
-        searchLabel.setSize(150,20);
-
-        searchBox = new JTextField();
-        searchBox.setLocation(150, 10);
-        searchBox.setSize(200, 20);
-
-        searchType = new JComboBox<>();
-        searchType.addItem(new NameSearch());
-        searchType.addItem(new LocationSearch());
-        searchType.addItem(new NameSearchWithOldOnes());
-        searchType.addItem(new LocationStrategyWithOldOnes());
-        searchType.setLocation(360,10);
-        searchType.setSize(150,20);
-        searchType.setRenderer(new SearchRenderer());
-        search = new JButton();
-        Image img = null;
-        try {
-            img = ImageIO.read(getClass().getResource("/utils/search.jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        assert img != null;
-        Image newimg = img.getScaledInstance( 20, 20,  java.awt.Image.SCALE_SMOOTH );
-
-        search.setIcon(new ImageIcon(newimg));
-        search.setLocation(520, 10);
-        search.setSize(20, 20);
-
-        selectedCalendarMenu = new JComboBox<>();
-        selectedCalendarMenu.setLocation(670, 10);
-        selectedCalendarMenu.setSize(100, 20);
-        selectedCalendarMenu.setRenderer(new CustomRenderer());
-
         bar = new JMenuBar();
         fileMenu = new JMenu("File");
+        editMenu = new JMenu("Edit");
         styleMenu = new JMenu("Style");
         JMenu submenu = new JMenu("New");
         newEvent = new JMenuItem("Event");
+        find = new JMenuItem("Find");
         newCalendar = new JMenuItem("Calendar");
         submenu.add(newEvent);
         submenu.add(newCalendar);
         fileMenu.add(submenu);
         shareCalendar = new JMenuItem("Share");
         logout = new JMenuItem("Logout");
-        JMenuItem light = new JMenuItem("Light");
-        light.addActionListener(e -> calendar.setTheme(ThemeType.Light));
+        JCheckBoxMenuItem light = new JCheckBoxMenuItem("Dark");
+        light.addActionListener(e -> {
+            if (light.getState())
+                calendar.setTheme(ThemeType.Vista);
+            else
+                calendar.setTheme(ThemeType.Light);
+        });
         styleMenu.add(light);
-        JMenuItem lila = new JMenuItem("Lila");
-        lila.addActionListener(e -> calendar.setTheme(ThemeType.Lila));
-        styleMenu.add(lila);
-        JMenuItem vista = new JMenuItem("Vista");
-        vista.addActionListener(e -> calendar.setTheme(ThemeType.Vista));
-        styleMenu.add(vista);
-        JMenuItem silver = new JMenuItem("Silver");
-        silver.addActionListener(e -> calendar.setTheme(ThemeType.Silver));
-        styleMenu.add(silver);
+        editMenu.add(find);
         fileMenu.add(shareCalendar);
         fileMenu.addSeparator();
         fileMenu.add(logout);
         bar.add(fileMenu);
+        bar.add(editMenu);
         bar.add(styleMenu);
 
         cp.add(calendar);
-        cp.add(searchLabel);
-        cp.add(searchBox);
-        cp.add(search);
-        cp.add(viewMenu);
-        cp.add(selectedCalendarMenu);
-        cp.add(searchType);
         cp.add(bar);
+        cp.add(viewScroll);
+        cp.add(calendarScroll);
         this.setJMenuBar(bar);
 
     }
 
-    public String getSearchText(){
-        return searchBox.getText();
-    }
-
-    public JComboBox<String> getViewMenu() {
+    public JList<String> getViewMenu() {
         return viewMenu;
     }
 
@@ -157,23 +116,22 @@ public class MainWindow extends JFrame {
     }
 
     public model.Calendar getCurrentCalendar(){
-        return (model.Calendar) selectedCalendarMenu.getSelectedItem();
+        return (model.Calendar) calendarList.getSelectedValue();
     }
 
 
     public void changeView(){
-        String selection = (String) viewMenu.getSelectedItem();
+        String selection = (String) viewMenu.getSelectedValue();
 
         assert selection != null;
         switch (selection) {
-            case "day":
+            case "Day":
                 calendar.setCurrentView(CalendarView.Timetable);
                 break;
-            case "week":
-                calendar.setCurrentView(CalendarView.WeekRange);
-                calendar.getWeekRangeSettings().setHeaderStyle(EnumSet.of(WeekRangeHeaderStyle.Title));
+            case "Month":
+                calendar.setCurrentView(CalendarView.SingleMonth);
                 break;
-            case "month":
+            case "Year":
                 calendar.setCurrentView(CalendarView.MonthRange);
                 break;
             default:
@@ -184,21 +142,16 @@ public class MainWindow extends JFrame {
     }
 
     public void addCalendar(model.Calendar cal){
-        selectedCalendarMenu.addItem(cal);
-        selectedCalendarMenu.setSelectedItem(cal);  
+        calendars.add(0,cal);
+        calendarList.setSelectedIndex(0);
     }
 
     public void setCalendars(CalendarCollection list) {
         ArrayList<model.Calendar> calendarsList = list.getCalendars();
         for (model.Calendar cal:
                 calendarsList) {
-            selectedCalendarMenu.addItem(cal);
+            addCalendar(cal);
         }
-    }
-
-    public void addSearchListener(ActionListener searchListener){
-
-        this.search.addActionListener(searchListener);
     }
 
     public void addNewEventListener(ActionListener newEventListener){
@@ -206,9 +159,14 @@ public class MainWindow extends JFrame {
         this.newEvent.addActionListener(newEventListener);
     }
 
-   public void addChangeViewListener(ActionListener changeViewListener){
+    public void addFindListener(ActionListener listener){
 
-        this.viewMenu.addActionListener(changeViewListener);
+        this.find.addActionListener(listener);
+    }
+
+   public void addChangeViewListener(ListSelectionListener changeViewListener){
+        //TODO: non serve passare dal controller
+        this.viewMenu.addListSelectionListener(changeViewListener);
     }
 
     public void addLogoutListener(ActionListener logoutListener){
@@ -231,9 +189,9 @@ public class MainWindow extends JFrame {
         this.shareCalendar.addActionListener(listener);
     }
 
-    public void addSelectedCalendarListener(ActionListener selectedCalendarListener){
+    public void addSelectedCalendarListener(ListSelectionListener listener){
 
-        this.selectedCalendarMenu.addActionListener(selectedCalendarListener);
+        this.calendarList.addListSelectionListener(listener);
     }
 
 

@@ -19,6 +19,7 @@ public class MWController {
 
     private MainWindow mwView;
     private CreateEventWindow cwView;
+    private SearchView sView;
     private Gateway m;
     private view.Dialog dialog;
     private Login logView;
@@ -62,6 +63,14 @@ public class MWController {
             dialog = new view.Dialog.Builder().setLabel("You are not allowed!").setType(Dialog.type.ERROR).build();
             setupDialog();
         }
+
+    }
+
+    public void setupSearchWindow() {
+
+            sView = new SearchView();
+            sView.setVisible(true);
+            sView.addSearchListener(e -> search());
 
     }
 
@@ -122,7 +131,6 @@ public class MWController {
         mwView.setVisible(true);
         mwView.addChangeViewListener(e -> mwView.changeView());
         mwView.addNewEventListener(e -> setupCalendarWindow());
-        mwView.addSearchListener(e -> search());
         mwView.addMainCalendarListener(new mainCalendarAdapter());
         mwView.addLogoutListener(e -> {
             mwView.close();
@@ -131,6 +139,7 @@ public class MWController {
         mwView.addNewCalendarListener(e -> setupCreateCalendarWindow());
         mwView.addSelectedCalendarListener(e -> loadView());
         mwView.addShareCalendarListener(e-> setupShareView());
+        mwView.addFindListener(e -> setupSearchWindow());
 
     }
 
@@ -230,10 +239,10 @@ public class MWController {
     }
 
     private void search() {
-        String toSearch = mwView.getSearchText();
+        String toSearch = sView.getSearchText();
         ItemList itemList = mwView.getCalendar().getSchedule().getItems();
 
-        SearchStrategy strategy = mwView.getSearchType();
+        SearchStrategy strategy = sView.getSearchType();
         Item item = strategy.search(itemList,toSearch);
 
         if (item != null) {
@@ -244,6 +253,7 @@ public class MWController {
             dialog = new view.Dialog.Builder().setLabel("No event found!").setType(Dialog.type.ERROR).build();
             setupDialog();
         }
+        sView.close();
     }
 
     private void createCalendar(){
@@ -405,7 +415,7 @@ public class MWController {
         @Override
         public void dateClick(ResourceDateEvent e) {
             Calendar calendar = mwView.getCalendar();
-            if (calendar.getCurrentView() == CalendarView.WeekRange || calendar.getCurrentView() == CalendarView.MonthRange) {
+            if (calendar.getCurrentView() == CalendarView.SingleMonth || calendar.getCurrentView() == CalendarView.MonthRange) {
                 calendar.setCurrentView(CalendarView.Timetable);
                 calendar.setDate(e.getDate());
                 mwView.getViewMenu().setSelectedIndex(0);
