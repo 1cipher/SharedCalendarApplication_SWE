@@ -59,5 +59,27 @@ public class DataBaseTest {
 
    }
 
+   @Test
+
+    public void share(){
+
+       String username = "alessio";
+       User user = new User(username);
+       Event event = new Event("a","concerto",null,null,"casa","wow");
+       Calendar calendar = new Calendar(user,"aaa","CID",0);
+       gateway.createCalendar(calendar,user);
+
+       String username2 = "marco";
+       User marco = new User(username2);
+       gateway.shareCalendar(calendar,username2,0);
+       CalendarCollection calendarCollection1 = gateway.getUserCalendars(marco);
+       assertFalse(calendarCollection1.getCalendar(calendar.getId()).getEvents().isEmpty());
+
+       gateway.deleteUser(username);
+       gateway.deleteUser(username2);
+       assertFalse(gateway.isExistingUsername(username));
+       assertFalse(gateway.isExistingUsername(username2));
+
+   }
 
 }

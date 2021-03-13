@@ -3,16 +3,13 @@ package view;
 import javax.swing.*;
 
 import com.mindfusion.scheduling.ThemeType;
-import model.Calendar;
 import model.CalendarCollection;
-import utils.CustomRenderer;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 public class CreateEventWindow extends JFrame {
 

@@ -9,7 +9,7 @@ import java.util.Date;
 public class LocationSearch implements SearchStrategy {
 
     @Override
-    public Item search(ItemList list, String toSearch) {
+    public ItemList search(ItemList list, String toSearch) {
 
         SimpleDateFormat format = new SimpleDateFormat(("dd-MM-yyyy"));
         String todayDate = format.format(new Date());
@@ -25,13 +25,12 @@ public class LocationSearch implements SearchStrategy {
         for (Item element:newList) {
             String comp = element.getLocation().toString();
             int set = EditDistance.computeLevenshteinDistance(comp,toSearch);
-            if (set<min) {
-                min = set;
-                result = element;
+            if (set>min) {
+                newList.remove(element);
             }
         }
 
-        return result;
+        return newList;
 
     }
 

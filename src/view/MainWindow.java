@@ -2,7 +2,7 @@ package view;
 
 import com.mindfusion.scheduling.*;
 import model.CalendarCollection;
-import utils.CustomRenderer;
+import utils.CalendarCustomRenderer;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
@@ -55,7 +55,7 @@ public class MainWindow extends JFrame {
         calendarList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         calendarList.setLayoutOrientation(JList.VERTICAL);
         calendarList.setVisibleRowCount(-1);
-        calendarList.setCellRenderer(new utils.CustomRenderer());
+        calendarList.setCellRenderer(new CalendarCustomRenderer());
         calendarScroll = new JScrollPane(calendarList);
         calendarScroll.setSize(200,300);
         calendarScroll.setLocation(0,80);

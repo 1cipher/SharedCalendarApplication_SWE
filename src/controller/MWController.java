@@ -70,6 +70,13 @@ public class MWController {
             sView = new SearchView();
             sView.setVisible(true);
             sView.addSearchListener(e -> search());
+            sView.addSelectedEventListener(e->{
+
+                Appointment sel = (Appointment) sView.getList().getSelectedValue();
+                mwView.getCalendar().setDate(sel.getStartTime());
+                setupEventWindow(sel);
+                sView.close();
+            });
 
     }
 
@@ -242,17 +249,10 @@ public class MWController {
         ItemList itemList = mwView.getCalendar().getSchedule().getItems();
 
         SearchStrategy strategy = sView.getSearchType();
-        Item item = strategy.search(itemList,toSearch);
+        ItemList items = strategy.search(itemList,toSearch);
+        sView.addResults(items);
 
-        if (item != null) {
-            DateTime dt = item.getStartTime();
-            mwView.getCalendar().setDate(dt);
-            setupEventWindow((Appointment) item);
-        } else {
-            dialog = new view.Dialog.Builder().setLabel("No event found!").setType(Dialog.type.ERROR).build();
-            setupDialog();
-        }
-        sView.close();
+
     }
 
     private void createCalendar(){
