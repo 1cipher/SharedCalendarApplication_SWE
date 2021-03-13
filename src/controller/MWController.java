@@ -5,7 +5,6 @@ import com.mindfusion.scheduling.*;
 import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.model.*;
 import model.*;
-import model.Event;
 import view.*;
 import view.Dialog;
 
@@ -261,7 +260,7 @@ public class MWController {
         model.Calendar newCalendar = null;
         if (!createCalendarWindow.getName().isEmpty()) {
             newCalendar = new model.Calendar(currentUser, cid, createCalendarWindow.getName(), 0);
-            m.CreateCalendar(newCalendar, currentUser);
+            m.createCalendar(newCalendar, currentUser);
             dialog = new view.Dialog.Builder().setLabel("model.Calendar Created").setType(Dialog.type.SUCCESS).build();
         } else {
             dialog = new Dialog.Builder().setLabel("model.Calendar can't be created").setType(Dialog.type.ERROR).build();

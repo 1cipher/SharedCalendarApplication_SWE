@@ -78,7 +78,7 @@ public class Gateway {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        };
+        }
 
         sql = "SELECT CALENDARID,EVENT,ID,NAME,START_DATE,END_DATE,LOCATION,DESCRIPTION " +
                 "FROM PARTICIPATION,CALENDAREVENTS,EVENTS " +
@@ -194,8 +194,8 @@ public class Gateway {
 
     }
 
-    public void CreateCalendar(Calendar calendar, User currentUser){
-        //TODO: ability to change permission
+    public void createCalendar(Calendar calendar, User currentUser){
+
         String username = currentUser.getUsername();
         String sql = "INSERT INTO CALENDAR(ID,NAME,OWNER)" +
                 "VALUES(?,?,?);" +
@@ -231,6 +231,51 @@ public class Gateway {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+
+    }
+
+    public void deleteUser(String uid){
+
+        String sql = "DELETE FROM LOGIN WHERE UID = ?";
+
+        try {
+            preparedStatement = c.prepareStatement(sql);
+            preparedStatement.setString(1,uid);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        sql = "SELECT CE.EVENT" +
+                "FROM (PARTICIPATION P JOIN CALENDAR C ON P.CALENDARID = C.ID) JOIN CALENDAREVENTS CE ON CE.CALENDAR = C.ID" +
+                "WHERE CE.UID = ?";
+
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = c.prepareStatement(sql);
+            preparedStatement.setString(1,uid);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                deleteEvent(resultSet.getString("EVENT"));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        sql = "DELETE " +
+                "FROM CALENDAR JOIN PARTICIPATION ON CALENDARID = ID" +
+                "WHERE UID = UID";
+        try {
+            preparedStatement = c.prepareStatement(sql);
+            preparedStatement.setString(1,uid);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
 
     }
