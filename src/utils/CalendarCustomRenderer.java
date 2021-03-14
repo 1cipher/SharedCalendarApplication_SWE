@@ -11,7 +11,8 @@ public class CalendarCustomRenderer extends DefaultListCellRenderer {
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus){
 
         if (value instanceof Calendar){
-            value = ((Calendar)value).getName();
+            Calendar calendar = (Calendar) value;
+            value = calendar.getName();
         }
 
         return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
