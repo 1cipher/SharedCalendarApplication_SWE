@@ -193,6 +193,7 @@ public class MWController {
     }
 
     private void login(){
+
         String acquiredUser = logView.getUsername();
         String acquiredPassword = logView.getPassword();
 
