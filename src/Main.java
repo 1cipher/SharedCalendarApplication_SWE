@@ -2,7 +2,7 @@
 import controller.MWController;
 import model.Database;
 import model.Gateway;
-import view.Login;
+import model.Mailer;
 
 import javax.swing.*;
 
@@ -16,6 +16,7 @@ public class Main {
 
                      Database db = Database.getInstance();
                      Gateway g = new Gateway(db.createConnection());
+
 
                      MWController mwc = new MWController(g);
 

@@ -28,10 +28,11 @@ public class MWController {
     private CreateCalendarWindow createCalendarWindow;
     private ShareView shareView;
     private User currentUser;
-    private MWController instance = null;
+    private Mailer mailer;
 
     public MWController(Gateway g) {
         m = g;
+        mailer = new Mailer();
         setupLoginWindow();
     }
 
@@ -213,13 +214,22 @@ public class MWController {
             currentUser.setCollection(cc);
 
             mwView.setCalendars(cc);
-            dialog = new view.Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("You are logged in!").build();
+            DateTime start = DateTime.today();
+            DateTime end = DateTime.today();
+            end = end.addHours(23);
+            end = end.addMinutes(59);
+            ItemList itemList = mwView.getCalendar().getSchedule().getAllItems(start,end);
+            String toSend = "";
+            for (Item item:
+                 itemList) {
+                toSend = toSend+"\n"+item.getHeaderText()+" @ "+item.getStartTime().getHour()+" - "+item.getEndTime().getHour();
+            }
+            mailer.sendMail(toSend);
 
         } else {
             dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Wrong credentials!").build();
+            setupDialog();
         }
-        setupDialog();
-
     }
 
 

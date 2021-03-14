@@ -1,0 +1,15 @@
+
+j	java:S101—"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(‡çµ¹8‹üåÚ‚/
+r
+java:S1192?"UDefine a constant instead of duplicating this literal "You are not allowed!" 3 times.(†™‡8»æñˆƒ/
+P
+java:S1135©"2Complete the task associated to this TODO comment.(ÆÿÍï8»æñˆƒ/
+O
+java:S1135–"2Complete the task associated to this TODO comment.(€“½o8»æñˆƒ/
+Y	java:S125—"<This block of commented-out lines of code should be removed.(´¢à“8»æñˆƒ/
+U
+java:S1135ì"2Complete the task associated to this TODO comment.(øı§àøÿÿÿÿ8»æñˆƒ/
+j
+java:S1871ë"MThis branch's code block is the same as the block for the branch on line 484.(Ûæá8‹üåÚ‚/
+I
+java:S1068",Remove this unused "instance" private field.( °ºØ8»æñˆƒ/
