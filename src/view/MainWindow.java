@@ -16,6 +16,8 @@ public class MainWindow extends JFrame {
     private com.mindfusion.scheduling.Calendar calendar;
     private JList viewMenu;
     private JList calendarList;
+    private JLabel visualization;
+    private JLabel calendarsLabel;
     private JMenuBar bar;
     private JMenu fileMenu;
     private JMenu editMenu;
@@ -31,14 +33,18 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1000, 1000);
-        setExtendedState(MAXIMIZED_BOTH);
+        setSize(1215, 760);
+        //setExtendedState(MAXIMIZED_BOTH);
         setTitle("Calendar");
         setLocationRelativeTo(null);
 
         Container cp = getContentPane();
         cp.setLayout(null);
         cp.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+
+        visualization = new JLabel("View Format:");
+        visualization.setLocation(0,0);
+        visualization.setSize(100,50);
 
         String viewList[] = {"Day","Month","Year"};
         viewMenu = new JList(viewList);
@@ -48,7 +54,11 @@ public class MainWindow extends JFrame {
         viewMenu.setSelectedIndex(0);
         viewScroll = new JScrollPane(viewMenu);
         viewScroll.setSize(200,80);
-        viewScroll.setLocation(0,0);
+        viewScroll.setLocation(0,50);
+
+        calendarsLabel = new JLabel("Calendars:");
+        calendarsLabel.setLocation(0,130);
+        calendarsLabel.setSize(100,50);
 
         calendars = new DefaultListModel();
         calendarList = new JList(calendars);
@@ -57,8 +67,8 @@ public class MainWindow extends JFrame {
         calendarList.setVisibleRowCount(-1);
         calendarList.setCellRenderer(new CalendarCustomRenderer());
         calendarScroll = new JScrollPane(calendarList);
-        calendarScroll.setSize(200,300);
-        calendarScroll.setLocation(0,80);
+        calendarScroll.setSize(200,700-180);
+        calendarScroll.setLocation(0,180);
 
         calendar = new com.mindfusion.scheduling.Calendar();
         calendar.beginInit();
@@ -103,6 +113,8 @@ public class MainWindow extends JFrame {
         cp.add(bar);
         cp.add(viewScroll);
         cp.add(calendarScroll);
+        cp.add(visualization);
+        cp.add(calendarsLabel);
         this.setJMenuBar(bar);
 
     }
