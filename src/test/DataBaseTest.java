@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import model.*;
 import org.junit.Before;
 import org.junit.Test;
+import utils.ACL;
 
 
 public class DataBaseTest {
@@ -37,7 +38,7 @@ public class DataBaseTest {
         String username = "alessio";
         User user = new User(username);
         Event event = new Event("a","concerto",null,null,"casa","wow");
-        Calendar calendar = new Calendar(user,"aaa","CID",0);
+        Calendar calendar = new Calendar(user,"aaa","CID", ACL.getCreatorPermission());
         gateway.createCalendar(calendar,user);
 
         CalendarCollection calendarCollection = gateway.getUserCalendars(user);
@@ -66,7 +67,7 @@ public class DataBaseTest {
        String username = "alessio";
        User user = new User(username);
        Event event = new Event("a","concerto",null,null,"casa","wow");
-       Calendar calendar = new Calendar(user,"aaa","CID",0);
+       Calendar calendar = new Calendar(user,"aaa","CID",ACL.getCreatorPermission());
        gateway.createCalendar(calendar,user);
 
        String username2 = "marco";

@@ -1,5 +1,7 @@
 package view;
 
+import utils.ACL;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -50,10 +52,10 @@ public class ShareView extends JFrame {
 
     public int getPermission(){
         if (permission.getSelectedItem()=="Owner")
-            return 0;
+            return ACL.getOwnerPermission();
         if (permission.getSelectedItem()=="User")
-            return 1;
-        return 1;
+            return ACL.getUserPermission();
+        return -1;
     }
 
     public void addShareButtonListener(ActionListener shareButtonListener){

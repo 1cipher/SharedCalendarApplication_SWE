@@ -260,7 +260,7 @@ public class MWController {
         String cid = java.util.UUID.randomUUID().toString().substring(0, 19);
         model.Calendar newCalendar = null;
         if (!createCalendarWindow.getName().isEmpty()) {
-            newCalendar = new model.Calendar(currentUser, cid, createCalendarWindow.getName(), 0);
+            newCalendar = new model.Calendar(currentUser, cid, createCalendarWindow.getName(), ACL.getCreatorPermission());
             m.createCalendar(newCalendar, currentUser);
             dialog = new view.Dialog.Builder().setLabel("model.Calendar Created").setType(Dialog.type.SUCCESS).build();
         } else {
