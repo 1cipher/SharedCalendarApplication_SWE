@@ -88,7 +88,7 @@ public class MainWindow extends JFrame {
         JMenu submenu = new JMenu("New");
         newEvent = new JMenuItem("Event");
         find = new JMenuItem("Find");
-        removeCalendar = new JMenuItem("Remove Calendar");
+        removeCalendar = new JMenuItem("Delete Calendar");
         newCalendar = new JMenuItem("Calendar");
         submenu.add(newEvent);
         submenu.add(newCalendar);
@@ -183,6 +183,11 @@ public class MainWindow extends JFrame {
     public void addRemoveCalendar(ActionListener listener){
 
         this.removeCalendar.addActionListener(listener);
+    }
+
+    public void deleteCalendar(){
+        int selected = calendarList.getSelectedIndex();
+        calendars.removeElementAt(selected);
     }
 
    public void addChangeViewListener(ListSelectionListener changeViewListener){

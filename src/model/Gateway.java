@@ -279,4 +279,49 @@ public class Gateway {
 
 
     }
+
+    public void deleteCalendar(model.Calendar calendar){
+        String sql = "DELETE FROM CALENDAR WHERE ID=?;";
+
+        try {
+            preparedStatement=c.prepareStatement(sql);
+            preparedStatement.setString(1,calendar.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        sql = "DELETE FROM CALENDAREVENTS WHERE CALENDAR=?;";
+        try {
+            preparedStatement=c.prepareStatement(sql);
+            preparedStatement.setString(1,calendar.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        sql = "DELETE FROM PARTICIPATION WHERE CALENDARID=?;";
+        try {
+            preparedStatement=c.prepareStatement(sql);
+            preparedStatement.setString(1,calendar.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void unsubscribeCalendar(model.Calendar calendar, User user){
+        String sql = "DELETE FROM PARTICIPATION WHERE CALENDARID=? AND UID=?;";
+        try {
+            preparedStatement=c.prepareStatement(sql);
+            preparedStatement.setString(1,calendar.getId());
+            preparedStatement.setString(2,user.getUsername());
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
 }

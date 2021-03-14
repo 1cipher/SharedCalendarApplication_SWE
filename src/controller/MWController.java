@@ -147,11 +147,12 @@ public class MWController {
         mwView.addSelectedCalendarListener(e -> loadView());
         mwView.addShareCalendarListener(e-> setupShareView());
         mwView.addFindListener(e -> setupSearchWindow());
-        //TODO: questa funzione qui
-        /*mwView.addRemoveCalendar(e -> {
-            if (ACL.canDeleteCalendar(mwView.getCurrentCalendar().permission)) deleteCalendar();
-            else unsubscribeCalendar();
-        });*/
+        mwView.addRemoveCalendar(e -> {
+            model.Calendar calendar = mwView.getCurrentCalendar();
+            if (ACL.canDeleteCalendar(calendar.permission)) m.deleteCalendar(calendar);
+            else m.unsubscribeCalendar(calendar,currentUser);
+            mwView.deleteCalendar();
+        });
 
     }
 
@@ -222,31 +223,35 @@ public class MWController {
 
 
     public void loadView() {
-        String calID = mwView.getCurrentCalendar().getId();
-        model.Calendar calendar = currentUser.getCollection().getCalendar(calID);
-        mwView.getCalendar().getSchedule().getAllItems().clear();
+        if (mwView.getCurrentCalendar()!=null) {
+            String calID = mwView.getCurrentCalendar().getId();
+            model.Calendar calendar = currentUser.getCollection().getCalendar(calID);
+            mwView.getCalendar().getSchedule().getAllItems().clear();
 
-        Style style = new Style();
-        style.setLineColor(Color.black);
+            Style style = new Style();
+            style.setLineColor(Color.black);
 
-        ArrayList<model.Event> events = calendar.getEvents();
-        for (model.Event event :
-                events) {
+            if (calendar!=null) {
+                ArrayList<model.Event> events = calendar.getEvents();
+                for (model.Event event :
+                        events) {
 
-            Item appointment = new Appointment();
-            appointment.setStartTime(event.getStartDate());
-            appointment.setEndTime(event.getEndDate());
-            appointment.setHeaderText(event.getName());
-            appointment.setDescriptionText(event.getDescription());
-            appointment.setId(event.getId());
-            Location loc = new Location();
-            loc.setName(event.getLocation());
-            appointment.setLocation(loc);
-            appointment.setStyle(style);
-            if(event.getStartDate().getDay()<event.getEndDate().getDay())
-                appointment.setAllDayEvent(true);
+                    Item appointment = new Appointment();
+                    appointment.setStartTime(event.getStartDate());
+                    appointment.setEndTime(event.getEndDate());
+                    appointment.setHeaderText(event.getName());
+                    appointment.setDescriptionText(event.getDescription());
+                    appointment.setId(event.getId());
+                    Location loc = new Location();
+                    loc.setName(event.getLocation());
+                    appointment.setLocation(loc);
+                    appointment.setStyle(style);
+                    if (event.getStartDate().getDay() < event.getEndDate().getDay())
+                        appointment.setAllDayEvent(true);
 
-            mwView.getCalendar().getSchedule().getItems().add(appointment);
+                    mwView.getCalendar().getSchedule().getItems().add(appointment);
+                }
+            }
         }
     }
 
