@@ -18,6 +18,12 @@ public class ACL {
         return creatorPermission;
     }
 
+    public static boolean canDeleteCalendar(int p){
+        if (p==0)
+            return true;
+        return false;
+    }
+
     public static boolean canDeleteEvent(int p){
         if (p<2)
             return true;

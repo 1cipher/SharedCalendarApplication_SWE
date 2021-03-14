@@ -147,6 +147,11 @@ public class MWController {
         mwView.addSelectedCalendarListener(e -> loadView());
         mwView.addShareCalendarListener(e-> setupShareView());
         mwView.addFindListener(e -> setupSearchWindow());
+        //TODO: questa funzione qui
+        /*mwView.addRemoveCalendar(e -> {
+            if (ACL.canDeleteCalendar(mwView.getCurrentCalendar().permission)) deleteCalendar();
+            else unsubscribeCalendar();
+        });*/
 
     }
 

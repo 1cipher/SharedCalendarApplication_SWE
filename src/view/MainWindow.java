@@ -25,6 +25,7 @@ public class MainWindow extends JFrame {
     private JMenuItem newCalendar;
     private JMenuItem newEvent;
     private JMenuItem find;
+    private JMenuItem removeCalendar;
     private JMenuItem shareCalendar;
     private JMenuItem logout;
     private JScrollPane viewScroll;
@@ -87,6 +88,7 @@ public class MainWindow extends JFrame {
         JMenu submenu = new JMenu("New");
         newEvent = new JMenuItem("Event");
         find = new JMenuItem("Find");
+        removeCalendar = new JMenuItem("Remove Calendar");
         newCalendar = new JMenuItem("Calendar");
         submenu.add(newEvent);
         submenu.add(newCalendar);
@@ -102,6 +104,7 @@ public class MainWindow extends JFrame {
         });
         styleMenu.add(light);
         editMenu.add(find);
+        editMenu.add(removeCalendar);
         fileMenu.add(shareCalendar);
         fileMenu.addSeparator();
         fileMenu.add(logout);
@@ -175,6 +178,11 @@ public class MainWindow extends JFrame {
     public void addFindListener(ActionListener listener){
 
         this.find.addActionListener(listener);
+    }
+
+    public void addRemoveCalendar(ActionListener listener){
+
+        this.removeCalendar.addActionListener(listener);
     }
 
    public void addChangeViewListener(ListSelectionListener changeViewListener){
