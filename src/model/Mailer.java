@@ -1,5 +1,7 @@
 package model;
 
+import utils.Private;
+
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -9,7 +11,7 @@ public class Mailer {
     public void sendMail(String toSend) {
         String host = "smtp.gmail.com";
         String from = "sweprogettodemo@gmail.com";
-        String password = "ciaomarco1";
+        String password = Private.mailpassword;
 
         Properties props = System.getProperties();
 
