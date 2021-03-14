@@ -5,6 +5,7 @@ import com.mindfusion.scheduling.*;
 import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.model.*;
 import model.*;
+import utils.ACL;
 import view.*;
 import view.Dialog;
 
@@ -50,9 +51,9 @@ public class MWController {
 
     }
 
-    public void setupCalendarWindow() {
+    public void setupCreateEventWindow() {
 
-        if (mwView.getCurrentCalendar().permission==0) {
+        if (ACL.canCreateEvent(mwView.getCurrentCalendar().permission)) {
             cwView = new CreateEventWindow(m.getUserCalendars(currentUser));
             cwView.setVisible(true);
             cwView.addCreateEventListener(e -> createEvent());
@@ -82,7 +83,7 @@ public class MWController {
 
     public void setupEditEventWindow(Appointment a){
 
-        if (mwView.getCurrentCalendar().permission==0) {
+        if (ACL.canEditEvent(mwView.getCurrentCalendar().permission)) {
             cwView = new CreateEventWindow(m.getUserCalendars(currentUser));
             cwView.setVisible(true);
             cwView.addCalendarPressListener(new CalendarinCalendarWindowPressedListener());
@@ -136,7 +137,7 @@ public class MWController {
         mwView = new MainWindow();
         mwView.setVisible(true);
         mwView.addChangeViewListener(e -> mwView.changeView());
-        mwView.addNewEventListener(e -> setupCalendarWindow());
+        mwView.addNewEventListener(e -> setupCreateEventWindow());
         mwView.addMainCalendarListener(new mainCalendarAdapter());
         mwView.addLogoutListener(e -> {
             mwView.close();
@@ -386,7 +387,7 @@ public class MWController {
     }
 
     public void deleteEvent(){
-        if (mwView.getCurrentCalendar().permission==0) {
+        if (ACL.canDeleteEvent(mwView.getCurrentCalendar().permission)) {
             Appointment appointment = (Appointment) mwView.getCalendar().getSchedule().getItems().get(eventView.getTitle());
             m.deleteEvent(appointment.getId());
             mwView.getCalendar().getSchedule().getItems().remove(appointment);
