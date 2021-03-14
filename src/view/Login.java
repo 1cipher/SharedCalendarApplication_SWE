@@ -17,7 +17,7 @@ public class Login extends JFrame {
     public Login(){
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(368, 200);
-        setTitle("view.Login");
+        setTitle("Login");
 
         Container cp = getContentPane();
 
@@ -46,13 +46,13 @@ public class Login extends JFrame {
         cp.add(textPassword);
 
         register = new JButton();
-        register.setText("view.Register");
+        register.setText("Register");
         register.setLocation(200,60);
         register.setSize(120,30);
         cp.add(register);
 
         log = new JButton();
-        log.setText("view.Login");
+        log.setText("Login");
         log.setLocation(20,60);
         log.setSize(120,30);
         cp.add(log);

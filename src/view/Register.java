@@ -16,7 +16,7 @@ public class Register extends JFrame {
     public Register()  {
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         setSize(368, 200);
-        setTitle("view.Register");
+        setTitle("Register");
 
         Container cp = getContentPane();
 
@@ -53,7 +53,7 @@ public class Register extends JFrame {
         cp.add(textPassword);
 
         reg = new JButton();
-        reg.setText("view.Register now");
+        reg.setText("Register now");
         reg.setLocation(123,60);
         reg.setSize(120,30);
         cp.add(reg);
