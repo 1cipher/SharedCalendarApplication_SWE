@@ -42,8 +42,6 @@ M
 src/utils/SearchRenderer.java,9\0\905148cfaacc16224152e5520989055cad82b831
 O
 src/view/CreateEventWindow.java,d\6\d6278212d6a5721be7546c881bf148ab1a21faaa
-_
-/src/controller/LocationStrategyWithOldOnes.java,f\9\f97dc1544f015d51146e89af89c87bd0c22636a6
 K
 src/utils/EditDistance.java,c\f\cf1c1291bc48db0951b4902fbac2b00981759442
 Y
@@ -62,3 +60,15 @@ R
 "src/utils/EventCustomRenderer.java,f\e\fe161c3a6c4d27c54cfe42574f68af2a1c59f09a
 H
 src/view/SearchView.java,6\7\670d3503c8935869bfba8d54440792843608fff8
+B
+src/utils/ACL.java,7\4\740201df6b2902a7b14a7f0156b10ece59f0fe91
+S
+#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
+N
+.idea/libraries/activation.xml,7\a\7a4e7b8ac21039e1ba9e14b26e374d11cd8ec751
+N
+.idea/libraries/javax_mail.xml,1\c\1c901fd7b48a25b5386cc41e5e028d5609400d55
+E
+src/model/Mailer.java,d\1\d196aafbe8282d22f50aac4ccb4246a47b45dc41
+]
+-src/controller/LocationSearchWithOldOnes.java,b\0\b0ec4aa3668ec9f3ce69142d7cd85be37bdb2bde

@@ -4,21 +4,22 @@ import com.mindfusion.scheduling.model.Item;
 import com.mindfusion.scheduling.model.ItemList;
 import utils.EditDistance;
 
-public class LocationStrategyWithOldOnes implements SearchStrategy {
+public class LocationSearchWithOldOnes implements SearchStrategy {
     @Override
     public ItemList search(ItemList list, String toSearch) {
 
         int min = 2;
-        Item result = null;
+        ItemList newList = new ItemList();
         for (Item element:list) {
-            String comp = element.getLocation().toString();
+            String comp = element.getLocation().getName();
             int set = EditDistance.computeLevenshteinDistance(comp,toSearch);
-            if (set>min) {
-                list.remove(element);
+            if (set<=min) {
+                newList.add(element);
             }
         }
 
-        return list;
+
+        return newList;
     }
 
     @Override

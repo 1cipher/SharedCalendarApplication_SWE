@@ -44,7 +44,7 @@ public class SearchView extends JFrame{
         searchType.addItem(new NameSearch());
         searchType.addItem(new LocationSearch());
         searchType.addItem(new NameSearchWithOldOnes());
-        searchType.addItem(new LocationStrategyWithOldOnes());
+        searchType.addItem(new LocationSearchWithOldOnes());
         searchType.setLocation(360,10);
         searchType.setSize(150,20);
         searchType.setRenderer(new SearchRenderer());
@@ -100,6 +100,7 @@ public class SearchView extends JFrame{
 
     public void addResults(ItemList result){
 
+        defaultListModel.clear();
         for (Item item:
              result) {
             defaultListModel.add(0,item);
