@@ -2,6 +2,7 @@ package view;
 
 import javax.swing.*;
 
+import com.mindfusion.common.DateTime;
 import com.mindfusion.scheduling.ThemeType;
 import model.CalendarCollection;
 
@@ -14,8 +15,8 @@ import java.text.SimpleDateFormat;
 public class CreateEventWindow extends JFrame {
 
     private com.mindfusion.scheduling.Calendar cal;
-    private JTextField startDate;
-    private JTextField endDate;
+    private DateTextBox startDate;
+    private DateTextBox endDate;
     private JLabel startDateLabel;
     private JLabel endDateLabel;
     private JLabel nameLabel;
@@ -28,7 +29,7 @@ public class CreateEventWindow extends JFrame {
     private JComboBox<String> startHour;
     private JComboBox<String> endHour;
     
-    public CreateEventWindow(CalendarCollection calendars){
+    public CreateEventWindow(){
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 
         setSize(850,300);
@@ -45,7 +46,7 @@ public class CreateEventWindow extends JFrame {
         startDateLabel.setLocation(410,40);
         startDateLabel.setSize(50,20);
 
-        startDate = new JTextField();
+        startDate = new DateTextBox();
         startDate.setLocation(500,40);
         startDate.setSize(100,20);
 
@@ -61,7 +62,7 @@ public class CreateEventWindow extends JFrame {
         endDateLabel.setLocation(410,70);
         endDateLabel.setSize(50,20);
 
-        endDate = new JTextField();
+        endDate = new DateTextBox();
         endDate.setLocation(500,70);
         endDate.setSize(100,20);
 
@@ -128,12 +129,12 @@ public class CreateEventWindow extends JFrame {
         return descr.getText();
     }
 
-    public String getStartDate(){
-        return startDate.getText();
+    public DateTime getStartDate(){
+        return startDate.getDate();
     }
 
-    public String getEndDate(){
-        return endDate.getText();
+    public DateTime getEndDate(){
+        return endDate.getDate();
     }
 
     public String getLocationName(){
@@ -152,12 +153,12 @@ public class CreateEventWindow extends JFrame {
         this.descr.setText(descr);
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate.setText(startDate);
+    public void setStartDate(DateTime date) {
+        this.startDate.setDate(date);
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate.setText(endDate);
+    public void setEndDate(DateTime date) {
+        this.endDate.setDate(date);
     }
 
     public void setName(String name) {
@@ -168,12 +169,12 @@ public class CreateEventWindow extends JFrame {
         this.location.setText(location);
     }
 
-    public void setStartHour(String startHour) {
-        this.startHour.setSelectedItem(startHour);
+    public void setStartHour(DateTime time) {
+        this.startHour.setSelectedItem(time.toString("HH:mm"));
     }
 
-    public void setEndHour(String endHour) {
-        this.endHour.setSelectedItem(endHour);
+    public void setEndHour(DateTime time) {
+        this.endHour.setSelectedItem(time.toString("HH:mm"));
     }
 
     public DefaultComboBoxModel<String> createModel(){
@@ -197,12 +198,13 @@ public class CreateEventWindow extends JFrame {
 
     public void setSelectedStartDate(java.sql.Date newDate){
 
-        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-        startDate.setText(myFormat.format(newDate));
+        //TODO: Si può togliere?
+
     }
 
     public void setSelectedEndDate(java.sql.Date newDate){
 
+        //TODO: si può togliere?
         SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
         endDate.setText(myFormat.format(newDate));
     }

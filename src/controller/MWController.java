@@ -55,7 +55,7 @@ public class MWController {
     public void setupCreateEventWindow() {
 
         if (ACL.canCreateEvent(mwView.getCurrentCalendar().permission)) {
-            cwView = new CreateEventWindow(m.getUserCalendars(currentUser));
+            cwView = new CreateEventWindow();
             cwView.setVisible(true);
             cwView.addCreateEventListener(e -> createEvent());
             cwView.addCalendarPressListener(new CalendarinCalendarWindowPressedListener());
@@ -85,17 +85,17 @@ public class MWController {
     public void setupEditEventWindow(Appointment a){
 
         if (ACL.canEditEvent(mwView.getCurrentCalendar().permission)) {
-            cwView = new CreateEventWindow(m.getUserCalendars(currentUser));
+            cwView = new CreateEventWindow();
             cwView.setVisible(true);
             cwView.addCalendarPressListener(new CalendarinCalendarWindowPressedListener());
 
-            cwView.setStartDate(a.getStartTime().getYear()+"-"+String.format("%02d",a.getStartTime().getMonth())+"-"+String.format("%02d",a.getStartTime().getDay()));
-            cwView.setEndDate(a.getEndTime().getYear()+"-"+String.format("%02d",a.getEndTime().getMonth())+"-"+String.format("%02d",a.getEndTime().getDay()));
+            cwView.setStartDate(a.getStartTime());
+            cwView.setEndDate(a.getEndTime());
             cwView.setName(a.getHeaderText());
             cwView.setLocation(a.getLocation().getName());
             cwView.setDescr(a.getDescriptionText());
-            cwView.setStartHour(a.getStartTime().toString("HH:mm"));
-            cwView.setEndHour(a.getEndTime().toString("HH:mm"));
+            cwView.setStartHour(a.getStartTime());
+            cwView.setEndHour(a.getEndTime());
             cwView.addCreateEventListener(e->editEvent(a.getId()));
             eventView.close();
         }
@@ -320,22 +320,16 @@ public class MWController {
         String name = cwView.getName();
         String location = cwView.getLocationName();
         String descr = cwView.getDescriptionText();
-        String startdate = cwView.getStartDate();
-        String enddate = cwView.getEndDate();
+        DateTime startDate = cwView.getStartDate();
+        DateTime endDate = cwView.getEndDate();
 
-        String startHour = cwView.getStartHour();
-        String endHour = cwView.getEndHour();
+        int startHour = Integer.parseInt(cwView.getStartHour().substring(0,2));
+        int endHour = Integer.parseInt(cwView.getEndHour().substring(0,2));
+        int startMinute = Integer.parseInt(cwView.getStartHour().substring(3,5));
+        int endMinute = Integer.parseInt(cwView.getEndHour().substring(3,5));
 
-        DateTime startDate = new DateTime(Integer.parseInt(startdate.substring(0, 4)) - 1900,
-                Integer.parseInt(startdate.substring(5, 7)),
-                Integer.parseInt(startdate.substring(8, 10)),
-                Integer.parseInt(startHour.substring(0, 2)),
-                Integer.parseInt(startHour.substring(3, 5)), 0);
-        DateTime endDate = new DateTime(Integer.parseInt(enddate.substring(0, 4)) - 1900,
-                Integer.parseInt(enddate.substring(5, 7)),
-                Integer.parseInt(enddate.substring(8, 10)),
-                Integer.parseInt(endHour.substring(0, 2)),
-                Integer.parseInt(endHour.substring(3, 5)), 0);
+        startDate = startDate.addHours(startHour).addMinutes(startMinute);
+        endDate = endDate.addHours(endHour).addMinutes(endMinute);
 
         if (startDate.isLessThan(endDate)) {
 
@@ -368,22 +362,16 @@ public class MWController {
         String name = cwView.getName();
         String location = cwView.getLocationName();
         String descr = cwView.getDescriptionText();
-        String startdate = cwView.getStartDate();
-        String enddate = cwView.getEndDate();
+        DateTime startDate = cwView.getStartDate();
+        DateTime endDate = cwView.getEndDate();
 
-        String startHour = cwView.getStartHour();
-        String endHour = cwView.getEndHour();
+        int startHour = Integer.parseInt(cwView.getStartHour().substring(0,2));
+        int endHour = Integer.parseInt(cwView.getEndHour().substring(0,2));
+        int startMinute = Integer.parseInt(cwView.getStartHour().substring(3,5));
+        int endMinute = Integer.parseInt(cwView.getEndHour().substring(3,5));
 
-        DateTime startDate = new DateTime(Integer.parseInt(startdate.substring(0, 4)) - 1900,
-                Integer.parseInt(startdate.substring(5, 7)),
-                Integer.parseInt(startdate.substring(8, 10)),
-                Integer.parseInt(startHour.substring(0, 2)),
-                Integer.parseInt(startHour.substring(3, 5)), 0);//TODO: PROBLEMI QUANDO NON SI SELEZIONA LA DATA
-        DateTime endDate = new DateTime(Integer.parseInt(enddate.substring(0, 4)) - 1900,
-                Integer.parseInt(enddate.substring(5, 7)),
-                Integer.parseInt(enddate.substring(8, 10)),
-                Integer.parseInt(endHour.substring(0, 2)),
-                Integer.parseInt(endHour.substring(3, 5)), 0);
+        startDate = startDate.addHours(startHour).addMinutes(startMinute);
+        endDate = endDate.addHours(endHour).addMinutes(endMinute);
 
         if (startDate.isLessThan(endDate)) {
 
@@ -474,12 +462,7 @@ public class MWController {
 
             DateTime pointedDate = cwView.getCal().getDateAt(e.getX(), e.getY());
 
-            java.util.Calendar cal = java.util.Calendar.getInstance();
-            cal.set(pointedDate.getYear(), pointedDate.getMonth() - 1, pointedDate.getDay());
-            Date utilDate = cal.getTime();
-            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-
-            cwView.setSelectedStartDate(sqlDate);
+            cwView.setStartDate(pointedDate);
 
         }
 
@@ -490,29 +473,15 @@ public class MWController {
 
             DateTime pointedDate = cwView.getCal().getDateAt(e.getX(), e.getY());
 
-            java.util.Calendar cal = java.util.Calendar.getInstance();
-            cal.set(pointedDate.getYear(), pointedDate.getMonth() - 1, pointedDate.getDay());
-            Date utilDate = cal.getTime();
-            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-            String defaultDate = "0001-01-01";
-            SimpleDateFormat sdformat = new SimpleDateFormat("yyyy/MM/dd");
-            String d1 = sdformat.format(sqlDate);
+            DateTime defaultDate = new DateTime(1,1,1);
 
-            if(d1.compareTo(defaultDate)==0) {
-
-                java.sql.Date d = java.sql.Date.valueOf(cwView.getStartDate());
-                cwView.setSelectedEndDate(d);
-                cwView.setSelectedStartDate(d);
-            }
-
-            else if (cwView.getStartDate().compareTo(sqlDate.toString()) > 0) {
-                java.sql.Date d = java.sql.Date.valueOf(cwView.getStartDate());
-                cwView.setSelectedEndDate(d);
-                cwView.setSelectedStartDate(d);
+            if (cwView.getStartDate().isLessThanOrEqual(defaultDate)) {
+                cwView.setEndDate(cwView.getStartDate());
+                cwView.setStartDate(cwView.getStartDate());
             }
 
             else
-                cwView.setSelectedEndDate(sqlDate);
+                cwView.setEndDate(pointedDate);
 
         }
 
