@@ -224,7 +224,8 @@ public class MWController {
                  itemList) {
                 toSend = toSend+"\n"+item.getHeaderText()+" @ "+item.getStartTime().getHour()+" - "+item.getEndTime().getHour();
             }
-            mailer.sendMail(toSend);
+            mailer.setMailText(toSend);
+            mailer.start();
 
         } else {
             dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Wrong credentials!").build();

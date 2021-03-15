@@ -6,9 +6,20 @@ import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
 
-public class Mailer {
+public class Mailer extends Thread{
 
-    public void sendMail(String toSend) {
+    private String mailText;
+
+    @Override
+    public void run() {
+        sendMail();
+    }
+
+    public void setMailText(String text){
+        mailText = text;
+    }
+
+    private void sendMail() {
         String host = "smtp.gmail.com";
         String from = "sweprogettodemo@gmail.com";
         String password = Private.mailpassword;
@@ -33,7 +44,7 @@ public class Mailer {
             message.addRecipient(Message.RecipientType.TO, toAddress);
 
             message.setSubject("reminder");
-            message.setText(toSend);
+            message.setText(mailText);
             Transport transport = session.getTransport("smtp");
             transport.connect(host, from, password);
             transport.sendMessage(message, message.getAllRecipients());
