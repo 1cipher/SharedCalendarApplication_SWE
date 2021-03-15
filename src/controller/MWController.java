@@ -12,13 +12,12 @@ import view.Dialog;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MWController {
 
     private MainWindow mwView;
-    private CreateEventWindow cwView;
+    private EditEventWindow cwView;
     private SearchView sView;
     private Gateway m;
     private view.Dialog dialog;
@@ -54,8 +53,8 @@ public class MWController {
 
     public void setupCreateEventWindow() {
 
-        if (ACL.canCreateEvent(mwView.getCurrentCalendar().permission)) {
-            cwView = new CreateEventWindow();
+        if (ACL.canCreateEvent(getCurrentCalendar().getPermission())) {
+            cwView = new EditEventWindow();
             cwView.setVisible(true);
             cwView.addCreateEventListener(e -> createEvent());
             cwView.addCalendarPressListener(new CalendarinCalendarWindowPressedListener());
@@ -84,8 +83,8 @@ public class MWController {
 
     public void setupEditEventWindow(Appointment a){
 
-        if (ACL.canEditEvent(mwView.getCurrentCalendar().permission)) {
-            cwView = new CreateEventWindow();
+        if (ACL.canEditEvent(getCurrentCalendar().getPermission())) {
+            cwView = new EditEventWindow();
             cwView.setVisible(true);
             cwView.addCalendarPressListener(new CalendarinCalendarWindowPressedListener());
 
@@ -149,8 +148,8 @@ public class MWController {
         mwView.addShareCalendarListener(e-> setupShareView());
         mwView.addFindListener(e -> setupSearchWindow());
         mwView.addRemoveCalendar(e -> {
-            model.Calendar calendar = mwView.getCurrentCalendar();
-            if (ACL.canDeleteCalendar(calendar.permission)) m.deleteCalendar(calendar);
+            model.Calendar calendar = getCurrentCalendar();
+            if (ACL.canDeleteCalendar(calendar.getPermission())) m.deleteCalendar(calendar);
             else m.unsubscribeCalendar(calendar,currentUser);
             mwView.deleteCalendar();
         });
@@ -213,7 +212,7 @@ public class MWController {
             CalendarCollection cc = m.getUserCalendars(currentUser);
             currentUser.setCollection(cc);
 
-            mwView.setCalendars(cc);
+            setCalendars(cc);
             DateTime start = DateTime.today();
             DateTime end = DateTime.today();
             end = end.addHours(23);
@@ -233,10 +232,23 @@ public class MWController {
         }
     }
 
+    public void setCalendars(CalendarCollection list) {
+        ArrayList<model.Calendar> calendarsList = list.getCalendars();
+        for (model.Calendar cal:
+                calendarsList) {
+            mwView.getCalendars().add(0,cal);
+            mwView.refreshCalendarsDisplayed();
+        }
+    }
+
+
+    public model.Calendar getCurrentCalendar(){
+        return (model.Calendar)mwView.getCalendarList().getSelectedValue();
+    }
 
     public void loadView() {
-        if (mwView.getCurrentCalendar()!=null) {
-            String calID = mwView.getCurrentCalendar().getId();
+        if (getCurrentCalendar()!=null) {
+            String calID = getCurrentCalendar().getId();
             model.Calendar calendar = currentUser.getCollection().getCalendar(calID);
             mwView.getCalendar().getSchedule().getAllItems().clear();
 
@@ -291,7 +303,8 @@ public class MWController {
         setupDialog();
         createCalendarWindow.close();
         if (newCalendar!=null) {
-            mwView.addCalendar(newCalendar);
+            mwView.getCalendars().add(0,newCalendar);
+            mwView.refreshCalendarsDisplayed();
             CalendarCollection cal = currentUser.getCollection();
             cal.addCalendarToCollection(newCalendar);
             loadView();
@@ -299,7 +312,7 @@ public class MWController {
     }
 
     private void shareCalendar(){
-        model.Calendar calendar = mwView.getCurrentCalendar();
+        model.Calendar calendar = getCurrentCalendar();
         String username = shareView.getUsername();
         if (!shareView.getName().isEmpty() && m.isExistingUsername(username)){
             m.shareCalendar(calendar, username, shareView.getPermission());
@@ -314,7 +327,7 @@ public class MWController {
     private void editEvent(String id){    //TODO:ANDREBBE UNIFICATO AL CREATE EVENT PERCHE ALLA FINE FANNO LA STESSA COSA
 
         model.Calendar calendar;
-        calendar = mwView.getCurrentCalendar();
+        calendar = getCurrentCalendar();
         m.deleteEvent(id);
 
         String name = cwView.getName();
@@ -357,7 +370,7 @@ public class MWController {
 
     private void createEvent(){
 
-        model.Calendar calendar = mwView.getCurrentCalendar();
+        model.Calendar calendar = getCurrentCalendar();
         String uid = java.util.UUID.randomUUID().toString().substring(0, 19);
         String name = cwView.getName();
         String location = cwView.getLocationName();
@@ -397,7 +410,7 @@ public class MWController {
     }
 
     public void deleteEvent(){
-        if (ACL.canDeleteEvent(mwView.getCurrentCalendar().permission)) {
+        if (ACL.canDeleteEvent(getCurrentCalendar().getPermission())) {
             Appointment appointment = (Appointment) mwView.getCalendar().getSchedule().getItems().get(eventView.getTitle());
             m.deleteEvent(appointment.getId());
             mwView.getCalendar().getSchedule().getItems().remove(appointment);
@@ -438,20 +451,7 @@ public class MWController {
         @Override
         public void mouseClicked(MouseEvent e) {
 
-            if (e.getClickCount() == 2) {
-
-                cwView.getCal().getSelection().reset();
-
-                DateTime pointedDate = cwView.getCal().getDateAt(e.getX(), e.getY());
-
-                java.util.Calendar cal = java.util.Calendar.getInstance();
-                cal.set(pointedDate.getYear(), pointedDate.getMonth() - 1, pointedDate.getDay());
-                Date utilDate = cal.getTime();
-                java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-
-                cwView.setSelectedStartDate(sqlDate);
-
-            }
+            //always handled by press and release action
 
         }
 

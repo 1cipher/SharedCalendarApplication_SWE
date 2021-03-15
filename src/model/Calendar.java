@@ -7,14 +7,13 @@ public class Calendar {
     ArrayList<Event> newBuffer;
     String id;
     String name;
-    public int permission;
+    private int permission;
 
     public Calendar(User user, String cid, String name, int permission) {
         this.user = user;
         this.newBuffer = new ArrayList<>();
         this.id = cid;
         this.name = name;
-        this.permission = permission;
     }
 
     public String getName(){
@@ -38,4 +37,10 @@ public class Calendar {
     public ArrayList<Event> getEvents(){
         return newBuffer;
     }
+
+    public int getPermission() {
+        return permission;
+    }
 }
+
+

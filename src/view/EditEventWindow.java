@@ -4,7 +4,6 @@ import javax.swing.*;
 
 import com.mindfusion.common.DateTime;
 import com.mindfusion.scheduling.ThemeType;
-import model.CalendarCollection;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -12,7 +11,7 @@ import java.awt.event.MouseListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-public class CreateEventWindow extends JFrame {
+public class EditEventWindow extends JFrame {
 
     private com.mindfusion.scheduling.Calendar cal;
     private DateTextBox startDate;
@@ -29,7 +28,7 @@ public class CreateEventWindow extends JFrame {
     private JComboBox<String> startHour;
     private JComboBox<String> endHour;
     
-    public CreateEventWindow(){
+    public EditEventWindow(){
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 
         setSize(850,300);
@@ -50,11 +49,11 @@ public class CreateEventWindow extends JFrame {
         startDate.setLocation(500,40);
         startDate.setSize(100,20);
 
-        startHour = new JComboBox<>(createModel());
+        startHour = new JComboBox<>(createRendererForComboBox());
         startHour.setLocation(610,40);
         startHour.setSize(100,20);
 
-        endHour = new JComboBox<>(createModel());
+        endHour = new JComboBox<>(createRendererForComboBox());
         endHour.setLocation(610,70);
         endHour.setSize(100,20);
 
@@ -177,7 +176,7 @@ public class CreateEventWindow extends JFrame {
         this.endHour.setSelectedItem(time.toString("HH:mm"));
     }
 
-    public DefaultComboBoxModel<String> createModel(){
+    public DefaultComboBoxModel<String> createRendererForComboBox(){
 
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
@@ -186,28 +185,17 @@ public class CreateEventWindow extends JFrame {
         java.util.Calendar end = java.util.Calendar.getInstance();
         end.set(java.util.Calendar.HOUR_OF_DAY, 23);
         end.set(java.util.Calendar.MINUTE, 59);
-        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        DefaultComboBoxModel<String> rendererForComboBox = new DefaultComboBoxModel<>();
         do {
             DateFormat format = new SimpleDateFormat("HH:mm");
-            model.addElement(format.format(calendar.getTime()));
+            rendererForComboBox.addElement(format.format(calendar.getTime()));
             calendar.add(java.util.Calendar.MINUTE, 15);
         } while (calendar.getTime().before(end.getTime()));
 
-        return model;
+        return rendererForComboBox;
     }
 
-    public void setSelectedStartDate(java.sql.Date newDate){
 
-        //TODO: Si può togliere?
-
-    }
-
-    public void setSelectedEndDate(java.sql.Date newDate){
-
-        //TODO: si può togliere?
-        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-        endDate.setText(myFormat.format(newDate));
-    }
 
     public void addCreateEventListener(ActionListener createEventListener){
 
