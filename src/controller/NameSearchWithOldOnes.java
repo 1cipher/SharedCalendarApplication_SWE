@@ -14,7 +14,7 @@ public class NameSearchWithOldOnes implements SearchStrategy {
         ItemList newList = new ItemList();
         for (Item element:list) {
             String comp = element.getHeaderText();
-            int set = EditDistance.computeLevenshteinDistance(comp,toSearch);
+            int set = EditDistance.calculate(comp,toSearch);
             if (set<=min) {
                 newList.add(element);
             }

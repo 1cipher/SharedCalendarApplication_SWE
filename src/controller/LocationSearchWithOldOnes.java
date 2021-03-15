@@ -12,7 +12,7 @@ public class LocationSearchWithOldOnes implements SearchStrategy {
         ItemList newList = new ItemList();
         for (Item element:list) {
             String comp = element.getLocation().getName();
-            int set = EditDistance.computeLevenshteinDistance(comp,toSearch);
+            int set = EditDistance.calculate(comp,toSearch);
             if (set<=min) {
                 newList.add(element);
             }

@@ -38,7 +38,7 @@ public class LocationSearch implements SearchStrategy {
         int min = 2;
         for (Item element:newList) {
             String comp = element.getLocation().getName();
-            int set = EditDistance.computeLevenshteinDistance(comp,toSearch);
+            int set = EditDistance.calculate(comp,toSearch);
             if (set>min) {
                 newList.remove(element);
             }

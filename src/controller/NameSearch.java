@@ -7,7 +7,6 @@ import utils.EditDistance;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class NameSearch implements SearchStrategy {
 
@@ -40,7 +39,7 @@ public class NameSearch implements SearchStrategy {
         int min = 2;
         for (Item element:newList) {
             String comp = element.getHeaderText();
-            int set = EditDistance.computeLevenshteinDistance(comp,toSearch);
+            int set = EditDistance.calculate(comp,toSearch);
             if (set>min) {
                newList.remove(element);
             }

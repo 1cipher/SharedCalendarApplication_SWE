@@ -180,8 +180,8 @@ public class MainWindow extends JFrame {
         this.removeCalendar.addActionListener(listener);
     }
 
-    public void deleteCalendar(){
-        int selected = calendarList.getSelectedIndex();
+    public void deleteCalendar(int selected){
+
         calendars.removeElementAt(selected);
     }
 

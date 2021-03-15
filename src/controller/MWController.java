@@ -19,6 +19,7 @@ public class MWController {
     private MainWindow mwView;
     private EditEventWindow cwView;
     private SearchView sView;
+    private  DeleteCalendarView deleteCalendarView;
     private Gateway m;
     private view.Dialog dialog;
     private Login logView;
@@ -147,12 +148,23 @@ public class MWController {
         mwView.addSelectedCalendarListener(e -> loadView());
         mwView.addShareCalendarListener(e-> setupShareView());
         mwView.addFindListener(e -> setupSearchWindow());
-        mwView.addRemoveCalendar(e -> {
-            model.Calendar calendar = getCurrentCalendar();
-            if (ACL.canDeleteCalendar(calendar.getPermission())) m.deleteCalendar(calendar);
-            else m.unsubscribeCalendar(calendar,currentUser);
-            mwView.deleteCalendar();
-        });
+        mwView.addRemoveCalendar(e->setupDeleteCalendarWindow());
+
+
+    }
+
+    public void deleteCalendar(model.Calendar calendar){
+
+        if (ACL.canDeleteCalendar(calendar.getPermission()))
+            m.deleteCalendar(calendar);
+        else
+            m.unsubscribeCalendar(calendar,currentUser);
+        mwView.deleteCalendar(deleteCalendarView.getCalendarList().getSelectedIndex());
+        deleteCalendarView.deleteCalendar(deleteCalendarView.getCalendarList().getSelectedIndex());
+
+        deleteCalendarView.getCalendarList().updateUI();
+
+
 
     }
 
@@ -169,6 +181,16 @@ public class MWController {
 
         dialog.setVisible(true);
         dialog.addDialogListener(e->dialog.close());
+
+    }
+
+    public void setupDeleteCalendarWindow(){
+
+        deleteCalendarView = new DeleteCalendarView();
+        deleteCalendarView.setVisible(true);
+        setCalendarsInDeleteCalendarWindow(currentUser.getCollection());
+        deleteCalendarView.addDeleteCalendarListener(e->deleteCalendar((model.Calendar) deleteCalendarView.getCalendarList().getSelectedValue()));
+
 
     }
 
@@ -212,7 +234,7 @@ public class MWController {
             CalendarCollection cc = m.getUserCalendars(currentUser);
             currentUser.setCollection(cc);
 
-            setCalendars(cc);
+            setCalendarsInMainWindow(cc);
             DateTime start = DateTime.today();
             DateTime end = DateTime.today();
             end = end.addHours(23);
@@ -232,7 +254,16 @@ public class MWController {
         }
     }
 
-    public void setCalendars(CalendarCollection list) {
+    public void setCalendarsInDeleteCalendarWindow(CalendarCollection list) {
+        ArrayList<model.Calendar> calendarsList = list.getCalendars();
+        for (model.Calendar cal:
+                calendarsList) {
+            deleteCalendarView.getDefaultListModel().add(0,cal);
+
+        }
+    }
+
+    public void setCalendarsInMainWindow(CalendarCollection list) {
         ArrayList<model.Calendar> calendarsList = list.getCalendars();
         for (model.Calendar cal:
                 calendarsList) {
