@@ -30,6 +30,7 @@ public class EventDisplayWindow extends JFrame {
         c = getContentPane();
         c.setLayout(null);
         setLocationRelativeTo(null);
+        setTitle("Event Displayed!");
 
         setSize(410,300);
 

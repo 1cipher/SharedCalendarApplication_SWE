@@ -85,15 +85,22 @@ public class MainWindow extends JFrame {
         styleMenu = new JMenu("Style");
         JMenu submenu = new JMenu("New");
         newEvent = new JMenuItem("Event");
+        newEvent.setPreferredSize(new Dimension(100,20));
         find = new JMenuItem("Find");
-        removeCalendar = new JMenuItem("Delete Calendar");
+        find.setPreferredSize(new Dimension(100,20));
+        removeCalendar = new JMenuItem("Remove Calendar");
+        removeCalendar.setPreferredSize(new Dimension(120,20));
         newCalendar = new JMenuItem("Calendar");
+        newCalendar.setPreferredSize(new Dimension(120,20));
         submenu.add(newEvent);
         submenu.add(newCalendar);
         fileMenu.add(submenu);
         shareCalendar = new JMenuItem("Share");
+        shareCalendar.setPreferredSize(new Dimension(100,20));
         logout = new JMenuItem("Logout");
+        logout.setPreferredSize(new Dimension(100,20));
         JCheckBoxMenuItem light = new JCheckBoxMenuItem("Dark");
+        light.setPreferredSize(new Dimension(100,20));
         light.addActionListener(e -> {
             if (light.getState())
                 calendar.setTheme(ThemeType.Vista);
