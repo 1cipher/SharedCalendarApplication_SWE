@@ -140,7 +140,6 @@ public class MWController {
 
         mwView = new MainWindow();
         mwView.setVisible(true);
-        mwView.addChangeViewListener(e -> mwView.changeView());
         mwView.addNewEventListener(e -> setupCreateEventWindow());
         mwView.addMainCalendarListener(new mainCalendarAdapter());
         mwView.addLogoutListener(e -> {

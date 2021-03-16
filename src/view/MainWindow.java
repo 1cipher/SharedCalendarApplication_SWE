@@ -51,6 +51,7 @@ public class MainWindow extends JFrame {
         viewMenu.setLayoutOrientation(JList.VERTICAL);
         viewMenu.setVisibleRowCount(3);
         viewMenu.setSelectedIndex(0);
+        viewMenu.addListSelectionListener(e->changeView());
         viewScroll = new JScrollPane(viewMenu);
         viewScroll.setSize(200,80);
         viewScroll.setLocation(0,50);
@@ -190,11 +191,6 @@ public class MainWindow extends JFrame {
     public void deleteCalendar(int selected){
 
         calendars.removeElementAt(selected);
-    }
-
-   public void addChangeViewListener(ListSelectionListener changeViewListener){
-        //TODO: non serve passare dal controller
-        this.viewMenu.addListSelectionListener(changeViewListener);
     }
 
     public void addLogoutListener(ActionListener logoutListener){
