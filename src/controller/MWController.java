@@ -323,13 +323,11 @@ public class MWController {
         DateTime startDate = cwView.getStartDate();
         DateTime endDate = cwView.getEndDate();
 
-        int startHour = Integer.parseInt(cwView.getStartHour().substring(0,2));
-        int endHour = Integer.parseInt(cwView.getEndHour().substring(0,2));
-        int startMinute = Integer.parseInt(cwView.getStartHour().substring(3,5));
-        int endMinute = Integer.parseInt(cwView.getEndHour().substring(3,5));
+        DateTime startHour = cwView.getStartHour();
+        DateTime endHour = cwView.getEndHour();
 
-        startDate = startDate.addHours(startHour).addMinutes(startMinute);
-        endDate = endDate.addHours(endHour).addMinutes(endMinute);
+        startDate = startDate.addTicks(startHour.getTicks());
+        endDate = endDate.addTicks(endHour.getTicks());
 
         if (startDate.isLessThan(endDate)) {
 
@@ -359,19 +357,18 @@ public class MWController {
 
         model.Calendar calendar = mwView.getCurrentCalendar();
         String uid = java.util.UUID.randomUUID().toString().substring(0, 19);
+
         String name = cwView.getName();
         String location = cwView.getLocationName();
         String descr = cwView.getDescriptionText();
         DateTime startDate = cwView.getStartDate();
         DateTime endDate = cwView.getEndDate();
 
-        int startHour = Integer.parseInt(cwView.getStartHour().substring(0,2));
-        int endHour = Integer.parseInt(cwView.getEndHour().substring(0,2));
-        int startMinute = Integer.parseInt(cwView.getStartHour().substring(3,5));
-        int endMinute = Integer.parseInt(cwView.getEndHour().substring(3,5));
+        DateTime startHour = cwView.getStartHour();
+        DateTime endHour = cwView.getEndHour();
 
-        startDate = startDate.addHours(startHour).addMinutes(startMinute);
-        endDate = endDate.addHours(endHour).addMinutes(endMinute);
+        startDate = startDate.addTicks(startHour.getTicks());
+        endDate = endDate.addTicks(endHour.getTicks());
 
         if (startDate.isLessThan(endDate)) {
 

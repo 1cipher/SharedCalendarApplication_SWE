@@ -26,8 +26,8 @@ public class CreateEventWindow extends JFrame {
     private JLabel descrLabel;
     private JTextArea descr;
     private JButton createEvent;
-    private JComboBox<String> startHour;
-    private JComboBox<String> endHour;
+    private HourComboBox startHour;
+    private HourComboBox endHour;
     
     public CreateEventWindow(){
         setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -50,11 +50,11 @@ public class CreateEventWindow extends JFrame {
         startDate.setLocation(500,40);
         startDate.setSize(100,20);
 
-        startHour = new JComboBox<>(createModel());
+        startHour = new HourComboBox();
         startHour.setLocation(610,40);
         startHour.setSize(100,20);
 
-        endHour = new JComboBox<>(createModel());
+        endHour = new HourComboBox();
         endHour.setLocation(610,70);
         endHour.setSize(100,20);
 
@@ -141,12 +141,12 @@ public class CreateEventWindow extends JFrame {
         return location.getText();
     }
 
-    public String getStartHour() {
-        return (String) startHour.getSelectedItem();
+    public DateTime getStartHour() {
+        return startHour.getTime();
     }
 
-    public String getEndHour() {
-        return (String) endHour.getSelectedItem();
+    public DateTime getEndHour() {
+        return endHour.getTime();
     }
 
     public void setDescr(String descr) {
@@ -170,30 +170,11 @@ public class CreateEventWindow extends JFrame {
     }
 
     public void setStartHour(DateTime time) {
-        this.startHour.setSelectedItem(time.toString("HH:mm"));
+        this.startHour.setTime(time);
     }
 
     public void setEndHour(DateTime time) {
-        this.endHour.setSelectedItem(time.toString("HH:mm"));
-    }
-
-    public DefaultComboBoxModel<String> createModel(){
-
-        java.util.Calendar calendar = java.util.Calendar.getInstance();
-        calendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
-        calendar.set(java.util.Calendar.MINUTE, 0);
-
-        java.util.Calendar end = java.util.Calendar.getInstance();
-        end.set(java.util.Calendar.HOUR_OF_DAY, 23);
-        end.set(java.util.Calendar.MINUTE, 59);
-        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
-        do {
-            DateFormat format = new SimpleDateFormat("HH:mm");
-            model.addElement(format.format(calendar.getTime()));
-            calendar.add(java.util.Calendar.MINUTE, 15);
-        } while (calendar.getTime().before(end.getTime()));
-
-        return model;
+        this.endHour.setTime(time);
     }
 
     public void setSelectedStartDate(java.sql.Date newDate){
