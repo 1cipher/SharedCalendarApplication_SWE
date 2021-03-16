@@ -57,8 +57,8 @@ public class MWController {
         if (ACL.canCreateEvent(getCurrentCalendar().getPermission())) {
             cwView = new EditEventWindow();
             cwView.setVisible(true);
-            cwView.addCreateEventListener(e -> createEvent());
-            cwView.addCalendarPressListener(new CalendarinCalendarWindowPressedListener());
+            cwView.addCreateEventListener(e -> editEvent(java.util.UUID.randomUUID().toString().substring(0, 19)));
+            cwView.addCalendarPressListener(new CalendarListener(cwView));
         }
         else {
             dialog = new view.Dialog.Builder().setLabel("You are not allowed!").setType(Dialog.type.ERROR).build();
@@ -87,7 +87,7 @@ public class MWController {
         if (ACL.canEditEvent(getCurrentCalendar().getPermission())) {
             cwView = new EditEventWindow();
             cwView.setVisible(true);
-            cwView.addCalendarPressListener(new CalendarinCalendarWindowPressedListener());
+            cwView.addCalendarPressListener(new CalendarListener(cwView));
 
             cwView.setStartDate(a.getStartTime());
             cwView.setEndDate(a.getEndTime());
@@ -96,7 +96,10 @@ public class MWController {
             cwView.setDescr(a.getDescriptionText());
             cwView.setStartHour(a.getStartTime());
             cwView.setEndHour(a.getEndTime());
-            cwView.addCreateEventListener(e->editEvent(a.getId()));
+            cwView.addCreateEventListener(e->{
+                m.deleteEvent(a.getId());
+                editEvent(a.getId());
+            });
             eventView.close();
         }
         else {
@@ -188,7 +191,10 @@ public class MWController {
 
         deleteCalendarView = new DeleteCalendarView();
         deleteCalendarView.setVisible(true);
-        setCalendarsInDeleteCalendarWindow(currentUser.getCollection());
+        ArrayList<model.Calendar> calendarsList = currentUser.getCollection().getCalendars();
+        for (model.Calendar cal: calendarsList) {
+            deleteCalendarView.getDefaultListModel().add(0,cal);
+        }
         deleteCalendarView.addDeleteCalendarListener(e->deleteCalendar((model.Calendar) deleteCalendarView.getCalendarList().getSelectedValue()));
 
 
@@ -252,15 +258,6 @@ public class MWController {
         } else {
             dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Wrong credentials!").build();
             setupDialog();
-        }
-    }
-
-    public void setCalendarsInDeleteCalendarWindow(CalendarCollection list) {
-        ArrayList<model.Calendar> calendarsList = list.getCalendars();
-        for (model.Calendar cal:
-                calendarsList) {
-            deleteCalendarView.getDefaultListModel().add(0,cal);
-
         }
     }
 
@@ -356,11 +353,9 @@ public class MWController {
         shareView.close();
     }
 
-    private void editEvent(String id){    //TODO:ANDREBBE UNIFICATO AL CREATE EVENT PERCHE ALLA FINE FANNO LA STESSA COSA
+    private void editEvent(String id){
 
-        model.Calendar calendar;
-        calendar = getCurrentCalendar();
-        m.deleteEvent(id);
+        model.Calendar calendar = getCurrentCalendar();
 
         String name = cwView.getName();
         String location = cwView.getLocationName();
@@ -472,59 +467,6 @@ public class MWController {
                 calendar.setDate(e.getDate());
                 mwView.getViewMenu().setSelectedIndex(0);
             }
-        }
-    }
-
-    class CalendarinCalendarWindowPressedListener implements MouseListener {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-
-            //always handled by press and release action
-
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-            cwView.getCal().getSelection().reset();
-
-            DateTime pointedDate = cwView.getCal().getDateAt(e.getX(), e.getY());
-
-            cwView.setStartDate(pointedDate);
-
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-            cwView.getCal().getSelection().reset();
-
-            DateTime pointedDate = cwView.getCal().getDateAt(e.getX(), e.getY());
-
-            DateTime defaultDate = new DateTime(1,1,1);
-
-            if (cwView.getStartDate().isLessThanOrEqual(defaultDate)) {
-                cwView.setEndDate(cwView.getStartDate());
-                cwView.setStartDate(cwView.getStartDate());
-            }
-
-            else
-                cwView.setEndDate(pointedDate);
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-
-            //no need to handle this,it only matters when mouse is inside the calendar
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-
-            //no need to handle this,it only matters when mouse is inside the calendar
-
         }
     }
 
