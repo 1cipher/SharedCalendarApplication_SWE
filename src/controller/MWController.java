@@ -212,6 +212,7 @@ public class MWController {
             dialog = new view.Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("You have been registered!").build();
         }
         setupDialog();
+        regView.close();
     }
 
     private void login(){

@@ -22,7 +22,7 @@ public class CreateCalendarWindow extends JFrame {
 
         calendarName = new JLabel("<html>Choose a name<br>for your calendar:</html> ",SwingConstants.CENTER);
         calendarName.setLocation(20,50);
-        calendarName.setSize(100,25);
+        calendarName.setSize(100,30);
 
         calendarText = new JTextField();
         calendarText.setLocation(130,50);
