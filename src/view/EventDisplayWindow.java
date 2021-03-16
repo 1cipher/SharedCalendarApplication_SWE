@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 public class EventDisplayWindow extends JFrame {
 
+    private String id;
     private JLabel name;
     private JLabel startDate;
     private JLabel endDate;
@@ -28,47 +29,48 @@ public class EventDisplayWindow extends JFrame {
 
         c = getContentPane();
         c.setLayout(null);
+        setLocationRelativeTo(null);
 
-        setSize(400,300);
+        setSize(410,300);
 
         name = new JLabel("Name:",SwingConstants.CENTER);
-        name.setLocation(30,30);
+        name.setLocation(100,30);
         name.setSize(100,20);
 
         startDate = new JLabel("Start Date:",SwingConstants.CENTER);
-        startDate.setLocation(30,60);
+        startDate.setLocation(100,60);
         startDate.setSize(100,20);
 
         endDate = new JLabel("End Date",SwingConstants.CENTER);
-        endDate.setLocation(30,90);
+        endDate.setLocation(100,90);
         endDate.setSize(100,20);
 
         location = new JLabel("Location",SwingConstants.CENTER);
-        location.setLocation(30,120);
+        location.setLocation(100,120);
         location.setSize(100,20);
 
         descr = new JLabel("Description",SwingConstants.CENTER);
-        descr.setLocation(30,150);
+        descr.setLocation(100,150);
         descr.setSize(100,20);
 
         nameDisplayed = new JLabel("",SwingConstants.CENTER);
-        nameDisplayed.setLocation(150,30);
+        nameDisplayed.setLocation(210,30);
         nameDisplayed.setSize(100,20);
 
         startDateDisplayed = new JLabel("",SwingConstants.CENTER);
-        startDateDisplayed.setLocation(150,60);
+        startDateDisplayed.setLocation(210,60);
         startDateDisplayed.setSize(100,20);
 
         endDateDisplayed = new JLabel("",SwingConstants.CENTER);
-        endDateDisplayed.setLocation(150,90);
+        endDateDisplayed.setLocation(210,90);
         endDateDisplayed.setSize(100,20);
 
         locationDisplayed = new JLabel("",SwingConstants.CENTER);
-        locationDisplayed.setLocation(150,120);
+        locationDisplayed.setLocation(210,120);
         locationDisplayed.setSize(100,20);
 
         descrDisplayed = new JLabel("",SwingConstants.CENTER);
-        descrDisplayed.setLocation(150,150);
+        descrDisplayed.setLocation(210,150);
         descrDisplayed.setSize(100,20);
 
         okButton = new JButton("Ok!");
@@ -106,6 +108,14 @@ public class EventDisplayWindow extends JFrame {
         this.dispose();
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public static class Builder{
 
         String nameDisplayed;
@@ -123,14 +133,14 @@ public class EventDisplayWindow extends JFrame {
 
         public Builder setStartDate(String date){
 
-            startDateDisplayed = date;
+            startDateDisplayed = date.substring(0,15);
 
             return this;
         }
 
         public Builder setEndDate(String date){
 
-            endDateDisplayed = date;
+            endDateDisplayed = date.substring(0,15);
 
             return this;
         }

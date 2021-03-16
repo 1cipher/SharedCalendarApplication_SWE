@@ -21,7 +21,7 @@ public class Mailer extends Thread{
 
     private void sendMail() {
         String host = "smtp.gmail.com";
-        String from = "sweprogettodemo@gmail.com";
+        String from = "swereceiver@gmail.com";
         String password = Private.mailPassword;
 
         Properties props = System.getProperties();

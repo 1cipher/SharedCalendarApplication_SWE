@@ -15,17 +15,18 @@ public class CreateCalendarWindow extends JFrame {
         setTitle("Create Calendar");
         setSize(300,200);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
+        setLocationRelativeTo(null);
 
         Container c = getContentPane();
         c.setLayout(null);
 
-        calendarName = new JLabel("Calendar: ",SwingConstants.CENTER);
-        calendarName.setLocation(30,50);
-        calendarName.setSize(100,20);
+        calendarName = new JLabel("<html>Choose a name<br>for your calendar:</html> ",SwingConstants.CENTER);
+        calendarName.setLocation(20,50);
+        calendarName.setSize(100,25);
 
         calendarText = new JTextField();
-        calendarText.setLocation(180,50);
-        calendarText.setSize(100,20);
+        calendarText.setLocation(130,50);
+        calendarText.setSize(150,20);
 
         createCalendar = new JButton("Create");
         createCalendar.setLocation(100,120);

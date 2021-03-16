@@ -2,11 +2,7 @@
 r
 java:S1192@"UDefine a constant instead of duplicating this literal "You are not allowed!" 3 times.(†™‡8ÇŞ¾ƒ/
 ?
-java:S1643á"Use a StringBuilder instead.(ÅßŞŞûÿÿÿÿ8Šü‹ƒ/
-j
-java:S1871û"MThis branch's code block is the same as the block for the branch on line 500.(Ûæá8‹üåÚ‚/
+java:S1643ö"Use a StringBuilder instead.(ÅßŞŞûÿÿÿÿ8Šü‹ƒ/
+j	java:S101È"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(‡çµ¹8ÇŞ¾ƒ/
 P
-java:S1135¹"2Complete the task associated to this TODO comment.(ÆÿÍï8ÇŞ¾ƒ/
-U
-java:S1135ü"2Complete the task associated to this TODO comment.(øı§àøÿÿÿÿ8ÇŞ¾ƒ/
-j	java:S101§"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(‡çµ¹8ÇŞ¾ƒ/
+java:S1135æ"2Complete the task associated to this TODO comment.(ÆÿÍï8ÇŞ¾ƒ/

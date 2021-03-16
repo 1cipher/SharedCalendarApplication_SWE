@@ -15,6 +15,7 @@ public class Dialog extends JFrame {
 
         cp = getContentPane();
         cp.setLayout(null);
+        setLocationRelativeTo(null);
 
     }
 
@@ -54,7 +55,7 @@ public class Dialog extends JFrame {
 
         public Builder setLabel(String text){
 
-            this.label = new JLabel(text,SwingConstants.CENTER);
+            this.label = new JLabel("<html>"+text+"</html>",SwingConstants.CENTER);
 
             return this;
         }
@@ -69,7 +70,7 @@ public class Dialog extends JFrame {
             dialog.label.setForeground(color);
 
             dialog.label.setLocation(25,10);
-            dialog.label.setSize(150,20);
+            dialog.label.setSize(150,40);
 
             this.button.setLocation(60,80);
             this.button.setSize(80,20);

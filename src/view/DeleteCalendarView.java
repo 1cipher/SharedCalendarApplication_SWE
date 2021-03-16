@@ -15,18 +15,18 @@ public class DeleteCalendarView extends JFrame {
     public DeleteCalendarView() {
 
         setTitle("Delete Calendar");
-        setSize(600, 400);
+        setSize(400, 300);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 
         Container c = getContentPane();
         c.setLayout(null);
 
-        deleteLabel = new JLabel("Select the calendar you want to delete:");
-        deleteLabel.setLocation(150,20);
-        deleteLabel.setSize(300,40);
+        deleteLabel = new JLabel("Select the calendar you want to delete:",SwingConstants.CENTER);
+        deleteLabel.setLocation(30,30);
+        deleteLabel.setSize(340,40);
 
         deleteButton = new JButton("Delete!");
-        deleteButton.setLocation(260, 350);
+        deleteButton.setLocation(160, 200);
         deleteButton.setSize(80, 20);
 
         defaultListModel = new DefaultListModel();
@@ -36,8 +36,8 @@ public class DeleteCalendarView extends JFrame {
         calendarList.setVisibleRowCount(-1);
         calendarList.setCellRenderer(new CalendarCustomRenderer());
         scrollPane = new JScrollPane(calendarList);
-        scrollPane.setSize(400,150);
-        scrollPane.setLocation(100,100);
+        scrollPane.setSize(300,100);
+        scrollPane.setLocation(50,80);
 
 
         c.add(deleteButton);

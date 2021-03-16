@@ -16,8 +16,9 @@ public class Login extends JFrame {
 
     public Login(){
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(368, 200);
+        setSize(368, 150);
         setTitle("Login");
+        setLocationRelativeTo(null);
 
         Container cp = getContentPane();
 

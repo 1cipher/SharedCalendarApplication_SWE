@@ -125,7 +125,7 @@ public class MWController {
                 .setDescription(a.getDescriptionText())
                 .build();
         eventView.setVisible(true);
-        eventView.setTitle(a.getId());
+        eventView.setId(a.getId());
         eventView.addDeleteButtonListener(e -> deleteEvent());
         eventView.addOkButtonListener(e -> eventView.close());
         eventView.addEditButtonListener(e->setupEditEventWindow(a));
@@ -327,9 +327,9 @@ public class MWController {
         if (!createCalendarWindow.getName().isEmpty()) {
             newCalendar = new model.Calendar(currentUser, cid, createCalendarWindow.getName(), ACL.getCreatorPermission());
             m.createCalendar(newCalendar, currentUser);
-            dialog = new view.Dialog.Builder().setLabel("model.Calendar Created").setType(Dialog.type.SUCCESS).build();
+            dialog = new view.Dialog.Builder().setLabel("Calendar Created").setType(Dialog.type.SUCCESS).build();
         } else {
-            dialog = new Dialog.Builder().setLabel("model.Calendar can't be created").setType(Dialog.type.ERROR).build();
+            dialog = new Dialog.Builder().setLabel("Calendar can't be created").setType(Dialog.type.ERROR).build();
         }
         setupDialog();
         createCalendarWindow.close();
@@ -417,7 +417,7 @@ public class MWController {
         if (startDate.isLessThan(endDate)) {
 
             if (!name.isEmpty() && !uid.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
-                dialog = new view.Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("model.Event Created!").build();
+                dialog = new view.Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("Event Created!").build();
                 model.Event event = new model.Event(uid, name, startDate, endDate, location, descr);
                 m.addEventinEvents(event, calendar.getId());
                 currentUser.setCollection(m.getUserCalendars(currentUser));
@@ -439,7 +439,7 @@ public class MWController {
 
     public void deleteEvent(){
         if (ACL.canDeleteEvent(getCurrentCalendar().getPermission())) {
-            Appointment appointment = (Appointment) mwView.getCalendar().getSchedule().getItems().get(eventView.getTitle());
+            Appointment appointment = (Appointment) mwView.getCalendar().getSchedule().getItems().get(eventView.getId());
             m.deleteEvent(appointment.getId());
             mwView.getCalendar().getSchedule().getItems().remove(appointment);
             eventView.close();

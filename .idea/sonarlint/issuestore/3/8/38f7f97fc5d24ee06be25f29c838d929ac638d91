@@ -1,6 +1,5 @@
 
+S
+java:S1172"1Remove this unused method parameter "permission".(Ð§•¬ûÿÿÿÿ8¯ÛÁ´ƒ/
 ‹
-java:S1319&"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(¨Û¤Ñÿÿÿÿÿ
-s
-java:S1104
-"VMake permission a static final constant or non-public and provide accessors if needed.(ù§±Ÿ8¤­úØ‚/
+java:S1319%"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(¨Û¤Ñÿÿÿÿÿ

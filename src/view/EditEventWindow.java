@@ -4,15 +4,12 @@ import javax.swing.*;
 
 import com.mindfusion.common.DateTime;
 import com.mindfusion.scheduling.ThemeType;
-import model.CalendarCollection;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-public class CreateEventWindow extends JFrame {
+public class EditEventWindow extends JFrame {
 
     private com.mindfusion.scheduling.Calendar cal;
     private DateTextBox startDate;
@@ -34,6 +31,7 @@ public class CreateEventWindow extends JFrame {
 
         setSize(850,300);
         setTitle("Edit Event");
+        setLocationRelativeTo(null);
 
         Container cp = getContentPane();
         cp.setLayout(null);
@@ -96,7 +94,7 @@ public class CreateEventWindow extends JFrame {
         descr.setText("Sarà deliziosa!");
 
         createEvent = new JButton("Save");
-        createEvent.setLocation(700,200);
+        createEvent.setLocation(650,200);
         createEvent.setSize(150,20);
 
         cp.add(cal);

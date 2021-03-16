@@ -15,29 +15,30 @@ public class ShareView extends JFrame {
 
     public ShareView(){
 
-        setName("Share current calendar with...");
-        setSize(300,200);
+        setTitle("Share current calendar with...");
+        setSize(400,200);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
+        setLocationRelativeTo(null);
 
         Container c = getContentPane();
         c.setLayout(null);
 
-        label = new JLabel("Username: ",SwingConstants.CENTER);
-        label.setLocation(30,50);
-        label.setSize(100,20);
+        label = new JLabel("<html>Select username <br>and permission:</html>",SwingConstants.CENTER);
+        label.setLocation(10,55);
+        label.setSize(140,40);
 
         username = new JTextField();
-        username.setLocation(180,50);
-        username.setSize(100,20);
+        username.setLocation(140,50);
+        username.setSize(200,20);
 
         permission = new JComboBox<>();
-        permission.setLocation(180,80);
-        permission.setSize(100,20);
+        permission.setLocation(140,80);
+        permission.setSize(200,20);
         permission.addItem("User");
         permission.addItem("Owner");
 
         button = new JButton("Share");
-        button.setLocation(100,120);
+        button.setLocation(150,120);
         button.setSize(100,20);
 
         c.add(label);

@@ -40,8 +40,6 @@ R
 "src/controller/SearchStrategy.java,1\e\1e250fd0775bbcd6c30deedebf853a68a626f36c
 M
 src/utils/SearchRenderer.java,9\0\905148cfaacc16224152e5520989055cad82b831
-O
-src/view/CreateEventWindow.java,d\6\d6278212d6a5721be7546c881bf148ab1a21faaa
 K
 src/utils/EditDistance.java,c\f\cf1c1291bc48db0951b4902fbac2b00981759442
 Y
@@ -52,8 +50,6 @@ F
 Progetto SWE.iml,3\b\3b12307e7f17c8d7c0bc4faee73a06380b49814b
 J
 src/test/DataBaseTest.java,e\5\e564e000818d66911b19735df43706b5d6ffff77
-L
-src/test/MainWindowTest.java,b\f\bfd7b8ca215bec4b606eb1281d560fd40f1439d7
 U
 %src/utils/CalendarCustomRenderer.java,e\7\e7136ac8cf16fe8c831ec33a56519a06fd518b46
 R
@@ -72,3 +68,13 @@ E
 src/model/Mailer.java,d\1\d196aafbe8282d22f50aac4ccb4246a47b45dc41
 ]
 -src/controller/LocationSearchWithOldOnes.java,b\0\b0ec4aa3668ec9f3ce69142d7cd85be37bdb2bde
+I
+src/view/DateTextBox.java,5\6\569c2de90e3cdc241fb68e2be9521f9077c8f9b2
+G
+src/view/ShareView.java,2\a\2aa464fd7f787acdd58b1c2a5f97c3084a074311
+P
+ src/view/DeleteCalendarView.java,e\b\eb3e1ab3a8cd15e470766569af019ad961bb2153
+M
+src/view/EditEventWindow.java,f\2\f2a023a30a5c7425e3f4671917a97e3d2719147a
+G
+src/test/LoginTest.java,c\8\c80066aecf13532c5f937b5575c4104be0c7fa86
