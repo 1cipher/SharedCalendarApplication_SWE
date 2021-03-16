@@ -15,6 +15,7 @@ public class Dialog extends JFrame {
 
         cp = getContentPane();
         cp.setLayout(null);
+
     }
 
     public void addDialogListener(ActionListener dialogListener){
@@ -61,6 +62,7 @@ public class Dialog extends JFrame {
         public Dialog build(){
 
             Dialog dialog = new Dialog();
+            dialog.setTitle(titleToDisplay);
             dialog.setSize(200,150);
             dialog.button = this.button;
             dialog.label = this.label;

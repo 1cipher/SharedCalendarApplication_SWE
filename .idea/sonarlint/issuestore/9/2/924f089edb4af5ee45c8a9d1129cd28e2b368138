@@ -1,13 +1,13 @@
 
 S
-java:S1197"8Move the array designator from the variable to the type.(¡şÏÖøÿÿÿÿ
+java:S1854"7Remove this useless assignment to local variable "mwc".(¹Ô±\8ä§Ü½‚/
 C
 java:S1604"(Make this anonymous inner class a lambda(Ô¶µÿşÿÿÿÿ
 0
 java:S1220""Move this file to a named package.
-I
-java:S1128"'Remove this unused import 'view.Login'.(ø’¾ïûÿÿÿÿ8ä§Ü½‚/
-S
-java:S1854"7Remove this useless assignment to local variable "mwc".(¹Ô±\8ä§Ü½‚/
 D
-java:S1481"(Remove this unused "mwc" local variable.(¹Ô±\8ä§Ü½‚/
+java:S1481"(Remove this unused "mwc" local variable.(¹Ô±\8ä§Ü½‚/
+S
+java:S1197"8Move the array designator from the variable to the type.(¡şÏÖøÿÿÿÿ
+K
+java:S1128")Remove this unused import 'model.Mailer'.(ƒ¢ğµÿÿÿÿÿ8÷ç¹ƒ/

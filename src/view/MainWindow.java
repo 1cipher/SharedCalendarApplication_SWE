@@ -1,14 +1,12 @@
 package view;
 
 import com.mindfusion.scheduling.*;
-import model.CalendarCollection;
 import utils.CalendarCustomRenderer;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 
 public class MainWindow extends JFrame {
@@ -130,8 +128,8 @@ public class MainWindow extends JFrame {
         return calendar;
     }
 
-    public model.Calendar getCurrentCalendar(){
-        return (model.Calendar) calendarList.getSelectedValue();
+    public JList getCalendarList() {
+        return calendarList;
     }
 
 
@@ -156,19 +154,16 @@ public class MainWindow extends JFrame {
 
     }
 
-    public void addCalendar(model.Calendar cal){
-        calendars.add(0,cal);
+    public DefaultListModel getCalendars() {
+        return calendars;
+    }
+
+    public void refreshCalendarsDisplayed(){
         calendarList.updateUI();
         calendarList.setSelectedIndex(0);
     }
 
-    public void setCalendars(CalendarCollection list) {
-        ArrayList<model.Calendar> calendarsList = list.getCalendars();
-        for (model.Calendar cal:
-                calendarsList) {
-            addCalendar(cal);
-        }
-    }
+
 
     public void addNewEventListener(ActionListener newEventListener){
 
@@ -185,8 +180,8 @@ public class MainWindow extends JFrame {
         this.removeCalendar.addActionListener(listener);
     }
 
-    public void deleteCalendar(){
-        int selected = calendarList.getSelectedIndex();
+    public void deleteCalendar(int selected){
+
         calendars.removeElementAt(selected);
     }
 

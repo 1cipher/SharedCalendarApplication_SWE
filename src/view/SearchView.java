@@ -25,7 +25,7 @@ public class SearchView extends JFrame{
 
     public SearchView() {
 
-        setName("Calendar");
+        setTitle("Search");
         setSize(600, 400);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 
@@ -33,20 +33,20 @@ public class SearchView extends JFrame{
         c.setLayout(null);
 
         searchLabel = new JLabel("Search with filters:");
-        searchLabel.setLocation(30,10);
-        searchLabel.setSize(150,20);
+        searchLabel.setLocation(30,20);
+        searchLabel.setSize(150,40);
 
         searchBox = new JTextField();
-        searchBox.setLocation(150, 10);
-        searchBox.setSize(200, 20);
+        searchBox.setLocation(150, 20);
+        searchBox.setSize(200, 40);
 
         searchType = new JComboBox<>();
         searchType.addItem(new NameSearch());
         searchType.addItem(new LocationSearch());
         searchType.addItem(new NameSearchWithOldOnes());
-        searchType.addItem(new LocationStrategyWithOldOnes());
-        searchType.setLocation(360,10);
-        searchType.setSize(150,20);
+        searchType.addItem(new LocationSearchWithOldOnes());
+        searchType.setLocation(360,20);
+        searchType.setSize(150,40);
         searchType.setRenderer(new SearchRenderer());
         search = new JButton();
         Image img = null;
@@ -59,8 +59,8 @@ public class SearchView extends JFrame{
         Image newimg = img.getScaledInstance( 20, 20,  java.awt.Image.SCALE_SMOOTH );
 
         search.setIcon(new ImageIcon(newimg));
-        search.setLocation(520, 10);
-        search.setSize(20, 20);
+        search.setLocation(520, 20);
+        search.setSize(40, 40);
 
         defaultListModel = new DefaultListModel();
         list = new JList(defaultListModel);
@@ -69,8 +69,9 @@ public class SearchView extends JFrame{
         list.setVisibleRowCount(-1);
         list.setCellRenderer(new EventCustomRenderer());
         scrollPane = new JScrollPane(list);
-        scrollPane.setSize(200,300);
+        scrollPane.setSize(400,200);
         scrollPane.setLocation(100,100);
+
 
         c.add(searchBox);
         c.add(searchLabel);
@@ -100,6 +101,7 @@ public class SearchView extends JFrame{
 
     public void addResults(ItemList result){
 
+        defaultListModel.clear();
         for (Item item:
              result) {
             defaultListModel.add(0,item);

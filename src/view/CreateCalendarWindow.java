@@ -12,7 +12,7 @@ public class CreateCalendarWindow extends JFrame {
 
     public CreateCalendarWindow(){
 
-        setName("Calendar");
+        setTitle("Create Calendar");
         setSize(300,200);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 

@@ -29,10 +29,11 @@ public class CreateEventWindow extends JFrame {
     private HourComboBox startHour;
     private HourComboBox endHour;
     
-    public CreateEventWindow(){
+    public EditEventWindow(){
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 
         setSize(850,300);
+        setTitle("Edit Event");
 
         Container cp = getContentPane();
         cp.setLayout(null);
