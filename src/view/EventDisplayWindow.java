@@ -21,6 +21,7 @@ public class EventDisplayWindow extends JFrame {
     JButton editButton;
     private Container c;
 
+
     private EventDisplayWindow(){
 
         setDefaultCloseOperation(HIDE_ON_CLOSE);
