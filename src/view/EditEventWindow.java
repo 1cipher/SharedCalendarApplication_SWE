@@ -65,7 +65,6 @@ public class EditEventWindow extends JFrame {
         endDate.setLocation(500,70);
         endDate.setSize(100,20);
 
-
         nameLabel = new JLabel("Name: ");
         nameLabel.setLocation(410,10);
         nameLabel.setSize(50,20);
