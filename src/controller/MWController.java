@@ -355,42 +355,41 @@ public class MWController {
 
     private void editEvent(String id){
 
-        model.Calendar calendar = getCurrentCalendar();
+        if (!cwView.getName().isEmpty() && !id.isEmpty() && !cwView.startDateisEmpty() && !cwView.endDateisEmpty()) {
 
-        String name = cwView.getName();
-        String location = cwView.getLocationName();
-        String descr = cwView.getDescriptionText();
-        DateTime startDate = cwView.getStartDate();
-        DateTime endDate = cwView.getEndDate();
+            model.Calendar calendar = getCurrentCalendar();
 
-        DateTime startHour = cwView.getStartHour();
-        DateTime endHour = cwView.getEndHour();
+            String name = cwView.getName();
+            String location = cwView.getLocationName();
+            String descr = cwView.getDescriptionText();
+            DateTime startDate = cwView.getStartDate();
+            DateTime endDate = cwView.getEndDate();
 
-        startDate = startDate.addTicks(startHour.getTicks());
-        endDate = endDate.addTicks(endHour.getTicks());
+            DateTime startHour = cwView.getStartHour();
+            DateTime endHour = cwView.getEndHour();
 
-        if (startDate.isLessThan(endDate)) {
+            startDate = startDate.addTicks(startHour.getTicks());
+            endDate = endDate.addTicks(endHour.getTicks());
 
-            if (!name.isEmpty() && !id.isEmpty() && !startDate.toString().isEmpty() && !endDate.toString().isEmpty()) {
-                dialog = new view.Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("Event edited!").build();
+            if (startDate.isLessThan(endDate)) {
+
+                dialog = new view.Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("Event saved!").build();
                 model.Event event = new model.Event(id, name, startDate, endDate, location, descr);
                 m.addEventinEvents(event, calendar.getId());
                 currentUser.setCollection(m.getUserCalendars(currentUser));
                 mwView.getCalendar().getSchedule().getAllItems().clear();
                 loadView();
-            }
+                cwView.close();
 
-            else {
-                dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Check null values").build();
+            } else {
+                dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Inconsistent dates!").build();
             }
-
         }
         else {
-            dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Inconsistent dates!").build();
+            dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Fill missing data!").build();
         }
 
         setupDialog();
-        cwView.close();
     }
 
     private void createEvent(){

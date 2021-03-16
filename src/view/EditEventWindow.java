@@ -191,4 +191,11 @@ public class EditEventWindow extends JFrame {
         this.dispose();
     }
 
+    public boolean startDateisEmpty() {
+        return startDate.getText().isEmpty();
+    }
+
+    public boolean endDateisEmpty() {
+        return endDate.getText().isEmpty();
+    }
 }
