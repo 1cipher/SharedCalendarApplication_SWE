@@ -48,6 +48,7 @@ public class EditEventWindow extends JFrame {
         startDate = new DateTextBox();
         startDate.setLocation(500,40);
         startDate.setSize(100,20);
+        startDate.setEditable(false);
 
         startHour = new HourComboBox();
         startHour.setLocation(610,40);
@@ -64,6 +65,7 @@ public class EditEventWindow extends JFrame {
         endDate = new DateTextBox();
         endDate.setLocation(500,70);
         endDate.setSize(100,20);
+        endDate.setEditable(false);
 
         nameLabel = new JLabel("Name: ");
         nameLabel.setLocation(410,10);
@@ -173,19 +175,6 @@ public class EditEventWindow extends JFrame {
 
     public void setEndHour(DateTime time) {
         this.endHour.setTime(time);
-    }
-
-    public void setSelectedStartDate(java.sql.Date newDate){
-
-        //TODO: Si può togliere?
-
-    }
-
-    public void setSelectedEndDate(java.sql.Date newDate){
-
-        //TODO: si può togliere?
-        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-        endDate.setText(myFormat.format(newDate));
     }
 
     public void addCreateEventListener(ActionListener createEventListener){
