@@ -1,13 +1,14 @@
 package test;
 
+import com.mindfusion.common.DateTime;
 import model.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
 import utils.ACL;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -24,56 +25,48 @@ public class EventDataBaseTest {
     public static void init(){
         Database db = Database.getInstance();
         gateway = new Gateway(db.getConnection());
-        username1 = "Alessio";
+        username1 = "michele";
         calendar = new Calendar("test","CID", ACL.getCreatorPermission());
         user = new User(username1);
-        event = new Event("a","concerto",null,null,"casa","wow");
-    }
-    @After
-    public void removeCalendar(){
+        event = new Event("a","concerto",new DateTime(2000,2,2,2,2,2,0),new DateTime(2000,2,2,2,3,3,0),"casa","wow");
 
-        gateway.deleteEvent(event.getId());
-
-        gateway.deleteCalendar(calendar);
-
-    }
-
-    @Before
-    public void createCalendar(){
-
-        gateway.createCalendar(calendar,user);
-
-        gateway.addEventinEvents(event,calendar.getId());
-        calendarCollection = gateway.getUserCalendars(user);
-
-        calendarCollection.getCalendar("test").getEvents().isEmpty();
     }
 
 
     @Test
-    @DisplayName("Ensure the correct calendar creation")
+    //@DisplayName("Ensure the correct calendar creation")
     public void checkCreateCalendar(){
+
+        gateway.createCalendar(calendar,user);
 
         calendarCollection = gateway.getUserCalendars(user);
 
         assertNotNull(calendarCollection.getCalendar("test"));
 
+        gateway.deleteCalendar(calendar);
+
 
     }
 
     @Test
-    @DisplayName("Check the event upload on database")
+    //@DisplayName("Check the event upload on database")
     public void eventCreation(){
 
+        gateway.createCalendar(calendar,user);
+        calendarCollection = gateway.getUserCalendars(user);
+        int sizeBefore = calendarCollection.getEvents().size();
         gateway.addEventinEvents(event,calendar.getId());
         calendarCollection = gateway.getUserCalendars(user);
+        int sizeAfter = calendarCollection.getEvents().size();
 
-        calendarCollection.getCalendar("test").getEvents().isEmpty();
+        //calendarCollection.getCalendar("test").getEvents().isEmpty();
 
-        //assertTrue(calendarCollection.getCalendar("test").getEvents().isEmpty());
+        assertTrue(sizeAfter==sizeBefore+1);
 
         gateway.deleteEvent(event.getId());
 
+
+        gateway.deleteCalendar(calendar);
 
 
     }
@@ -81,13 +74,22 @@ public class EventDataBaseTest {
 
 
     @Test
-    @DisplayName("Ensure the correct deletion of an event")
+    //@DisplayName("Ensure the correct deletion of an event")
     public void deleteEvent(){
 
+        gateway.createCalendar(calendar,user);
+        calendarCollection = gateway.getUserCalendars(user);
+        ArrayList<Event> list = calendarCollection.getEvents();
+        int sizeBefore = list.size();
         gateway.addEventinEvents(event,calendar.getId());
         gateway.deleteEvent(event.getId());
 
-        assertFalse(user.getCollection().getEvents().isEmpty());
+        calendarCollection = gateway.getUserCalendars(user);
+        list = calendarCollection.getEvents();
+        int sizeAfter = list.size();
+        assertTrue(sizeAfter==sizeBefore);
+
+        gateway.deleteCalendar(calendar);
 
     }
 }

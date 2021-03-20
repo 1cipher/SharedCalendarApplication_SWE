@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import model.*;
 import org.junit.*;
-import org.junit.jupiter.api.DisplayName;
 import utils.ACL;
 
 
@@ -42,7 +41,7 @@ public class LoginDataBaseTest {
 
 
     @Test
-    @DisplayName("Ensure a correct sign up")
+    //@DisplayName("Ensure a correct sign up")
     public void registerNewUser(){
 
 
@@ -52,14 +51,14 @@ public class LoginDataBaseTest {
     }
 
     @Test
-    @DisplayName("Ensure that the username exists")
+    //@DisplayName("Ensure that the username exists")
     public void isExistingUsernameTest(){
 
         assertTrue(gateway.isExistingUsername(sample));
     }
 
     @Test
-    @DisplayName("Ensure a correct deletion")
+    //@DisplayName("Ensure a correct deletion")
     public void checkDelete(){
 
         gateway.deleteUser(user);

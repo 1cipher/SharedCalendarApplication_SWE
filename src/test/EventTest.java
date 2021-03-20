@@ -10,7 +10,6 @@ import java.awt.event.InputEvent;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
 
 public class EventTest {
 
@@ -33,7 +32,7 @@ public class EventTest {
     }
 
     @Test
-    @DisplayName("Check if the dialog is created correctly")
+    //@DisplayName("Check if the dialog is created correctly")
     public void createWrongEvent(){
 
         controller.setupCreateEventWindow();
