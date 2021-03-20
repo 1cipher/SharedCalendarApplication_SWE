@@ -198,4 +198,16 @@ public class EditEventWindow extends JFrame {
     public boolean endDateisEmpty() {
         return endDate.getText().isEmpty();
     }
+
+    public DateTextBox getStartDateBox(){
+
+        return startDate;
+    }
+
+    public DateTextBox getEndDateBox(){
+
+        return endDate;
+    }
+
+
 }

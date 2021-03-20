@@ -8,6 +8,7 @@ import java.sql.*;
 public class Database {
 
     private static Database instance = null;
+    private static Connection c;
 
     public static Database getInstance() {
         if (instance==null){
@@ -16,7 +17,7 @@ public class Database {
         return instance;
     }
 
-    public Connection createConnection() {
+    private Database() {
 
         try {
             Class.forName("org.postgresql.Driver");
@@ -33,10 +34,13 @@ public class Database {
             e.printStackTrace();
         }
 
-        return c;
+        this.c=c;
 
     }
 
+    public Connection getConnection() {
+        return c;
+    }
 }
 
 

@@ -1,8 +1,7 @@
 
-import controller.MWController;
+import controller.Controller;
 import model.Database;
 import model.Gateway;
-import model.Mailer;
 
 import javax.swing.*;
 
@@ -15,10 +14,10 @@ public class Main {
                  try {
 
                      Database db = Database.getInstance();
-                     Gateway g = new Gateway(db.createConnection());
+                     Gateway g = new Gateway(db.getConnection());
 
 
-                     MWController mwc = new MWController(g);
+                     Controller mwc = new Controller(g);
 
                  }catch (Exception e){
                      e.printStackTrace();

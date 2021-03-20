@@ -24,6 +24,11 @@ public class Dialog extends JFrame {
         this.button.addActionListener(dialogListener);
     }
 
+    public String getLabel(){
+
+        return label.getText();
+    }
+
     public static class Builder {
 
         JButton button;

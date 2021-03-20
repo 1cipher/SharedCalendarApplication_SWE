@@ -36,6 +36,7 @@ public class MainWindow extends JFrame {
         //setExtendedState(MAXIMIZED_BOTH);
         setTitle("Calendar");
         setLocationRelativeTo(null);
+        setResizable(false);
 
         Container cp = getContentPane();
         cp.setLayout(null);

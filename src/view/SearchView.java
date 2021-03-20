@@ -41,10 +41,10 @@ public class SearchView extends JFrame{
         searchBox.setSize(200, 40);
 
         searchType = new JComboBox<>();
+        searchType.addItem(new FutureNameSearch());
+        searchType.addItem(new FutureLocationSearch());
         searchType.addItem(new NameSearch());
         searchType.addItem(new LocationSearch());
-        searchType.addItem(new NameSearchWithOldOnes());
-        searchType.addItem(new LocationSearchWithOldOnes());
         searchType.setLocation(360,20);
         searchType.setSize(150,40);
         searchType.setRenderer(new SearchRenderer());

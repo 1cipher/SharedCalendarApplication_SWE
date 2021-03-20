@@ -1,17 +1,13 @@
 
-O
-java:S1874Œ"1Remove this use of "Timestamp"; it is deprecated.(âÚÁ¬8Ÿ²¥é€/
-i
-java:S2259}"GA "NullPointerException" could be thrown; "resultSet" is nullable here.(œù¾àüÿÿÿÿ8Ÿ²¥é€/
-m	java:S117]"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üÔ8Ÿ²¥é€/
 q
 java:S2095"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(¨Ä€“ÿÿÿÿÿ8Ìˆàë/
-f
-java:S1117"DRename "preparedStatement" which hides the field declared at line 9.(¨Ä€“ÿÿÿÿÿ8Ìˆàë/
-s	java:S117‡"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Üï¤şÿÿÿÿ8Ÿ²¥é€/
 O
-java:S1135g"2Complete the task associated to this TODO comment.(´È‹8Ÿ²¥é€/
-N
-java:S2695‘"+This "PreparedStatement" has no parameters.(öÓ½ƒıÿÿÿÿ8Í‹ãÖ‚/
+java:S1874Œ"1Remove this use of "Timestamp"; it is deprecated.(âÚÁ¬8Ÿ²¥é€/
+m	java:S117]"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üÔ8Ÿ²¥é€/
 M
 java:S1874‹"1Remove this use of "Timestamp"; it is deprecated.(èê¨üÿÿÿÿ
+i
+java:S2259}"GA "NullPointerException" could be thrown; "resultSet" is nullable here.(œù¾àüÿÿÿÿ8Ÿ²¥é€/
+s	java:S117‡"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Üï¤şÿÿÿÿ8Ÿ²¥é€/
+f
+java:S1117"DRename "preparedStatement" which hides the field declared at line 9.(¨Ä€“ÿÿÿÿÿ8Ìˆàë/

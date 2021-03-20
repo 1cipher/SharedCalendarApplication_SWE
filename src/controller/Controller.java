@@ -14,7 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.*;
 
-public class MWController {
+public class Controller {
 
     private MainWindow mwView;
     private EditEventWindow cwView;
@@ -30,7 +30,7 @@ public class MWController {
     private User currentUser;
     private Mailer mailer;
 
-    public MWController(Gateway g) {
+    public Controller(Gateway g) {
         m = g;
         mailer = new Mailer();
         setupLoginWindow();
@@ -322,7 +322,7 @@ public class MWController {
         String cid = java.util.UUID.randomUUID().toString().substring(0, 19);
         model.Calendar newCalendar = null;
         if (!createCalendarWindow.getName().isEmpty()) {
-            newCalendar = new model.Calendar(currentUser, cid, createCalendarWindow.getName(), ACL.getCreatorPermission());
+            newCalendar = new model.Calendar(cid, createCalendarWindow.getName(), ACL.getCreatorPermission());
             m.createCalendar(newCalendar, currentUser);
             dialog = new view.Dialog.Builder().setLabel("Calendar Created").setType(Dialog.type.SUCCESS).build();
         } else {
@@ -467,6 +467,35 @@ public class MWController {
             }
         }
     }
+
+    public MainWindow getMwView() {
+        return mwView;
+    }
+
+    public SearchView getsView() {
+        return sView;
+    }
+
+    public Login getLogView() {
+        return logView;
+    }
+
+    public Register getRegView() {
+        return regView;
+    }
+
+    public ShareView getShareView() {
+        return shareView;
+    }
+
+    public EditEventWindow getCwView() {
+        return cwView;
+    }
+
+    public Dialog getDialog() {
+        return dialog;
+    }
+
 
 }
 

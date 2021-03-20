@@ -7,11 +7,14 @@ import org.junit.runner.notification.Failure;
 public class MainTest {
 
     public static void main(String[] args){
-        Result result = JUnitCore.runClasses(DataBaseTest.class);
+        Result result = JUnitCore.runClasses(ShareDataBaseTest.class);
+
         for(Failure failure:result.getFailures()) {
 
             System.out.println(failure.toString());
         }
         System.out.println("Result=="+result.wasSuccessful());
+
+
     }
 }

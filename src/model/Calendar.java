@@ -3,14 +3,15 @@ package model;
 import java.util.ArrayList;
 
 public class Calendar {
-    User user;
-    ArrayList<Event> newBuffer;
-    String id;
-    String name;
+
+    private ArrayList<Event> newBuffer;
+    private String id;
+    private String name;
     private int permission;
 
-    public Calendar(User user, String cid, String name, int permission) {
-        this.user = user;
+    public Calendar(String cid, String name, int permission) {
+
+        this.permission=permission;
         this.newBuffer = new ArrayList<>();
         this.id = cid;
         this.name = name;

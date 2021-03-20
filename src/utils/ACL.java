@@ -2,20 +2,16 @@ package utils;
 
 public class ACL {
 
-    private static int creatorPermission = 0;
-    private static int ownerPermission = 1;
-    private static int userPermission = 2;
-
     public static int getOwnerPermission() {
-        return ownerPermission;
+        return 1;
     }
 
     public static int getUserPermission() {
-        return userPermission;
+        return 2;
     }
 
     public static int getCreatorPermission(){
-        return creatorPermission;
+        return 0;
     }
 
     public static boolean canDeleteCalendar(int p){

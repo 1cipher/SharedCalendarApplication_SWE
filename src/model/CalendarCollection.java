@@ -3,7 +3,8 @@ package model;
 import java.util.ArrayList;
 
 public class CalendarCollection {
-    ArrayList<Calendar> collection;
+
+    private ArrayList<Calendar> collection;
 
     public ArrayList<String> getIds(){
         ArrayList<String> ids=new ArrayList<>();

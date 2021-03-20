@@ -86,4 +86,11 @@ public class Login extends JFrame {
         register.addActionListener(registerListener);
     }
 
+    public JTextField getTextUser() {
+        return textUser;
+    }
+
+    public JTextField getTextPassword() {
+        return textPassword;
+    }
 }

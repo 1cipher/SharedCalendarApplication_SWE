@@ -73,20 +73,20 @@ public class Gateway {
             preparedStatement.setString(1,username);
             rs = preparedStatement.executeQuery();
             while (rs.next()){
-                Calendar calendar = new Calendar(currentUser, rs.getString("CALENDARID"),rs.getString("NAME"),rs.getInt("TYPE"));
+                Calendar calendar = new Calendar( rs.getString("CALENDARID"),rs.getString("NAME"),rs.getInt("TYPE"));
                 calendars.addCalendarToCollection(calendar);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        sql = "SELECT CALENDARID,EVENT,ID,NAME,START_DATE,END_DATE,LOCATION,DESCRIPTION " +
+        String sql1 = "SELECT CALENDARID,EVENT,ID,NAME,START_DATE,END_DATE,LOCATION,DESCRIPTION " +
                 "FROM PARTICIPATION,CALENDAREVENTS,EVENTS " +
                 "WHERE UID=? "+
                 "AND CALENDAR=CALENDARID " +
                 "AND EVENT=ID;";
         try {
-            preparedStatement = c.prepareStatement(sql);
+            preparedStatement = c.prepareStatement(sql1);
             preparedStatement.setString(1,username);
             rs = preparedStatement.executeQuery();
             while (rs.next()){
@@ -100,7 +100,7 @@ public class Gateway {
         }
 
         return calendars;
-        //TODO: si può fare tutto in un colpo?
+
 
     }
 
@@ -197,9 +197,9 @@ public class Gateway {
     public void createCalendar(Calendar calendar, User currentUser){
 
         String username = currentUser.getUsername();
-        String sql = "INSERT INTO CALENDAR(ID,NAME,OWNER)" +
-                "VALUES(?,?,?);" +
-                "INSERT INTO PARTICIPATION(UID,CALENDARID,TYPE)" +
+        String sql = "INSERT INTO CALENDAR(ID,NAME,OWNER) " +
+                "VALUES(?,?,?); " +
+                "INSERT INTO PARTICIPATION(UID,CALENDARID,TYPE) " +
                 "VALUES(?,?,0)";
 
         try {
@@ -237,43 +237,47 @@ public class Gateway {
 
     public void deleteUser(String uid){
 
-        String sql = "DELETE FROM LOGIN WHERE UID = ?";
+        if(isExistingUsername(uid)) {
 
-        try {
-            preparedStatement = c.prepareStatement(sql);
-            preparedStatement.setString(1,uid);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            String sql = "DELETE FROM LOGIN " +
+                    "WHERE UID = ?";
 
-        sql = "SELECT CE.EVENT" +
-                "FROM (PARTICIPATION P JOIN CALENDAR C ON P.CALENDARID = C.ID) JOIN CALENDAREVENTS CE ON CE.CALENDAR = C.ID" +
-                "WHERE CE.UID = ?";
-
-        ResultSet resultSet = null;
-        try {
-            preparedStatement = c.prepareStatement(sql);
-            preparedStatement.setString(1,uid);
-            resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                deleteEvent(resultSet.getString("EVENT"));
-
+            try {
+                preparedStatement = c.prepareStatement(sql);
+                preparedStatement.setString(1, uid);
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+            String sql1 = "SELECT CALENDAREVENTS.EVENT " +
+                    "FROM (PARTICIPATION JOIN CALENDAR ON PARTICIPATION.CALENDARID = CALENDAR.ID) JOIN CALENDAREVENTS ON CALENDAREVENTS.CALENDAR = CALENDAR.ID " +
+                    "WHERE PARTICIPATION.UID = ?";
+
+            ResultSet resultSet;
+            try {
+                preparedStatement = c.prepareStatement(sql1);
+                preparedStatement.setString(1, uid);
+                resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    deleteEvent(resultSet.getString("EVENT"));
+
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
 
-        sql = "DELETE " +
-                "FROM CALENDAR JOIN PARTICIPATION ON CALENDARID = ID" +
-                "WHERE UID = UID";
-        try {
-            preparedStatement = c.prepareStatement(sql);
-            preparedStatement.setString(1,uid);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            String sql2 = "DELETE " +
+                    "FROM CALENDAR " +
+                    "WHERE OWNER = ? ";
+            try {
+                preparedStatement = c.prepareStatement(sql2);
+                preparedStatement.setString(1, uid);
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
 
