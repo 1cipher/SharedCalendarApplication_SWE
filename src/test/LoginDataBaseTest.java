@@ -37,7 +37,7 @@ public class LoginDataBaseTest {
     @After
     public void closeUp(){
 
-        gateway.deleteUser(sample);
+        gateway.deleteUser(user);
     }
 
 
@@ -62,7 +62,7 @@ public class LoginDataBaseTest {
     @DisplayName("Ensure a correct deletion")
     public void checkDelete(){
 
-        gateway.deleteUser(sample);
+        gateway.deleteUser(user);
         assertFalse(gateway.checkUserPresence(sample,sample));
 
     }

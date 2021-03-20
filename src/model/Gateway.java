@@ -235,16 +235,16 @@ public class Gateway {
 
     }
 
-    public void deleteUser(String uid){
+    public void deleteUser(User user){
 
-        if(isExistingUsername(uid)) {
+        if(isExistingUsername(user.getUsername())) {
 
             String sql = "DELETE FROM LOGIN " +
                     "WHERE UID = ?";
 
             try {
                 preparedStatement = c.prepareStatement(sql);
-                preparedStatement.setString(1, uid);
+                preparedStatement.setString(1, user.getUsername());
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -257,7 +257,7 @@ public class Gateway {
             ResultSet resultSet;
             try {
                 preparedStatement = c.prepareStatement(sql1);
-                preparedStatement.setString(1, uid);
+                preparedStatement.setString(1, user.getUsername());
                 resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
                     deleteEvent(resultSet.getString("EVENT"));
@@ -268,15 +268,12 @@ public class Gateway {
             }
 
 
-            String sql2 = "DELETE " +
-                    "FROM CALENDAR " +
-                    "WHERE OWNER = ? ";
-            try {
-                preparedStatement = c.prepareStatement(sql2);
-                preparedStatement.setString(1, uid);
-                preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            CalendarCollection calendarCollection = getUserCalendars(user);  //TODO: è QUI IL PROBLEMA!!!!!!!!!!
+            for (Calendar calendar:
+                 calendarCollection.getCalendars()) {
+
+                deleteCalendar(calendar);
+
             }
         }
 

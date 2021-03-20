@@ -9,7 +9,7 @@ public class Dialog extends JFrame {
     private JButton button;
     private JLabel label;
     private Container cp;
-    public enum type {ERROR, SUCCESS}
+    public enum type {ERROR, SUCCESS, GENERIC}
 
     private Dialog(){
 
@@ -53,6 +53,11 @@ public class Dialog extends JFrame {
             if (t==type.SUCCESS) {
                 this.color = Color.green;
                 titleToDisplay = "Success!";
+            }
+
+            if(t==type.GENERIC){
+                this.color = Color.black;
+                titleToDisplay = "Settings";
             }
 
             return this;

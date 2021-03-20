@@ -26,6 +26,7 @@ public class MainWindow extends JFrame {
     private JMenuItem removeCalendar;
     private JMenuItem shareCalendar;
     private JMenuItem logout;
+    private JMenuItem removeUser;
     private JScrollPane viewScroll;
     private JScrollPane calendarScroll;
     private DefaultListModel calendars;
@@ -33,7 +34,6 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1215, 760);
-        //setExtendedState(MAXIMIZED_BOTH);
         setTitle("Calendar");
         setLocationRelativeTo(null);
         setResizable(false);
@@ -88,6 +88,8 @@ public class MainWindow extends JFrame {
         JMenu submenu = new JMenu("New");
         newEvent = new JMenuItem("Event");
         newEvent.setPreferredSize(new Dimension(100,20));
+        removeUser = new JMenuItem("Unsubscribe");
+        removeUser.setPreferredSize(new Dimension(100,20));
         find = new JMenuItem("Find");
         find.setPreferredSize(new Dimension(100,20));
         removeCalendar = new JMenuItem("Remove Calendar");
@@ -115,6 +117,8 @@ public class MainWindow extends JFrame {
         fileMenu.add(shareCalendar);
         fileMenu.addSeparator();
         fileMenu.add(logout);
+        fileMenu.addSeparator();
+        fileMenu.add(removeUser);
         bar.add(fileMenu);
         bar.add(editMenu);
         bar.add(styleMenu);
@@ -219,6 +223,10 @@ public class MainWindow extends JFrame {
         this.calendarList.addListSelectionListener(listener);
     }
 
+    public void addRemoveUserListener(ActionListener listener){
+
+        this.removeUser.addActionListener(listener);
+    }
 
     public void close(){
         setVisible(false);

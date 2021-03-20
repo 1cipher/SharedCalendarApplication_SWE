@@ -10,8 +10,6 @@ import view.*;
 import view.Dialog;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.*;
 
 public class Controller {
@@ -145,6 +143,12 @@ public class Controller {
         mwView.addLogoutListener(e -> {
             mwView.close();
             setupLoginWindow();
+        });
+        mwView.addRemoveUserListener(e-> {
+            dialog = new Dialog.Builder().setLabel("<html>Are you sure?</html>")
+                    .setType(Dialog.type.GENERIC).build();
+            dialog.setVisible(true);
+            dialog.addDialogListener(action->unsubscribeUser());
         });
         mwView.addNewCalendarListener(e -> setupCreateCalendarWindow());
         mwView.addSelectedCalendarListener(e -> loadView());
@@ -466,6 +470,15 @@ public class Controller {
                 mwView.getViewMenu().setSelectedIndex(0);
             }
         }
+    }
+
+    public void unsubscribeUser(){
+
+        dialog.close();
+        mwView.close();
+        m.deleteUser(currentUser);
+        setupLoginWindow();
+
     }
 
     public MainWindow getMwView() {
