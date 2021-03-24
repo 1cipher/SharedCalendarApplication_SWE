@@ -7,13 +7,12 @@ import com.mindfusion.scheduling.ThemeType;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.text.SimpleDateFormat;
 
 public class EditEventView extends JFrame {
 
     private com.mindfusion.scheduling.Calendar cal;
-    private DateTextBox startDate;
-    private DateTextBox endDate;
+    private DateTextField startDate;
+    private DateTextField endDate;
     private JLabel startDateLabel;
     private JLabel endDateLabel;
     private JLabel nameLabel;
@@ -45,7 +44,7 @@ public class EditEventView extends JFrame {
         startDateLabel.setLocation(410,40);
         startDateLabel.setSize(50,20);
 
-        startDate = new DateTextBox();
+        startDate = new DateTextField();
         startDate.setLocation(500,40);
         startDate.setSize(100,20);
         startDate.setEditable(false);
@@ -62,7 +61,7 @@ public class EditEventView extends JFrame {
         endDateLabel.setLocation(410,70);
         endDateLabel.setSize(50,20);
 
-        endDate = new DateTextBox();
+        endDate = new DateTextField();
         endDate.setLocation(500,70);
         endDate.setSize(100,20);
         endDate.setEditable(false);
@@ -154,11 +153,11 @@ public class EditEventView extends JFrame {
     }
 
     public void setStartDate(DateTime date) {
-        this.startDate.setDate(date);
+        this.startDate.setText(date);
     }
 
     public void setEndDate(DateTime date) {
-        this.endDate.setDate(date);
+        this.endDate.setText(date);
     }
 
     public void setName(String name) {
@@ -199,12 +198,12 @@ public class EditEventView extends JFrame {
         return endDate.getText().isEmpty();
     }
 
-    public DateTextBox getStartDateBox(){
+    public DateTextField getStartDateBox(){
 
         return startDate;
     }
 
-    public DateTextBox getEndDateBox(){
+    public DateTextField getEndDateBox(){
 
         return endDate;
     }

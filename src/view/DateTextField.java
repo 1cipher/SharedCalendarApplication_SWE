@@ -4,13 +4,13 @@ import com.mindfusion.common.DateTime;
 
 import javax.swing.*;
 
-public class DateTextBox extends JTextField {
+public class DateTextField extends JTextField {
 
     private int year;
     private int month;
     private int day;
 
-    public void setDate(DateTime date){
+    public void setText(DateTime date){
         year = date.getYear();
         month = date.getMonth();
         String monthString = String.format("%02d",month);
