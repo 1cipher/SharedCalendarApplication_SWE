@@ -6,8 +6,8 @@ public class User {
         return username;
     }
 
-    String username;
-    CalendarCollection collection;
+    private String username;
+    private CalendarCollection collection;
 
     public User(String username){
         this.username = username;

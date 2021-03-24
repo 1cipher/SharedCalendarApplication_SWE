@@ -21,14 +21,8 @@ public class Calendar {
         return name;
     }
 
-    public void addtoCalendar(Event e)  {
+    public void addEvent(Event e)  {
         newBuffer.add(e);
-    }
-
-    public void removefromCalendar(Event e){
-
-        newBuffer.remove(newBuffer.indexOf(e));
-
     }
 
     public String getId() {

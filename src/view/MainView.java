@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 
-public class MainWindow extends JFrame {
+public class MainView extends JFrame {
 
     private com.mindfusion.scheduling.Calendar calendar;
     private JList viewMenu;
@@ -31,7 +31,7 @@ public class MainWindow extends JFrame {
     private JScrollPane calendarScroll;
     private DefaultListModel calendars;
 
-    public MainWindow() {
+    public MainView() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1215, 760);
         setTitle("Calendar");

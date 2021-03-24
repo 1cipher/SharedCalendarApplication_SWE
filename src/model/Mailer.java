@@ -9,19 +9,21 @@ import javax.mail.internet.*;
 public class Mailer extends Thread{
 
     private String mailText;
+    private String recipient;
 
     @Override
     public void run() {
         sendMail();
     }
 
-    public void setMailText(String text){
-        mailText = text;
+    public void setMailParameters(String text,String recipient){
+        this.mailText = text;
+        this.recipient = recipient;
     }
 
     private void sendMail() {
         String host = "smtp.gmail.com";
-        String from = "swereceiver@gmail.com";
+        String from = "sweprogettodemo@gmail.com";
         String password = Private.mailPassword;
 
         Properties props = System.getProperties();
@@ -33,7 +35,7 @@ public class Mailer extends Thread{
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");
 
-        String to = "sweprogettodemo@gmail.com"; // added this line
+        String to = recipient; // added this line
         try {
             Session session = Session.getDefaultInstance(props, null);
             MimeMessage message = new MimeMessage(session);

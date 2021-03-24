@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
 
-public class EditEventWindow extends JFrame {
+public class EditEventView extends JFrame {
 
     private com.mindfusion.scheduling.Calendar cal;
     private DateTextBox startDate;
@@ -26,7 +26,7 @@ public class EditEventWindow extends JFrame {
     private HourComboBox startHour;
     private HourComboBox endHour;
     
-    public EditEventWindow(){
+    public EditEventView(){
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 
         setSize(850,300);

@@ -4,13 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class CreateCalendarWindow extends JFrame {
+public class CreateCalendarView extends JFrame {
 
     private JLabel calendarName;
     private JTextField calendarText;
     private JButton createCalendar;
 
-    public CreateCalendarWindow(){
+    public CreateCalendarView(){
 
         setTitle("Create Calendar");
         setSize(300,200);

@@ -5,12 +5,6 @@ C
 src/view/Login.java,d\a\dad6d288ca184b29bba74d037d6630eb5043d10c
 D
 src/view/Dialog.java,f\4\f4a715acd16f0a9d803b6af9d90cb325a63152eb
-F
-src/view/Register.java,0\9\09884ccc5ca696e51d0c8e5c30a5e2a774dabaa1
-P
- src/view/EventDisplayWindow.java,7\d\7d8789a0229f2c6e5846e3380ecaaa227ee8471c
-R
-"src/view/CreateCalendarWindow.java,2\e\2e641c4bc087b3f124fbe9fe45df41e51b834479
 C
 src/model/User.java,9\3\930b2c1d08ecb8339873c37ba0b6957548b40e4c
 D
@@ -24,8 +18,6 @@ Q
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 F
 src/utils/Private.java,5\d\5d8f20cc27c9b734e02c62fe8928d2342b7d46a4
-H
-src/view/MainWindow.java,6\1\611b0269806706480cba290c1c6752a28dc87786
 F
 src/model/Gateway.java,3\f\3f62ab9852f921aa8cfdd9e5f825c8f2354d602c
 G
@@ -36,8 +28,6 @@ N
 src/controller/NameSearch.java,3\3\3376c5991e34ec350c891ebad85b3c7393ffc81c
 R
 "src/controller/SearchStrategy.java,1\e\1e250fd0775bbcd6c30deedebf853a68a626f36c
-M
-src/utils/SearchRenderer.java,9\0\905148cfaacc16224152e5520989055cad82b831
 K
 src/utils/EditDistance.java,c\f\cf1c1291bc48db0951b4902fbac2b00981759442
 F
@@ -66,8 +56,6 @@ G
 src/view/ShareView.java,2\a\2aa464fd7f787acdd58b1c2a5f97c3084a074311
 P
  src/view/DeleteCalendarView.java,e\b\eb3e1ab3a8cd15e470766569af019ad961bb2153
-M
-src/view/EditEventWindow.java,f\2\f2a023a30a5c7425e3f4671917a97e3d2719147a
 G
 src/test/LoginTest.java,c\8\c80066aecf13532c5f937b5575c4104be0c7fa86
 J
@@ -88,3 +76,15 @@ X
 (src/controller/FutureLocationSearch.java,e\2\e2f4cb6b1e57cde036e75b612c1dddeda26f526b
 T
 $src/controller/FutureNameSearch.java,8\e\8e4fa6e8197c006102fca5125d428e763f9d867b
+S
+#src/utils/SearchCustomRenderer.java,8\e\8e1318a8d0e60b9462780e8e48850efe2d993325
+P
+ src/view/CreateCalendarView.java,2\a\2a24113d5171eed98a1f92321c4eeb0aed9e3ba8
+K
+src/view/EditEventView.java,0\e\0e94b8f168ea4cb246b6cd518098b97ea45de533
+N
+src/view/EventDisplayView.java,5\c\5c7a10fb03ab463b856978655d161facca6cd877
+F
+src/view/MainView.java,7\9\7912f60d96742683e43734f6bad283b0a3f597e0
+J
+src/view/RegisterView.java,6\5\6521455ad7f494acabf697c54bca469afbc3ecee

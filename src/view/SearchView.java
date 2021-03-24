@@ -4,7 +4,7 @@ import com.mindfusion.scheduling.model.Item;
 import com.mindfusion.scheduling.model.ItemList;
 import controller.*;
 import utils.EventCustomRenderer;
-import utils.SearchRenderer;
+import utils.SearchCustomRenderer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -47,7 +47,7 @@ public class SearchView extends JFrame{
         searchType.addItem(new LocationSearch());
         searchType.setLocation(360,20);
         searchType.setSize(150,40);
-        searchType.setRenderer(new SearchRenderer());
+        searchType.setRenderer(new SearchCustomRenderer());
         search = new JButton();
         Image img = null;
         try {

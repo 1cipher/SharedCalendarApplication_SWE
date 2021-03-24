@@ -6,20 +6,12 @@ public class CalendarCollection {
 
     private ArrayList<Calendar> collection;
 
-    public ArrayList<String> getIds(){
-        ArrayList<String> ids=new ArrayList<>();
-        for (Calendar calendar :
-             collection) {
-            ids.add(calendar.getId());
-        }
-        return ids;
-    }
 
     public ArrayList<Calendar> getCalendars() {
         return collection;
     }
 
-    public ArrayList<Event> getEvents(){
+    public ArrayList<Event> getAllEvents(){
         ArrayList<Event> events = new ArrayList<>();
         for (Calendar calendar:
              collection) {
@@ -43,12 +35,7 @@ public class CalendarCollection {
 
     }
 
-    public void removeCalendar(Calendar c){
-
-        collection.remove(collection.indexOf(c));
-    }
-
-    public void addCalendarToCollection(Calendar c){
+    public void addCalendar(Calendar c){
 
         collection.add(c);
     }

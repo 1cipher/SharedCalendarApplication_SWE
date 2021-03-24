@@ -1,11 +1,11 @@
 
-o
-java:S1104"TMake password a static final constant or non-public and provide accessors if needed.(öº»´úÿÿÿÿ
-I
-java:S1444".Make this "public static password" field final(öº»´úÿÿÿÿ
-u
-java:S1104"XMake mailPassword a static final constant or non-public and provide accessors if needed.(‹ 8ş‡¦©ƒ/
-O
-java:S1444"2Make this "public static mailPassword" field final(‹ 8ş‡¦©ƒ/
 U
 java:S1118":Add a private constructor to hide the implicit public one.(„˜·üÿÿÿÿ
+T
+java:S1444"2Make this "public static mailPassword" field final(°©½Óÿÿÿÿÿ8ş‡¦©ƒ/
+o
+java:S1104"TMake password a static final constant or non-public and provide accessors if needed.(öº»´úÿÿÿÿ
+z
+java:S1104"XMake mailPassword a static final constant or non-public and provide accessors if needed.(°©½Óÿÿÿÿÿ8ş‡¦©ƒ/
+I
+java:S1444".Make this "public static password" field final(öº»´úÿÿÿÿ

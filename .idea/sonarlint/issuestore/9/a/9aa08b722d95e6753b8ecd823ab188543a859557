@@ -1,14 +1,3 @@
 
-H
-java:S1128"+Remove this unused import 'model.Calendar'.(®—á8‰Îø„/
-Z	java:S106"9Replace this use of System.out or System.err by a logger.(„Áš¶ûÿÿÿÿ8õÆÎø„/
-C
-java:S1128
-"&Remove this unused import 'utils.ACL'.(ÊÈ…£8‰Îø„/
-D
-java:S1128"'Remove this unused import 'model.User'.(˜Ğ ñ8‰Îø„/
-G
-java:S1128"+Remove this unused import 'model.Database'.(Îä§Y8‰Îø„/
-Z	java:S106"9Replace this use of System.out or System.err by a logger.(ÿ“ñ¯ÿÿÿÿÿ8õÆÎø„/
-L
-java:S1128"*Remove this unused import 'model.Gateway'.(ğµùŸøÿÿÿÿ8‰Îø„/
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(„Áš¶ûÿÿÿÿ8õÆÎø„/
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(ÿ“ñ¯ÿÿÿÿÿ8õÆÎø„/

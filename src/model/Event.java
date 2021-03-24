@@ -4,10 +4,6 @@ import com.mindfusion.common.DateTime;
 
 public class Event {
 
-    public String getId() {
-        return id;
-    }
-
     private String id;
     private String name;
     private DateTime start;
@@ -24,6 +20,10 @@ public class Event {
         this.location = location;
         this.description = description;
 
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getName() {

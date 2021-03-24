@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import model.*;
 import org.junit.*;
-import utils.ACL;
 
 
 public class LoginDataBaseTest {
@@ -29,7 +28,7 @@ public class LoginDataBaseTest {
     public void setUp(){
 
         sample = "prova";
-        gateway.registerNewUser(sample,sample);
+        gateway.registerUser(sample,sample);
 
     }
 
@@ -45,7 +44,7 @@ public class LoginDataBaseTest {
     public void registerNewUser(){
 
 
-        assertTrue(gateway.checkUserPresence(sample,sample));
+        assertTrue(gateway.isRegisteredUser(sample,sample));
 
 
     }
@@ -62,7 +61,7 @@ public class LoginDataBaseTest {
     public void checkDelete(){
 
         gateway.deleteUser(user);
-        assertFalse(gateway.checkUserPresence(sample,sample));
+        assertFalse(gateway.isRegisteredUser(sample,sample));
 
     }
 

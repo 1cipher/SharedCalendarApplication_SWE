@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class Register extends JFrame {
+public class RegisterView extends JFrame {
 
     private JLabel usernameLabel;
     private JLabel passwordLabel;
@@ -13,7 +13,7 @@ public class Register extends JFrame {
     private JButton reg;
     private JLabel multifunctionalLabel;
 
-    public Register()  {
+    public RegisterView()  {
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         setSize(368, 150);
         setTitle("Register");

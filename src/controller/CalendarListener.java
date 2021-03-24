@@ -2,17 +2,18 @@ package controller;
 
 import com.mindfusion.common.DateTime;
 import com.mindfusion.scheduling.Calendar;
-import view.EditEventWindow;
+import view.EditEventView;
 
+import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 class CalendarListener implements MouseListener {
 
-    private EditEventWindow observer;
+    private JFrame view;
 
-    public CalendarListener(EditEventWindow cwView){
-        observer = cwView;
+    public CalendarListener(JFrame cwView){
+        view = cwView;
     }
 
     @Override
@@ -28,7 +29,7 @@ class CalendarListener implements MouseListener {
         Calendar calendar = ((Calendar)(e.getSource()));
         calendar.getSelection().reset();
         DateTime pointedDate = calendar.getDateAt(e.getX(), e.getY());
-        observer.setStartDate(pointedDate);
+        ((EditEventView)view).setStartDate(pointedDate);
 
     }
 
@@ -42,13 +43,14 @@ class CalendarListener implements MouseListener {
         DateTime pointedDate = calendar.getDateAt(e.getX(), e.getY());
         DateTime defaultDate = new DateTime(1,1,1);
 
-        if (observer.getStartDate().isLessThanOrEqual(defaultDate)) {
-            observer.setEndDate(observer.getStartDate());
-            observer.setStartDate(observer.getStartDate());
+        DateTime startDate = ((EditEventView)view).getStartDate();
+        if (startDate.isLessThanOrEqual(defaultDate)) {
+            ((EditEventView)view).setEndDate(startDate);
+            ((EditEventView)view).setStartDate(startDate);
         }
 
         else
-            observer.setEndDate(pointedDate);
+            ((EditEventView)view).setEndDate(pointedDate);
 
     }
 

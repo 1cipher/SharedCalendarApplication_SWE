@@ -34,7 +34,7 @@ public class Dialog extends JFrame {
         JButton button;
         JLabel label;
         Color color;
-        String titleToDisplay;
+        String title;
 
         public Builder(){
 
@@ -47,17 +47,17 @@ public class Dialog extends JFrame {
 
             if (t==type.ERROR) {
                 this.color = Color.red;
-                titleToDisplay = "Error!";
+                title = "Error!";
             }
 
             if (t==type.SUCCESS) {
                 this.color = Color.green;
-                titleToDisplay = "Success!";
+                title = "Success!";
             }
 
             if(t==type.GENERIC){
                 this.color = Color.black;
-                titleToDisplay = "Settings";
+                title = "Settings";
             }
 
             return this;
@@ -73,7 +73,7 @@ public class Dialog extends JFrame {
         public Dialog build(){
 
             Dialog dialog = new Dialog();
-            dialog.setTitle(titleToDisplay);
+            dialog.setTitle(title);
             dialog.setSize(200,150);
             dialog.button = this.button;
             dialog.label = this.label;

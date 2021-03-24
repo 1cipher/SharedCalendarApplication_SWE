@@ -6,14 +6,14 @@ import java.sql.*;
 
 public class Gateway {
 
-    PreparedStatement preparedStatement = null;
-    Connection c;
+    private PreparedStatement ps = null;
+    private Connection c;
 
     public Gateway(Connection c){
         this.c = c;
     }
 
-    public boolean checkUserPresence(String acquiredUser,String acquiredPassword) {
+    public boolean isRegisteredUser(String username, String password) {
 
         String sql = "SELECT UID FROM LOGIN WHERE UID = ? AND PASSWORD = ? ;";
 
@@ -21,8 +21,8 @@ public class Gateway {
         try {
 
             PreparedStatement preparedStatement = c.prepareStatement(sql);
-            preparedStatement.setString(1,acquiredUser);
-            preparedStatement.setString(2,acquiredPassword);
+            preparedStatement.setString(1,username);
+            preparedStatement.setString(2,password);
 
             ResultSet result = preparedStatement.executeQuery();
             check = result.next();
@@ -35,7 +35,7 @@ public class Gateway {
         return check;
     }
 
-    public void registerNewUser(String username,String password) {
+    public void registerUser(String username, String password) {
 
         String cid = java.util.UUID.randomUUID().toString().substring(0, 19);
 
@@ -45,36 +45,36 @@ public class Gateway {
 
 
         try {
-            preparedStatement = c.prepareStatement(sql);
-            preparedStatement.setString(1,username);
-            preparedStatement.setString(2,password);
-            preparedStatement.setString(3,cid);
-            preparedStatement.setString(4,username+"_default");
-            preparedStatement.setString(5,username);
-            preparedStatement.setString(6,username);
-            preparedStatement.setString(7,cid);
+            ps = c.prepareStatement(sql);
+            ps.setString(1,username);
+            ps.setString(2,password);
+            ps.setString(3,cid);
+            ps.setString(4,username+"_default");
+            ps.setString(5,username);
+            ps.setString(6,username);
+            ps.setString(7,cid);
 
-            preparedStatement.executeUpdate();
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
 
-    public CalendarCollection getUserCalendars(User currentUser){
+    public CalendarCollection getUserCalendars(User user){
 
         CalendarCollection calendars = new CalendarCollection();
         ResultSet rs;
-        String username = currentUser.getUsername();
+        String username = user.getUsername();
 
         String sql = "SELECT CALENDARID,NAME,TYPE FROM PARTICIPATION,CALENDAR WHERE UID=? AND ID=CALENDARID;";
         try {
-            preparedStatement = c.prepareStatement(sql);
-            preparedStatement.setString(1,username);
-            rs = preparedStatement.executeQuery();
+            ps = c.prepareStatement(sql);
+            ps.setString(1,username);
+            rs = ps.executeQuery();
             while (rs.next()){
                 Calendar calendar = new Calendar( rs.getString("CALENDARID"),rs.getString("NAME"),rs.getInt("TYPE"));
-                calendars.addCalendarToCollection(calendar);
+                calendars.addCalendar(calendar);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -86,14 +86,14 @@ public class Gateway {
                 "AND CALENDAR=CALENDARID " +
                 "AND EVENT=ID;";
         try {
-            preparedStatement = c.prepareStatement(sql1);
-            preparedStatement.setString(1,username);
-            rs = preparedStatement.executeQuery();
+            ps = c.prepareStatement(sql1);
+            ps.setString(1,username);
+            rs = ps.executeQuery();
             while (rs.next()){
                 String calendar_id = rs.getString("CALENDARID");
                 Calendar calendar = calendars.getCalendar(calendar_id);
                 Event event = new Event(rs.getString("ID"), rs.getString("NAME"), new DateTime(rs.getTimestamp("START_DATE")),new DateTime(rs.getTimestamp("END_DATE")), rs.getString("LOCATION"),rs.getString("DESCRIPTION"));
-                calendar.addtoCalendar(event);
+                calendar.addEvent(event);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,9 +113,9 @@ public class Gateway {
 
         ResultSet resultSet = null;
         try {
-            preparedStatement = c.prepareStatement(sql);
-            preparedStatement.setString(1,username);
-            resultSet = preparedStatement.executeQuery();
+            ps = c.prepareStatement(sql);
+            ps.setString(1,username);
+            resultSet = ps.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -132,7 +132,7 @@ public class Gateway {
 
     }
 
-    public void addEventinEvents(Event e, String calendar_id) {
+    public void addEvent(Event e, String calendarID) {
 
         DateTime start = e.getStartDate();
         DateTime end = e.getEndDate();
@@ -141,15 +141,15 @@ public class Gateway {
         String sql = "INSERT INTO EVENTS(ID,NAME,START_DATE,END_DATE,LOCATION,COLOR,DESCRIPTION) VALUES(?,?,?,?,?,0,?);";
 
         try {
-            preparedStatement=c.prepareStatement(sql);
-            preparedStatement.setString(1,e.getId());
-            preparedStatement.setString(2,e.getName());
-            preparedStatement.setTimestamp(3,ts);
-            preparedStatement.setTimestamp(4,te);
-            preparedStatement.setString(5,e.getLocation());
-            preparedStatement.setString(6,e.getDescription());
+            ps =c.prepareStatement(sql);
+            ps.setString(1,e.getId());
+            ps.setString(2,e.getName());
+            ps.setTimestamp(3,ts);
+            ps.setTimestamp(4,te);
+            ps.setString(5,e.getLocation());
+            ps.setString(6,e.getDescription());
 
-            preparedStatement.executeUpdate();
+            ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -158,10 +158,10 @@ public class Gateway {
         sql = "INSERT INTO CALENDAREVENTS(CALENDAR,EVENT) VALUES(?,?);";
 
         try {
-            preparedStatement=c.prepareStatement(sql);
-            preparedStatement.setString(1,calendar_id);
-            preparedStatement.setString(2,e.getId());
-            preparedStatement.executeUpdate();
+            ps =c.prepareStatement(sql);
+            ps.setString(1,calendarID);
+            ps.setString(2,e.getId());
+            ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -173,20 +173,20 @@ public class Gateway {
         String sql = "DELETE FROM EVENTS WHERE ID=?;";
 
         try {
-            preparedStatement=c.prepareStatement(sql);
-            preparedStatement.setString(1,id);
+            ps =c.prepareStatement(sql);
+            ps.setString(1,id);
 
-            preparedStatement.executeUpdate();
+            ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
         String sql2 = "DELETE FROM CALENDAREVENTS WHERE EVENT=?;";
         try {
-            preparedStatement=c.prepareStatement(sql2);
-            preparedStatement.setString(1,id);
+            ps =c.prepareStatement(sql2);
+            ps.setString(1,id);
 
-            preparedStatement.executeUpdate();
+            ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -194,23 +194,23 @@ public class Gateway {
 
     }
 
-    public void createCalendar(Calendar calendar, User currentUser){
+    public void createCalendar(Calendar calendar, User user){
 
-        String username = currentUser.getUsername();
+        String username = user.getUsername();
         String sql = "INSERT INTO CALENDAR(ID,NAME,OWNER) " +
                 "VALUES(?,?,?); " +
                 "INSERT INTO PARTICIPATION(UID,CALENDARID,TYPE) " +
                 "VALUES(?,?,0)";
 
         try {
-            preparedStatement=c.prepareStatement(sql);
-            preparedStatement.setString(1,calendar.getId());
-            preparedStatement.setString(2,calendar.getName());
-            preparedStatement.setString(3,username);
-            preparedStatement.setString(4,username);
-            preparedStatement.setString(5,calendar.getId());
+            ps =c.prepareStatement(sql);
+            ps.setString(1,calendar.getId());
+            ps.setString(2,calendar.getName());
+            ps.setString(3,username);
+            ps.setString(4,username);
+            ps.setString(5,calendar.getId());
 
-            preparedStatement.executeUpdate();
+            ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -223,11 +223,11 @@ public class Gateway {
                 "VALUES(?,?,?)";
 
         try {
-            preparedStatement = c.prepareStatement(sql);
-            preparedStatement.setString(1,username);
-            preparedStatement.setString(2,calendar.getId());
-            preparedStatement.setInt(3,permission);
-            preparedStatement.executeUpdate();
+            ps = c.prepareStatement(sql);
+            ps.setString(1,username);
+            ps.setString(2,calendar.getId());
+            ps.setInt(3,permission);
+            ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -243,9 +243,9 @@ public class Gateway {
                     "WHERE UID = ?";
 
             try {
-                preparedStatement = c.prepareStatement(sql);
-                preparedStatement.setString(1, user.getUsername());
-                preparedStatement.executeUpdate();
+                ps = c.prepareStatement(sql);
+                ps.setString(1, user.getUsername());
+                ps.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -256,9 +256,9 @@ public class Gateway {
 
             ResultSet resultSet;
             try {
-                preparedStatement = c.prepareStatement(sql1);
-                preparedStatement.setString(1, user.getUsername());
-                resultSet = preparedStatement.executeQuery();
+                ps = c.prepareStatement(sql1);
+                ps.setString(1, user.getUsername());
+                resultSet = ps.executeQuery();
                 while (resultSet.next()) {
                     deleteEvent(resultSet.getString("EVENT"));
 
@@ -281,45 +281,45 @@ public class Gateway {
 
     }
 
-    public void deleteCalendar(model.Calendar calendar){
+    public void deleteCalendar(Calendar calendar){
         String sql = "DELETE FROM CALENDAR WHERE ID=?;";
 
         try {
-            preparedStatement=c.prepareStatement(sql);
-            preparedStatement.setString(1,calendar.getId());
+            ps =c.prepareStatement(sql);
+            ps.setString(1,calendar.getId());
 
-            preparedStatement.executeUpdate();
+            ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
         sql = "DELETE FROM CALENDAREVENTS WHERE CALENDAR=?;";
         try {
-            preparedStatement=c.prepareStatement(sql);
-            preparedStatement.setString(1,calendar.getId());
+            ps =c.prepareStatement(sql);
+            ps.setString(1,calendar.getId());
 
-            preparedStatement.executeUpdate();
+            ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         sql = "DELETE FROM PARTICIPATION WHERE CALENDARID=?;";
         try {
-            preparedStatement=c.prepareStatement(sql);
-            preparedStatement.setString(1,calendar.getId());
+            ps =c.prepareStatement(sql);
+            ps.setString(1,calendar.getId());
 
-            preparedStatement.executeUpdate();
+            ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    public void unsubscribeCalendar(model.Calendar calendar, User user){
+    public void unsubscribeCalendar(Calendar calendar, User user){
         String sql = "DELETE FROM PARTICIPATION WHERE CALENDARID=? AND UID=?;";
         try {
-            preparedStatement=c.prepareStatement(sql);
-            preparedStatement.setString(1,calendar.getId());
-            preparedStatement.setString(2,user.getUsername());
-            preparedStatement.executeUpdate();
+            ps =c.prepareStatement(sql);
+            ps.setString(1,calendar.getId());
+            ps.setString(2,user.getUsername());
+            ps.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

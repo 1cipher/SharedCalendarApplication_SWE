@@ -6,7 +6,7 @@ import model.Calendar;
 import javax.swing.*;
 import java.awt.*;
 
-public class SearchRenderer extends DefaultListCellRenderer {
+public class SearchCustomRenderer extends DefaultListCellRenderer {
 
     @Override
     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus){

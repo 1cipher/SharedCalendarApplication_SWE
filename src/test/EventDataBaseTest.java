@@ -2,8 +2,6 @@ package test;
 
 import com.mindfusion.common.DateTime;
 import model.*;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import utils.ACL;
@@ -54,10 +52,10 @@ public class EventDataBaseTest {
 
         gateway.createCalendar(calendar,user);
         calendarCollection = gateway.getUserCalendars(user);
-        int sizeBefore = calendarCollection.getEvents().size();
-        gateway.addEventinEvents(event,calendar.getId());
+        int sizeBefore = calendarCollection.getAllEvents().size();
+        gateway.addEvent(event,calendar.getId());
         calendarCollection = gateway.getUserCalendars(user);
-        int sizeAfter = calendarCollection.getEvents().size();
+        int sizeAfter = calendarCollection.getAllEvents().size();
 
         //calendarCollection.getCalendar("test").getEvents().isEmpty();
 
@@ -79,13 +77,13 @@ public class EventDataBaseTest {
 
         gateway.createCalendar(calendar,user);
         calendarCollection = gateway.getUserCalendars(user);
-        ArrayList<Event> list = calendarCollection.getEvents();
+        ArrayList<Event> list = calendarCollection.getAllEvents();
         int sizeBefore = list.size();
-        gateway.addEventinEvents(event,calendar.getId());
+        gateway.addEvent(event,calendar.getId());
         gateway.deleteEvent(event.getId());
 
         calendarCollection = gateway.getUserCalendars(user);
-        list = calendarCollection.getEvents();
+        list = calendarCollection.getAllEvents();
         int sizeAfter = list.size();
         assertTrue(sizeAfter==sizeBefore);
 

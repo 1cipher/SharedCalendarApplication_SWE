@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class EventDisplayWindow extends JFrame {
+public class EventDisplayView extends JFrame {
 
     private String id;
     private JLabel name;
@@ -23,7 +23,7 @@ public class EventDisplayWindow extends JFrame {
     private Container c;
 
 
-    private EventDisplayWindow(){
+    private EventDisplayView(){
 
         setDefaultCloseOperation(HIDE_ON_CLOSE);
 
@@ -160,16 +160,16 @@ public class EventDisplayWindow extends JFrame {
             return this;
         }
 
-        public EventDisplayWindow build(){
+        public EventDisplayView build(){
 
-            EventDisplayWindow eventDisplayWindow = new EventDisplayWindow();
-            eventDisplayWindow.nameDisplayed.setText(this.nameDisplayed);
-            eventDisplayWindow.startDateDisplayed.setText(this.startDateDisplayed);
-            eventDisplayWindow.endDateDisplayed.setText(this.endDateDisplayed);
-            eventDisplayWindow.locationDisplayed.setText(this.locationDisplayed);
-            eventDisplayWindow.descrDisplayed.setText(this.descrDisplayed);
+            EventDisplayView eventDisplayView = new EventDisplayView();
+            eventDisplayView.nameDisplayed.setText(this.nameDisplayed);
+            eventDisplayView.startDateDisplayed.setText(this.startDateDisplayed);
+            eventDisplayView.endDateDisplayed.setText(this.endDateDisplayed);
+            eventDisplayView.locationDisplayed.setText(this.locationDisplayed);
+            eventDisplayView.descrDisplayed.setText(this.descrDisplayed);
 
-            return eventDisplayWindow;
+            return eventDisplayView;
 
         }
 
