@@ -1,6 +1,6 @@
 package view;
 
-import utils.ACL;
+import utils.RBAC;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,9 +53,9 @@ public class ShareView extends JFrame {
 
     public int getPermission(){
         if (permission.getSelectedItem()=="Owner")
-            return ACL.getOwnerPermission();
+            return RBAC.getOwnerPermission();
         if (permission.getSelectedItem()=="User")
-            return ACL.getUserPermission();
+            return RBAC.getUserPermission();
         return -1;
     }
 

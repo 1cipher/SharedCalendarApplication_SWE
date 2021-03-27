@@ -4,7 +4,7 @@ import com.mindfusion.common.DateTime;
 import model.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import utils.ACL;
+import utils.RBAC;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ public class EventDataBaseTest {
         Database db = Database.getInstance();
         gateway = new Gateway(db.getConnection());
         username1 = "michele";
-        calendar = new Calendar("test","CID", ACL.getCreatorPermission());
+        calendar = new Calendar("test","CID", RBAC.getCreatorPermission());
         user = new User(username1);
         event = new Event("a","concerto",new DateTime(2000,2,2,2,2,2,0),new DateTime(2000,2,2,2,3,3,0),"casa","wow");
 

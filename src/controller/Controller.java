@@ -5,7 +5,7 @@ import com.mindfusion.scheduling.*;
 import com.mindfusion.scheduling.Calendar;
 import com.mindfusion.scheduling.model.*;
 import model.*;
-import utils.ACL;
+import utils.RBAC;
 import view.*;
 import view.Dialog;
 
@@ -54,7 +54,7 @@ public class Controller {
 
     public void setupCreateEventWindow() {
 
-        if (ACL.canCreateEvent(getCurrentCalendar().getPermission())) {
+        if (RBAC.canCreateEvent(getCurrentCalendar().getPermission())) {
             cwView = new EditEventView();
             cwView.setVisible(true);
             cwView.addCreateEventListener(e -> editEvent(java.util.UUID.randomUUID().toString().substring(0, 19)));
@@ -84,7 +84,7 @@ public class Controller {
 
     public void setupEditEventWindow(Appointment a){
 
-        if (ACL.canEditEvent(getCurrentCalendar().getPermission())) {
+        if (RBAC.canEditEvent(getCurrentCalendar().getPermission())) {
             cwView = new EditEventView();
             cwView.setVisible(true);
             cwView.addCalendarPressListener(new CalendarListener(cwView));
@@ -163,7 +163,7 @@ public class Controller {
 
     public void deleteCalendar(model.Calendar calendar){
 
-        if (ACL.canDeleteCalendar(calendar.getPermission()))
+        if (RBAC.canDeleteCalendar(calendar.getPermission()))
             gateway.deleteCalendar(calendar);
         else
             gateway.unsubscribeCalendar(calendar,currentUser);
@@ -339,7 +339,7 @@ public class Controller {
         String cid = java.util.UUID.randomUUID().toString().substring(0, 19);
         model.Calendar newCalendar = null;
         if (!createCalendarView.getName().isEmpty()) {
-            newCalendar = new model.Calendar(cid, createCalendarView.getName(), ACL.getCreatorPermission());
+            newCalendar = new model.Calendar(cid, createCalendarView.getName(), RBAC.getCreatorPermission());
             gateway.createCalendar(newCalendar, currentUser);
             dialog = new view.Dialog.Builder().setLabel("Calendar Created").setType(Dialog.type.SUCCESS).build();
         } else {
@@ -410,7 +410,7 @@ public class Controller {
 
 
     public void deleteEvent(){
-        if (ACL.canDeleteEvent(getCurrentCalendar().getPermission())) {
+        if (RBAC.canDeleteEvent(getCurrentCalendar().getPermission())) {
             Appointment appointment = (Appointment) mwView.getCalendar().getSchedule().getItems().get(eventView.getId());
             gateway.deleteEvent(appointment.getId());
             mwView.getCalendar().getSchedule().getItems().remove(appointment);

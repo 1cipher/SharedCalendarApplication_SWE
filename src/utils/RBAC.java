@@ -1,6 +1,6 @@
 package utils;
 
-public class ACL {
+public class RBAC {
 
     public static int getOwnerPermission() {
         return 1;
