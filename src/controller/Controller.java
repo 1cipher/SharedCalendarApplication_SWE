@@ -147,7 +147,7 @@ public class Controller {
             setupLoginWindow();
         });
         mwView.addRemoveUserListener(e-> {
-            dialog = new Dialog.Builder().setLabel("<html>Are you sure?</html>")
+            dialog = new Dialog.Builder().setLabel("Are you sure?")
                     .setType(Dialog.type.GENERIC).build();
             dialog.setVisible(true);
             dialog.addDialogListener(action->unsubscribeUser());
@@ -268,8 +268,10 @@ public class Controller {
                  itemList) {
                 toSend = toSend+"\n"+item.getHeaderText()+" @ "+item.getStartTime().getHour()+" - "+item.getEndTime().getHour();
             }
-            mailer.setMailParameters(toSend,currentUser.getUsername());
-            mailer.start();
+            if(!toSend.isEmpty()) {
+                mailer.setMailParameters(toSend, currentUser.getUsername());
+                mailer.start();
+            }
 
         } else {
             dialog = new Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Wrong credentials!").build();
