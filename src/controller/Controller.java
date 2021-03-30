@@ -61,7 +61,7 @@ public class Controller {
             cwView.addCalendarPressListener(new CalendarListener(cwView));
         }
         else {
-            dialog = new view.Dialog.Builder().setLabel("You are not allowed!").setType(Dialog.type.ERROR).build();
+            dialog = new Dialog.Builder().setLabel("You are not allowed!").setType(Dialog.type.ERROR).build();
             setupDialog();
         }
 
@@ -103,7 +103,7 @@ public class Controller {
             eventView.close();
         }
         else {
-            dialog = new view.Dialog.Builder().setLabel("You are not allowed!").setType(Dialog.type.ERROR).build();
+            dialog = new Dialog.Builder().setLabel("You are not allowed!").setType(Dialog.type.ERROR).build();
             setupDialog();
         }
     }
@@ -218,20 +218,20 @@ public class Controller {
 
         if (newUser.length() == 0 || newPassword.length() == 0) {
 
-            dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Empty field!").build();
+            dialog = new Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Empty field!").build();
         }
         else if(!matcher.matches()){
 
-            dialog = new view.Dialog.Builder().setLabel("Invalid mail").setType(Dialog.type.ERROR).build();
+            dialog = new Dialog.Builder().setLabel("Invalid mail").setType(Dialog.type.ERROR).build();
         }
         else if (gateway.isExistingUsername(newUser)) {
 
-            dialog = new view.Dialog.Builder().setLabel("Username already existing!").setType(Dialog.type.ERROR).build();
+            dialog = new Dialog.Builder().setLabel("Username already existing!").setType(Dialog.type.ERROR).build();
 
         } else {
 
             gateway.registerUser(newUser, newPassword);
-            dialog = new view.Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("You have been registered!").build();
+            dialog = new Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("You have been registered!").build();
         }
         setupDialog();
         regView.close();
@@ -272,7 +272,7 @@ public class Controller {
             mailer.start();
 
         } else {
-            dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Wrong credentials!").build();
+            dialog = new Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Wrong credentials!").build();
             setupDialog();
         }
     }
@@ -341,7 +341,7 @@ public class Controller {
         if (!createCalendarView.getName().isEmpty()) {
             newCalendar = new model.Calendar(cid, createCalendarView.getName(), RBAC.getCreatorPermission());
             gateway.createCalendar(newCalendar, currentUser);
-            dialog = new view.Dialog.Builder().setLabel("Calendar Created").setType(Dialog.type.SUCCESS).build();
+            dialog = new Dialog.Builder().setLabel("Calendar Created").setType(Dialog.type.SUCCESS).build();
         } else {
             dialog = new Dialog.Builder().setLabel("Calendar can't be created").setType(Dialog.type.ERROR).build();
         }
@@ -361,7 +361,7 @@ public class Controller {
         String username = shareView.getUsername();
         if (!shareView.getName().isEmpty() && gateway.isExistingUsername(username)){
             gateway.shareCalendar(calendar, username, shareView.getPermission());
-            dialog = new view.Dialog.Builder().setLabel("Calendar Shared!").setType(Dialog.type.SUCCESS).build();
+            dialog = new Dialog.Builder().setLabel("Calendar Shared!").setType(Dialog.type.SUCCESS).build();
         } else {
             dialog = new Dialog.Builder().setLabel("Calendar could NOT be shared!").setType(Dialog.type.ERROR).build();
         }
@@ -389,7 +389,7 @@ public class Controller {
 
             if (startDate.isLessThan(endDate)) {
 
-                dialog = new view.Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("Event saved!").build();
+                dialog = new Dialog.Builder().setType(Dialog.type.SUCCESS).setLabel("Event saved!").build();
                 model.Event event = new model.Event(id, name, startDate, endDate, location, descr);
                 gateway.addEvent(event, calendar.getId());
                 currentUser.setCollection(gateway.getUserCalendars(currentUser));
@@ -398,11 +398,11 @@ public class Controller {
                 cwView.close();
 
             } else {
-                dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Inconsistent dates!").build();
+                dialog = new Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Inconsistent dates!").build();
             }
         }
         else {
-            dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Fill missing data!").build();
+            dialog = new Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Fill missing data!").build();
         }
 
         setupDialog();
@@ -417,7 +417,7 @@ public class Controller {
             eventView.close();
         }
         else {
-            dialog = new view.Dialog.Builder().setType(Dialog.type.ERROR).setLabel("You are not allowed!").build();
+            dialog = new Dialog.Builder().setType(Dialog.type.ERROR).setLabel("You are not allowed!").build();
             setupDialog();
         }
     }
@@ -459,20 +459,8 @@ public class Controller {
         return mwView;
     }
 
-    public SearchView getsView() {
-        return sView;
-    }
-
     public Login getLogView() {
         return logView;
-    }
-
-    public RegisterView getRegView() {
-        return regView;
-    }
-
-    public ShareView getShareView() {
-        return shareView;
     }
 
     public EditEventView getCwView() {

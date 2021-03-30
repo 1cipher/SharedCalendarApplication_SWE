@@ -19,7 +19,6 @@ public class CalendarCollection {
         }
         return events;
     }
-//TODO: DA VALUTARE NL CASO IN CUI SI MOSTRANO TUTTI I CALENDARI IN UN BOTTO
 
     public Calendar getCalendar(String id){
         for (Calendar calendar:collection
@@ -31,7 +30,7 @@ public class CalendarCollection {
     }
 
     public CalendarCollection() {
-        this.collection = new ArrayList<Calendar>();
+        this.collection = new ArrayList();
 
     }
 

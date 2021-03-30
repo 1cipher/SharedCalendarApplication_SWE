@@ -7,7 +7,7 @@ import org.junit.runner.notification.Failure;
 public class MainTest {
 
     public static void main(String[] args){
-        Result result = JUnitCore.runClasses(EventDataBaseTest.class);
+        Result result = JUnitCore.runClasses(LoginDataBaseTest.class);
 
         for(Failure failure:result.getFailures()) {
 

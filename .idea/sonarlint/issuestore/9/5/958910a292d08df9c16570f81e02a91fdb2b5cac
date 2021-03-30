@@ -1,9 +1,9 @@
 
-R
-java:S2209%"5Change this instance-reference to a static reference.( “ä…8æ‡¬ù„/
 O
 java:S4925"-Remove this "Class.forName()", it is useless.(õ†¨Äùÿÿÿÿ8„»§ù„/
-;
-java:S3010%"Remove this assignment of "c".( “ä…8æ‡¬ù„/
 W
 java:S1117"5Rename "c" which hides the field declared at line 11.(õÐ“”ûÿÿÿÿ8¡Ú¨ù„/
+R
+java:S2209%"5Change this instance-reference to a static reference.( “ä…8æ‡¬ù„/
+;
+java:S3010%"Remove this assignment of "c".( “ä…8æ‡¬ù„/

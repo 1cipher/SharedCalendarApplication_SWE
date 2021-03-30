@@ -31,6 +31,7 @@ public class HourComboBox extends JComboBox<String> {
         this.setModel(model);
     }
 
+
     public void setTime(DateTime dateTime){
         this.hour = dateTime.getHour();
         this.minute = dateTime.getMinute();

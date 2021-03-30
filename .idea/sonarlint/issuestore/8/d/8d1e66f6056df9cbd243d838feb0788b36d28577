@@ -1,10 +1,10 @@
 
 o
 java:S2293""YReplace the type specification in this constructor call with the diamond operator ("<>").(å¿£Ü
-N
-java:S1135"2Complete the task associated to this TODO comment.(´Êü78˜İé€/
-‹
-java:S1319"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(ïÂ½µøÿÿÿÿ
 ‹
 java:S1319
 "pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(–¨Îûÿÿÿÿ
+‹
+java:S1319"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(ïÂ½µøÿÿÿÿ
+N
+java:S1135"2Complete the task associated to this TODO comment.(´Êü78˜İé€/

@@ -2,10 +2,6 @@ package model;
 
 public class User {
 
-    public String getUsername() {
-        return username;
-    }
-
     private String username;
     private CalendarCollection collection;
 
@@ -17,8 +13,13 @@ public class User {
         this.collection = cc;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public CalendarCollection getCollection(){
         return collection;
     }
+
 }
 

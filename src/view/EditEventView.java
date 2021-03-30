@@ -42,7 +42,7 @@ public class EditEventView extends JFrame {
 
         startDateLabel = new JLabel("Start Date: ");
         startDateLabel.setLocation(410,40);
-        startDateLabel.setSize(50,20);
+        startDateLabel.setSize(100,20);
 
         startDate = new DateTextField();
         startDate.setLocation(500,40);
@@ -59,7 +59,7 @@ public class EditEventView extends JFrame {
 
         endDateLabel = new JLabel("End Date: ");
         endDateLabel.setLocation(410,70);
-        endDateLabel.setSize(50,20);
+        endDateLabel.setSize(100,20);
 
         endDate = new DateTextField();
         endDate.setLocation(500,70);
@@ -68,7 +68,7 @@ public class EditEventView extends JFrame {
 
         nameLabel = new JLabel("Name: ");
         nameLabel.setLocation(410,10);
-        nameLabel.setSize(50,20);
+        nameLabel.setSize(100,20);
 
         name = new JTextField();
         name.setLocation(500,10);
@@ -77,7 +77,7 @@ public class EditEventView extends JFrame {
 
         locationLabel = new JLabel("Location: ");
         locationLabel.setLocation(410,110);
-        locationLabel.setSize(50,20);
+        locationLabel.setSize(100,20);
 
         location = new JTextField();
         location.setLocation(500,110);
@@ -86,7 +86,7 @@ public class EditEventView extends JFrame {
 
         descrLabel = new JLabel("Description: ");
         descrLabel.setLocation(410,140);
-        descrLabel.setSize(60,20);
+        descrLabel.setSize(100,20);
 
         descr = new JTextArea();
         descr.setLocation(500,140);

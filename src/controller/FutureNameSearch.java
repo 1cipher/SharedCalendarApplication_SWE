@@ -32,6 +32,7 @@ public class FutureNameSearch implements SearchStrategy {
                 e.printStackTrace();
             }
 
+            assert todayDate != null;
             if (dateToAnalyze.compareTo(todayDate)>=0)
                 newList.add(element);
         }

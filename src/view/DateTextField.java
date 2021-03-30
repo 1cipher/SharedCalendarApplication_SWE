@@ -20,8 +20,9 @@ public class DateTextField extends JTextField {
     }
 
     public DateTime getDate(){
-        DateTime dateTime = new DateTime(year-1900,month,day);
-        return dateTime;
+        
+        return new DateTime(year-1900,month,day);
+
     }
 
 }

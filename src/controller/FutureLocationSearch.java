@@ -31,6 +31,7 @@ public class FutureLocationSearch implements SearchStrategy {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            assert todayDate != null;
             if (dateToAnalyze.compareTo(todayDate)>=0)
                 newList.add(element);
         }

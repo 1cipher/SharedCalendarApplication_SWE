@@ -26,24 +26,24 @@ public class Login extends JFrame {
 
         usernameLabel = new JLabel();
         usernameLabel.setLocation(10,10);
-        usernameLabel.setText("Username");
+        usernameLabel.setText("Username:");
         usernameLabel.setSize(100,20);
         cp.add(usernameLabel);
 
         passwordLabel = new JLabel();
-        passwordLabel.setText("Password");
+        passwordLabel.setText("Password:");
         passwordLabel.setLocation(10,30);
         passwordLabel.setSize(100,20);
         cp.add(passwordLabel);
 
         textUser = new JTextField();
-        textUser.setLocation(200,10);
-        textUser.setSize(120,20);
+        textUser.setLocation(150,10);
+        textUser.setSize(170,20);
         cp.add(textUser);
 
         textPassword = new JTextField();
-        textPassword.setLocation(200,30);
-        textPassword.setSize(120,20);
+        textPassword.setLocation(150,30);
+        textPassword.setSize(170,20);
         cp.add(textPassword);
 
         register = new JButton();

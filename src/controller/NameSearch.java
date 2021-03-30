@@ -11,7 +11,8 @@ public class NameSearch implements SearchStrategy {
     public ItemList search(ItemList list, String toSearch) {
 
         int min = 2;
-        ItemList newList = new ItemList();
+        ItemList newList;
+        newList = new ItemList();
         for (Item element:list) {
             String comp = element.getHeaderText();
             int set = EditDistance.calculate(comp,toSearch);

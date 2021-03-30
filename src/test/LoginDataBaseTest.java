@@ -29,6 +29,7 @@ public class LoginDataBaseTest {
 
         sample = "prova";
         gateway.registerUser(sample,sample);
+        user = new User(sample);
 
     }
 
@@ -40,7 +41,6 @@ public class LoginDataBaseTest {
 
 
     @Test
-    //@DisplayName("Ensure a correct sign up")
     public void registerNewUser(){
 
 
