@@ -45,26 +45,26 @@ public class EditEventView extends JFrame {
         startDateLabel.setSize(100,20);
 
         startDate = new DateTextField();
-        startDate.setLocation(500,40);
-        startDate.setSize(100,20);
-        startDate.setEditable(false);
+        startDate.getTextField().setLocation(500,40);
+        startDate.getTextField().setSize(100,20);
+        startDate.getTextField().setEditable(false);
 
         startHour = new HourComboBox();
-        startHour.setLocation(610,40);
-        startHour.setSize(100,20);
+        startHour.getStringJComboBox().setLocation(610,40);
+        startHour.getStringJComboBox().setSize(100,20);
 
         endHour = new HourComboBox();
-        endHour.setLocation(610,70);
-        endHour.setSize(100,20);
+        endHour.getStringJComboBox().setLocation(610,70);
+        endHour.getStringJComboBox().setSize(100,20);
 
         endDateLabel = new JLabel("End Date: ");
         endDateLabel.setLocation(410,70);
         endDateLabel.setSize(100,20);
 
         endDate = new DateTextField();
-        endDate.setLocation(500,70);
-        endDate.setSize(100,20);
-        endDate.setEditable(false);
+        endDate.getTextField().setLocation(500,70);
+        endDate.getTextField().setSize(100,20);
+        endDate.getTextField().setEditable(false);
 
         nameLabel = new JLabel("Name: ");
         nameLabel.setLocation(410,10);
@@ -99,7 +99,7 @@ public class EditEventView extends JFrame {
 
         cp.add(cal);
         cp.add(startDateLabel);
-        cp.add(startDate);
+        cp.add(startDate.getTextField());
         cp.add(name);
         cp.add(nameLabel);
         cp.add(locationLabel);
@@ -107,10 +107,10 @@ public class EditEventView extends JFrame {
         cp.add(descr);
         cp.add(descrLabel);
         cp.add(createEvent);
-        cp.add(endDate);
+        cp.add(endDate.getTextField());
         cp.add(endDateLabel);
-        cp.add(startHour);
-        cp.add(endHour);
+        cp.add(startHour.getStringJComboBox());
+        cp.add(endHour.getStringJComboBox());
 
     }
 
@@ -153,11 +153,11 @@ public class EditEventView extends JFrame {
     }
 
     public void setStartDate(DateTime date) {
-        this.startDate.setText(date);
+        this.startDate.setDate(date);
     }
 
     public void setEndDate(DateTime date) {
-        this.endDate.setText(date);
+        this.endDate.setDate(date);
     }
 
     public void setName(String name) {
@@ -191,11 +191,11 @@ public class EditEventView extends JFrame {
     }
 
     public boolean startDateisEmpty() {
-        return startDate.getText().isEmpty();
+        return startDate.getTextField().getText().isEmpty();
     }
 
     public boolean endDateisEmpty() {
-        return endDate.getText().isEmpty();
+        return endDate.getTextField().getText().isEmpty();
     }
 
     public DateTextField getStartDateBox(){

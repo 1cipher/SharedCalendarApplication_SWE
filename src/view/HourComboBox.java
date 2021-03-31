@@ -8,13 +8,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class HourComboBox extends JComboBox<String> {
+public class HourComboBox {
 
     private int hour;
     private int minute;
     private DateFormat format;
+    private JComboBox<String> stringJComboBox;
 
     public HourComboBox(){
+
+        stringJComboBox = new JComboBox<>();
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
         calendar.set(java.util.Calendar.MINUTE, 0);
@@ -28,7 +31,7 @@ public class HourComboBox extends JComboBox<String> {
             model.addElement(format.format(calendar.getTime()));
             calendar.add(java.util.Calendar.MINUTE, 15);
         } while (calendar.getTime().before(end.getTime()));
-        this.setModel(model);
+        stringJComboBox.setModel(model);
     }
 
 
@@ -37,7 +40,8 @@ public class HourComboBox extends JComboBox<String> {
         this.minute = dateTime.getMinute();
         String hourString = String.format("%02d",hour);
         String minuteString = String.format("%02d",minute);
-        this.setSelectedItem(hourString+":"+minuteString);
+        stringJComboBox.setSelectedItem(hourString+":"+minuteString);
+
     }
 
     public DateTime getTime(){
@@ -46,15 +50,19 @@ public class HourComboBox extends JComboBox<String> {
         return dateTime;
     }
 
-    @Override
-    protected void selectedItemChanged() {
+    public JComboBox<String> getStringJComboBox() {
+        return stringJComboBox;
+    }
+
+
+    /*protected void selectedItemChanged() {
         try {
-            Date d = format.parse((String )this.getSelectedItem());
+            Date d = format.parse((String )stringJComboBox.getSelectedItem());
             hour=d.getHours();
             minute=d.getMinutes();
         } catch (ParseException e) {
             e.printStackTrace();
         }
         super.selectedItemChanged();
-    }
+    }*/
 }

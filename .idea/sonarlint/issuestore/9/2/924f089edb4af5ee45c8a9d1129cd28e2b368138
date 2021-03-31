@@ -1,6 +1,4 @@
 
-C
-java:S1604"(Make this anonymous inner class a lambda(Ô¶µÿþÿÿÿÿ
 0
 java:S1220""Move this file to a named package.
 S
@@ -8,5 +6,7 @@ java:S1197
 "8Move the array designator from the variable to the type.(¡þÏÖøÿÿÿÿ
 Y
 java:S1854"7Remove this useless assignment to local variable "mwc".(¤ðßûýÿÿÿÿ8©Äºÿ„/
+C
+java:S1604"(Make this anonymous inner class a lambda(Ô¶µÿþÿÿÿÿ
 J
 java:S1481"(Remove this unused "mwc" local variable.(¤ðßûýÿÿÿÿ8©Äºÿ„/

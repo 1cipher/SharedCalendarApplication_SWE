@@ -1,12 +1,12 @@
 
+i
+java:S2259}"GA "NullPointerException" could be thrown; "resultSet" is nullable here.(ωΎΰόÿÿÿÿ8²¥ι€/
+U
+java:S1135"2Complete the task associated to this TODO comment.(ΕγόÒÿÿÿÿÿ8¥ΑΥ€…/
 O
 java:S1874"1Remove this use of "Timestamp"; it is deprecated.(βΪΑ¬8²¥ι€/
 m	java:S117]"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(όΤ8²¥ι€/
-i
-java:S2259}"GA "NullPointerException" could be thrown; "resultSet" is nullable here.(ωΎΰόÿÿÿÿ8²¥ι€/
 M
 java:S1874‹"1Remove this use of "Timestamp"; it is deprecated.(θκ¨όÿÿÿÿ
-U
-java:S1135"2Complete the task associated to this TODO comment.(ΕγόÒÿÿÿÿÿ8¥ΑΥ€…/
 q
 java:S2095"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(¨Δ€“ÿÿÿÿÿ8Μΰλ/
