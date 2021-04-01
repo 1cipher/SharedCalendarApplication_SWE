@@ -13,7 +13,7 @@ public class Gateway {
         this.c = c;
     }
 
-    public boolean isRegisteredUser(String username, String password) {
+    public boolean isRegisteredUser(String username, String password) {   //check if username and password check within the database
 
         String sql = "SELECT UID FROM LOGIN WHERE UID = ? AND PASSWORD = ? ;";
 
@@ -35,7 +35,7 @@ public class Gateway {
         return check;
     }
 
-    public void registerUser(String username, String password) {
+    public void registerUser(String username, String password) {    //add new user to login table with his default calendar(into calendar and participation)
 
         String cid = java.util.UUID.randomUUID().toString().substring(0, 19);
 
@@ -61,7 +61,7 @@ public class Gateway {
 
     }
 
-    public CalendarCollection getUserCalendars(User user){
+    public CalendarCollection getUserCalendars(User user){  //retrieve from database the calendars associated with user
 
         CalendarCollection calendars = new CalendarCollection();
         ResultSet rs;
@@ -104,7 +104,7 @@ public class Gateway {
 
     }
 
-    public boolean isExistingUsername(String username) {
+    public boolean isExistingUsername(String username) {  //check if the username exists,used in share calendar case
 
         String sql = "SELECT * " +
                 "FROM LOGIN " +
@@ -132,7 +132,7 @@ public class Gateway {
 
     }
 
-    public void addEvent(Event e, String calendarID) {
+    public void addEvent(Event e, String calendarID) {   //add an event to database: associate the event with the interested calendar of the user
 
         DateTime start = e.getStartDate();
         DateTime end = e.getEndDate();
@@ -169,7 +169,7 @@ public class Gateway {
 
     }
 
-    public void deleteEvent(String id){
+    public void deleteEvent(String id){   //delete an event from calendarevents and events tables
         String sql = "DELETE FROM EVENTS WHERE ID=?;";
 
         try {
@@ -194,7 +194,7 @@ public class Gateway {
 
     }
 
-    public void createCalendar(Calendar calendar, User user){
+    public void createCalendar(Calendar calendar, User user){   //creates a new calendar associated with user in calendar and participation tables
 
         String username = user.getUsername();
         String sql = "INSERT INTO CALENDAR(ID,NAME,OWNER) " +
@@ -218,7 +218,7 @@ public class Gateway {
 
     }
 
-    public void shareCalendar(Calendar calendar, String username, int permission){
+    public void shareCalendar(Calendar calendar, String username, int permission){   //add share calendar info to participation table with related permission
         String sql = "INSERT INTO PARTICIPATION(UID,CALENDARID,TYPE)" +
                 "VALUES(?,?,?)";
 
@@ -235,7 +235,7 @@ public class Gateway {
 
     }
 
-    public void deleteUser(User user){
+    public void deleteUser(User user){  //permanent delete of an user from database:all events and calendars are deleted within the deletion of user
 
         if(isExistingUsername(user.getUsername())) {
 
@@ -268,7 +268,7 @@ public class Gateway {
             }
 
 
-            CalendarCollection calendarCollection = getUserCalendars(user);  //TODO: è QUI IL PROBLEMA!!!!!!!!!!
+            CalendarCollection calendarCollection = getUserCalendars(user);
             for (Calendar calendar:
                  calendarCollection.getCalendars()) {
 
@@ -281,7 +281,7 @@ public class Gateway {
 
     }
 
-    public void deleteCalendar(Calendar calendar){
+    public void deleteCalendar(Calendar calendar){   //delete calendar from calendarevents and participation tables
         String sql = "DELETE FROM CALENDAR WHERE ID=?;";
 
         try {
@@ -313,7 +313,7 @@ public class Gateway {
         }
     }
 
-    public void unsubscribeCalendar(Calendar calendar, User user){
+    public void unsubscribeCalendar(Calendar calendar, User user){    //delete calendar only from participation,useful within calendar sharing
         String sql = "DELETE FROM PARTICIPATION WHERE CALENDARID=? AND UID=?;";
         try {
             ps =c.prepareStatement(sql);

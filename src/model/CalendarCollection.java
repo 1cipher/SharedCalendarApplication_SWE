@@ -11,7 +11,7 @@ public class CalendarCollection {
         return collection;
     }
 
-    public ArrayList<Event> getAllEvents(){
+    public ArrayList<Event> getAllEvents(){   //get all events from calendar in collection
         ArrayList<Event> events = new ArrayList<>();
         for (Calendar calendar:
              collection) {
@@ -20,7 +20,7 @@ public class CalendarCollection {
         return events;
     }
 
-    public Calendar getCalendar(String id){
+    public Calendar getCalendar(String id){   //retrieve a specific calendar within the collection
         for (Calendar calendar:collection
              ) {
             if (calendar.getId().equals(id))

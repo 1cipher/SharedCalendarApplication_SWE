@@ -50,14 +50,12 @@ public class LoginDataBaseTest {
     }
 
     @Test
-    //@DisplayName("Ensure that the username exists")
     public void isExistingUsernameTest(){
 
         assertTrue(gateway.isExistingUsername(sample));
     }
 
     @Test
-    //@DisplayName("Ensure a correct deletion")
     public void checkDelete(){
 
         gateway.deleteUser(user);

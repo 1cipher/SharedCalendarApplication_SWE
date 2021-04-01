@@ -3,10 +3,8 @@ package test;
 import controller.Controller;
 import model.Database;
 import model.Gateway;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
+
 import java.awt.*;
 import java.awt.event.InputEvent;
 import static org.junit.Assert.*;
@@ -36,6 +34,7 @@ public class LoginTest {
     public static void closeAll(){
 
         controller.getMwView().close();
+
     }
 
     @Test
@@ -75,6 +74,12 @@ public class LoginTest {
         }
 
         assertNotNull(controller.getMwView());
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 
 

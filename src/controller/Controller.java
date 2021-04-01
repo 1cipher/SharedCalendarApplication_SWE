@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 public class Controller {
 
     private MainView mwView;
-    private EditEventView cwView;
+    private EditEventView editEventView;
     private SearchView sView;
     private  DeleteCalendarView deleteCalendarView;
     private Gateway gateway;
@@ -33,10 +33,10 @@ public class Controller {
     public Controller(Gateway g) {
         gateway = g;
         mailer = new Mailer();
-        setupLoginWindow();
+        setupLoginView();
     }
 
-    public void setupCreateCalendarWindow() {
+    public void setupCreateCalendarWindow() {     //setup createCalendarView attaching its listener
 
         createCalendarView = new CreateCalendarView();
         createCalendarView.setVisible(true);
@@ -44,7 +44,7 @@ public class Controller {
 
     }
 
-    public void setupShareView() {
+    public void setupShareView() {   //setup shareView attaching its listener
 
         shareView = new ShareView();
         shareView.setVisible(true);
@@ -52,13 +52,13 @@ public class Controller {
 
     }
 
-    public void setupCreateEventWindow() {
+    public void setupCreateEventWindow() {       //setup editEventView attaching its listener
 
         if (RBAC.canCreateEvent(getCurrentCalendar().getPermission())) {
-            cwView = new EditEventView();
-            cwView.setVisible(true);
-            cwView.addCreateEventListener(e -> editEvent(java.util.UUID.randomUUID().toString().substring(0, 19)));
-            cwView.addCalendarPressListener(new CalendarListener(cwView));
+            editEventView = new EditEventView();
+            editEventView.setVisible(true);
+            editEventView.addCreateEventListener(e -> editEvent(java.util.UUID.randomUUID().toString().substring(0, 19)));
+            editEventView.addCalendarPressListener(new CalendarListener(editEventView));
         }
         else {
             dialog = new Dialog.Builder().setLabel("You are not allowed!").setType(Dialog.type.ERROR).build();
@@ -67,7 +67,7 @@ public class Controller {
 
     }
 
-    public void setupSearchWindow() {
+    public void setupSearchView() {  //setup searchView attaching its listener
 
             sView = new SearchView();
             sView.setVisible(true);
@@ -76,27 +76,27 @@ public class Controller {
 
                 Appointment sel = (Appointment) sView.getList().getSelectedValue();
                 mwView.getCalendar().setDate(sel.getStartTime());
-                setupEventWindow(sel);
+                setupEventView(sel);
                 sView.close();
             });
 
     }
 
-    public void setupEditEventWindow(Appointment a){
+    public void setupEditEventView(Appointment a){   ////setup editEventView attaching its listener
 
         if (RBAC.canEditEvent(getCurrentCalendar().getPermission())) {
-            cwView = new EditEventView();
-            cwView.setVisible(true);
-            cwView.addCalendarPressListener(new CalendarListener(cwView));
+            editEventView = new EditEventView();
+            editEventView.setVisible(true);
+            editEventView.addCalendarPressListener(new CalendarListener(editEventView));
 
-            cwView.setStartDate(a.getStartTime());
-            cwView.setEndDate(a.getEndTime());
-            cwView.setName(a.getHeaderText());
-            cwView.setLocation(a.getLocation().getName());
-            cwView.setDescr(a.getDescriptionText());
-            cwView.setStartHour(a.getStartTime());
-            cwView.setEndHour(a.getEndTime());
-            cwView.addCreateEventListener(e->{
+            editEventView.setStartDate(a.getStartTime());
+            editEventView.setEndDate(a.getEndTime());
+            editEventView.setName(a.getHeaderText());
+            editEventView.setLocation(a.getLocation().getName());
+            editEventView.setDescr(a.getDescriptionText());
+            editEventView.setStartHour(a.getStartTime());
+            editEventView.setEndHour(a.getEndTime());
+            editEventView.addCreateEventListener(e->{
                 gateway.deleteEvent(a.getId());
                 editEvent(a.getId());
             });
@@ -110,7 +110,7 @@ public class Controller {
 
 
 
-    public void setupRegisterWindow() {
+    public void setupRegisterView() {  //setup regView attaching its listener
 
         regView = new RegisterView();
         regView.setVisible(true);
@@ -118,7 +118,7 @@ public class Controller {
 
     }
 
-    public void setupEventWindow(Appointment a) {
+    public void setupEventView(Appointment a) {  //setup eventView attaching its listener
 
         eventView = new EventDisplayView.Builder()
                 .setName(a.getHeaderText())
@@ -131,12 +131,12 @@ public class Controller {
         eventView.setId(a.getId());
         eventView.addDeleteButtonListener(e -> deleteEvent());
         eventView.addOkButtonListener(e -> eventView.close());
-        eventView.addEditButtonListener(e->setupEditEventWindow(a));
+        eventView.addEditButtonListener(e->setupEditEventView(a));
 
     }
 
 
-    public void setupMainWindow() {
+    public void setupMainWindowView() {  //setup mwView attaching its listener
 
         mwView = new MainView();
         mwView.setVisible(true);
@@ -144,7 +144,7 @@ public class Controller {
         mwView.addMainCalendarListener(new MainCalendarAdapter());
         mwView.addLogoutListener(e -> {
             mwView.close();
-            setupLoginWindow();
+            setupLoginView();
         });
         mwView.addRemoveUserListener(e-> {
             dialog = new Dialog.Builder().setLabel("Are you sure?")
@@ -155,13 +155,13 @@ public class Controller {
         mwView.addNewCalendarListener(e -> setupCreateCalendarWindow());
         mwView.addSelectedCalendarListener(e -> loadEvents());
         mwView.addShareCalendarListener(e-> setupShareView());
-        mwView.addFindListener(e -> setupSearchWindow());
-        mwView.addRemoveCalendar(e->setupDeleteCalendarWindow());
+        mwView.addFindListener(e -> setupSearchView());
+        mwView.addRemoveCalendar(e-> setupDeleteCalendarView());
 
 
     }
 
-    public void deleteCalendar(model.Calendar calendar){
+    public void deleteCalendar(model.Calendar calendar){    //takes a calendar and call gateway in order to delete it;if has permission
 
         if (RBAC.canDeleteCalendar(calendar.getPermission()))
             gateway.deleteCalendar(calendar);
@@ -176,23 +176,23 @@ public class Controller {
 
     }
 
-    public void setupLoginWindow() {
+    public void setupLoginView() {  //setup logView attaching its listener
 
         logView = new Login();
         logView.setVisible(true);
         logView.addLoginListener(e -> login());
-        logView.addRegisterListener(e -> setupRegisterWindow());
+        logView.addRegisterListener(e -> setupRegisterView());
 
     }
 
-    public void setupDialog(){
+    public void setupDialog(){   //setup dialog attaching its listener
 
         dialog.setVisible(true);
         dialog.addDialogListener(e->dialog.close());
 
     }
 
-    public void setupDeleteCalendarWindow(){
+    public void setupDeleteCalendarView(){   //setup deleteCalendarView attaching its listener
 
         deleteCalendarView = new DeleteCalendarView();
         deleteCalendarView.setVisible(true);
@@ -205,7 +205,7 @@ public class Controller {
 
     }
 
-    public void register() {
+    public void register() {     //get the data from regView and register a new user: makes the gateway register on database
 
         String newUser = regView.getUsername();
         String newPassword = regView.getPassword();
@@ -237,7 +237,7 @@ public class Controller {
         regView.close();
     }
 
-    private void login(){
+    private void login(){   //login function: gateway check if correct data are inserted
 
         String acquiredUser = logView.getUsername();
         String acquiredPassword = logView.getPassword();
@@ -245,7 +245,7 @@ public class Controller {
         boolean check = gateway.isRegisteredUser(acquiredUser, acquiredPassword);
         if (check) {
 
-            setupMainWindow();
+            setupMainWindowView();
 
             if (regView != null) {
                 regView.close();
@@ -279,7 +279,7 @@ public class Controller {
         }
     }
 
-    public void setCalendars(CalendarCollection list) {
+    public void setCalendars(CalendarCollection list) {       //refresh the display of calendar list
         ArrayList<model.Calendar> calendarsList = list.getCalendars();
         for (model.Calendar cal:
                 calendarsList) {
@@ -293,7 +293,7 @@ public class Controller {
         return (model.Calendar)mwView.getCalendarList().getSelectedValue();
     }
 
-    public void loadEvents() {
+    public void loadEvents() {    //gateway retrieve calendars and events associated with user and then add them to mwView to display
         if (getCurrentCalendar()!=null) {
             String calID = getCurrentCalendar().getId();
             model.Calendar calendar = currentUser.getCollection().getCalendar(calID);
@@ -326,7 +326,7 @@ public class Controller {
         }
     }
 
-    private void search() {
+    private void search() {     //search using the correct strategy algorithm
         String toSearch = sView.getSearchText();
         ItemList itemList = mwView.getCalendar().getSchedule().getItems();
 
@@ -337,7 +337,7 @@ public class Controller {
 
     }
 
-    private void createCalendar(){
+    private void createCalendar(){    //demand the gateway in order to register a new calendar associated with user
         String cid = java.util.UUID.randomUUID().toString().substring(0, 19);
         model.Calendar newCalendar = null;
         if (!createCalendarView.getName().isEmpty()) {
@@ -358,7 +358,7 @@ public class Controller {
         }
     }
 
-    private void shareCalendar(){
+    private void shareCalendar(){      //check if user to share with exists,then if true associate this calendar with selected permission to him
         model.Calendar calendar = getCurrentCalendar();
         String username = shareView.getUsername();
         if (!shareView.getName().isEmpty() && gateway.isExistingUsername(username)){
@@ -371,20 +371,21 @@ public class Controller {
         shareView.close();
     }
 
-    private void editEvent(String id){
+    private void editEvent(String id){   //makes possible to edit and create an event,retrieving information from GUI and then making the gateway
+                                        //to register on database
 
-        if (!cwView.getName().isEmpty() && !id.isEmpty() && !cwView.startDateisEmpty() && !cwView.endDateisEmpty()) {
+        if (!editEventView.getName().isEmpty() && !id.isEmpty() && !editEventView.startDateisEmpty() && !editEventView.endDateisEmpty()) {
 
             model.Calendar calendar = getCurrentCalendar();
 
-            String name = cwView.getName();
-            String location = cwView.getLocationName();
-            String descr = cwView.getDescriptionText();
-            DateTime startDate = cwView.getStartDate();
-            DateTime endDate = cwView.getEndDate();
+            String name = editEventView.getName();
+            String location = editEventView.getLocationName();
+            String descr = editEventView.getDescriptionText();
+            DateTime startDate = editEventView.getStartDate();
+            DateTime endDate = editEventView.getEndDate();
 
-            DateTime startHour = cwView.getStartHour();
-            DateTime endHour = cwView.getEndHour();
+            DateTime startHour = editEventView.getStartHour();
+            DateTime endHour = editEventView.getEndHour();
 
             startDate = startDate.addTicks(startHour.getTicks());
             endDate = endDate.addTicks(endHour.getTicks());
@@ -397,7 +398,7 @@ public class Controller {
                 currentUser.setCollection(gateway.getUserCalendars(currentUser));
                 mwView.getCalendar().getSchedule().getAllItems().clear();
                 loadEvents();
-                cwView.close();
+                editEventView.close();
 
             } else {
                 dialog = new Dialog.Builder().setType(Dialog.type.ERROR).setLabel("Inconsistent dates!").build();
@@ -411,7 +412,7 @@ public class Controller {
     }
 
 
-    public void deleteEvent(){
+    public void deleteEvent(){  //gets the event to delete and then leaves the responsibility to gateway
         if (RBAC.canDeleteEvent(getCurrentCalendar().getPermission())) {
             Appointment appointment = (Appointment) mwView.getCalendar().getSchedule().getItems().get(eventView.getId());
             gateway.deleteEvent(appointment.getId());
@@ -424,7 +425,7 @@ public class Controller {
         }
     }
 
-    class MainCalendarAdapter extends CalendarAdapter {
+    class MainCalendarAdapter extends CalendarAdapter {    //handles the clicks on calendar
 
         @Override
         public void itemClick(ItemMouseEvent e) {
@@ -433,7 +434,7 @@ public class Controller {
                 eventView.close();
             }
             Appointment a = (Appointment) e.getItem();
-            setupEventWindow(a);
+            setupEventView(a);
 
         }
 
@@ -448,12 +449,12 @@ public class Controller {
         }
     }
 
-    public void unsubscribeUser(){
+    public void unsubscribeUser(){  //delete user permanently
 
         dialog.close();
         mwView.close();
         gateway.deleteUser(currentUser);
-        setupLoginWindow();
+        setupLoginView();
 
     }
 
@@ -465,8 +466,8 @@ public class Controller {
         return logView;
     }
 
-    public EditEventView getCwView() {
-        return cwView;
+    public EditEventView getEditEventView() {
+        return editEventView;
     }
 
     public Dialog getDialog() {
