@@ -32,7 +32,6 @@ public class EventDataBaseTest {
 
 
     @Test
-    //@DisplayName("Ensure the correct calendar creation")
     public void checkCreateCalendar(){
 
         gateway.createCalendar(calendar,user);
@@ -47,7 +46,6 @@ public class EventDataBaseTest {
     }
 
     @Test
-    //@DisplayName("Check the event upload on database")
     public void eventCreation(){
 
         gateway.createCalendar(calendar,user);
@@ -56,8 +54,6 @@ public class EventDataBaseTest {
         gateway.addEvent(event,calendar.getId());
         calendarCollection = gateway.getUserCalendars(user);
         int sizeAfter = calendarCollection.getAllEvents().size();
-
-        //calendarCollection.getCalendar("test").getEvents().isEmpty();
 
         assertTrue(sizeAfter==sizeBefore+1);
 
@@ -72,7 +68,6 @@ public class EventDataBaseTest {
 
 
     @Test
-    //@DisplayName("Ensure the correct deletion of an event")
     public void deleteEvent(){
 
         gateway.createCalendar(calendar,user);

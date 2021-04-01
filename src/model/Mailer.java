@@ -21,7 +21,7 @@ public class Mailer extends Thread{
         this.recipient = recipient;
     }
 
-    private void sendMail() {
+    private void sendMail() {   //mail is sent from the mail specificated in 'from' and then filled with the information retrieved fro the method before
         String host = "smtp.gmail.com";
         String from = "sweprogettodemo@gmail.com";
         String password = Private.mailPassword;

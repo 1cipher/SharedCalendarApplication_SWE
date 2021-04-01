@@ -17,7 +17,7 @@ public class Database {
         return instance;
     }
 
-    private Database() {
+    private Database() {   //create the connection with postgre database
 
         try {
             Class.forName("org.postgresql.Driver");
