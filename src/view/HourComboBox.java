@@ -45,6 +45,14 @@ public class HourComboBox {
     }
 
     public DateTime getTime(){
+        Date d = null;
+        try {
+            d = format.parse((String )stringJComboBox.getSelectedItem());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        hour=d.getHours();
+        minute=d.getMinutes();
         DateTime dateTime = new DateTime(0);
         dateTime = dateTime.addHours(hour).addMinutes(minute);
         return dateTime;
@@ -54,15 +62,4 @@ public class HourComboBox {
         return stringJComboBox;
     }
 
-
-    /*protected void selectedItemChanged() {
-        try {
-            Date d = format.parse((String )stringJComboBox.getSelectedItem());
-            hour=d.getHours();
-            minute=d.getMinutes();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        super.selectedItemChanged();
-    }*/
 }
