@@ -1,6 +1,7 @@
 package model;
 
 import com.mindfusion.common.DateTime;
+import utils.RBAC;
 
 import java.sql.*;
 
@@ -252,7 +253,7 @@ public class Gateway {
 
             String sql1 = "SELECT CALENDAREVENTS.EVENT " +
                     "FROM (PARTICIPATION JOIN CALENDAR ON PARTICIPATION.CALENDARID = CALENDAR.ID) JOIN CALENDAREVENTS ON CALENDAREVENTS.CALENDAR = CALENDAR.ID " +
-                    "WHERE PARTICIPATION.UID = ?";
+                    "WHERE PARTICIPATION.UID = ? AND TYPE=0";
 
             ResultSet resultSet;
             try {
@@ -260,6 +261,7 @@ public class Gateway {
                 ps.setString(1, user.getUsername());
                 resultSet = ps.executeQuery();
                 while (resultSet.next()) {
+
                     deleteEvent(resultSet.getString("EVENT"));
 
                 }
@@ -271,8 +273,8 @@ public class Gateway {
             CalendarCollection calendarCollection = getUserCalendars(user);
             for (Calendar calendar:
                  calendarCollection.getCalendars()) {
-
-                deleteCalendar(calendar);
+                if(RBAC.canDeleteCalendar(calendar.getPermission()))
+                    deleteCalendar(calendar);
 
             }
         }
