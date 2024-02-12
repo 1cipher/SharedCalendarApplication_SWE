@@ -1,24 +1,43 @@
 # Shared Calendar Application
 
-Questa repository contiene la relazione e il progetto in Java di Shared Calendar Application, l'applicazione realizzata come elaborato finale dell'esame di Ingegneria del Software di Università degli Studi di Firenze.
+This repository contains the report and Java project for the Shared Calendar Application, developed as the final project for the Software Engineering exam at the University of Florence. 
 
-## Considerazioni finali
-### Use case
-In applicazioni con Use Cases piuttosto vari, è opportuno dividere gli Use Cases di tipo User Goal da quelli di tipo Function. E' preferibile che i nomi degli Use Case presentati nel diagramma inizino per lettera minuscola. E' utile anche numerare gli Use Cases, che è molto utile anche nel caso si voglia fare dei riferimenti nei MockUps.
+## Statement
+Our application aims to create a secure and efficient system of shared calendars. Each calendar has an owner and can be shared with other users, who can modify it based on their recognized permissions. Users access their calendars through an authentication system. The calendar management interface allows users to create, modify, and delete events.
 
-In applicazioni che prevedono una fase di login, è utile indicare lo Use Case riferito all'accesso ai dati con lo _stereotype_ di _'summary'_.
+Each event is characterized by various attributes, such as name, description, location, and date. User interaction with the calendar is facilitated through a graphical interface that enables them to view events by day, week, or month. Users can search for events by name and location, among past and scheduled events.
 
-### Database
-Quella implementata non è una mappatura di classi su Database, ma qualcosa di più simile a una persistenza su Database dei dati rappresentati dalle classi. In generale la mappatura è da preferire in applicazioni simili.
+A notification system has been implemented to alert users about scheduled events on the same day. Calendar sharing operates in such a way that a user can choose to share a calendar they own with others.
 
-E' utile, in fase di progettazione, partire dal diagramma delle classi per poi generare automaticamente le tabelle, realizzando di fatto una mappatura
+## UI
+### Event creation
+<div align="center">
+    <img src="assets/ex1.png" width=50% alt="Ui_1"/>
+</div>
+<br />
 
-Esistono soluzioni applicative che permettono di gestire nel miglior modo possibile mappatura e persistenza, come Java Enterprise JPA, che offre tra le altre cose la possibilità di gestire anche la fase transiente del trasferimento dei dati su Database (come il meccanismo di UUID, implementazione standard per la gestione di chiavi primarie). Un'altra importante soluzione è Hibernate.
+### Calendar display and sharing
+<div align="center">
+    <img src="assets/ex2.png" width=50% alt="Ui_2"/>
+</div>
 
-I Gateway vengono spesso identificati anche come DAO (Data Access Object), che possono anche essere multipli in un'applicazione, al fine di gestire oggetti di diverso tipo.
+## Use Case
+In applications with various Use Cases, it is advisable to separate User Goal Use Cases from Function Use Cases. It is preferable for the names of the Use Cases presented in the diagram to start with a lowercase letter. It is also useful to number the Use Cases, especially when making references in MockUps.
 
-### Tests
-Uno strumento che può risultare utile per il testing dell'interfaccia grafica in modalità Black Box è Selenium. In generale il passaggio fondamentale è però dividere il software in piccole unità da testare indipendentemente. In particolare, quando si ha a che fare con un Database, è buona norma che ogni _query_ sia testata.
+For applications that involve a login phase, it is helpful to indicate the Use Case related to data access with the _'summary'_ stereotype.
 
-### Altre Considerazioni
-Quando la complessità dell'interfaccia grafica cresce, soprattuto se si ha a disposizione un diagramma di navigazione delle finestre, è utile realizzare un controller per pagina. Questa scelta deve essere naturalmente affiancata da un meccanismo di trasferimento di controllo da controller a controller.
+## Database
+The implemented approach is not a class mapping to a database, but rather something more akin to persisting data represented by classes in a database. In general, mapping is preferred in similar applications.
+
+It is useful, during the design phase, to start from the class diagram and then automatically generate tables, effectively creating a mapping.
+
+There are application solutions that allow efficient handling of mapping and persistence, such as Java Enterprise JPA, which offers, among other things, the ability to manage the transient phase of data transfer to the database (like the UUID mechanism, a standard implementation for managing primary keys). Another important solution is Hibernate.
+
+Gateways are often also identified as DAO (Data Access Object), which can be multiple in an application to manage objects of different types.
+
+## Tests
+A tool that can be useful for testing the graphical interface in Black Box mode is Selenium. In general, the fundamental step is to divide the software into small units to test independently. Especially when dealing with a database, it is good practice for each query to be tested.
+
+## Other Considerations
+As the complexity of the graphical interface grows, especially when a window navigation diagram is available, it is useful to create a controller for each page. This choice must naturally be accompanied by a control transfer mechanism from controller to controller.
+
