@@ -12,13 +12,13 @@ A notification system has been implemented to alert users about scheduled events
 ## UI
 ### Event creation
 <div align="center">
-    <img src="assets/ex1.png" width=50% alt="Ui_1"/>
+    <img src="assets/ex1.png" width=100% alt="Ui_1"/>
 </div>
 <br />
 
 ### Calendar display and sharing
 <div align="center">
-    <img src="assets/ex2.png" width=50% alt="Ui_2"/>
+    <img src="assets/ex2.png" width=100% alt="Ui_2"/>
 </div>
 
 ## Use Case
